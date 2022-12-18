@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { default as NewSidebar } from "../../components/Sidebar";
 import DirectMessagesIcon from "./DirectMessagesIcon";
 import Icon from "./Icon";
+import { useStateValue } from "../../providers/StateProvider";
 
 const ADDITIONAL_ICONS = [
   {
@@ -27,60 +28,38 @@ const ADDITIONAL_ICONS = [
   },
 ];
 
-export default function Sidebar({ channels }) {
+export default function Sidebar() {
+  const {
+    state: { channels },
+  } = useStateValue();
+  const channelsArr = Object.values(channels);
   const location = useLocation();
-  const [iconActive, setIconActive] = useState(false);
   const [iconSelected, setIconSelected] = useState(location.pathname);
   const iconsRef = useRef([]);
 
   useEffect(() => {
-    setIconSelected(location.pathname);
+    setIconSelected(location.pathname.toLowerCase());
   }, [location]);
 
-  useEffect(() => {
-    const icons = iconsRef.current;
-    const onMouseOver = (e) => setIconActive(e.currentTarget.id);
-    const onMouseOut = () => setIconActive(null);
-    icons.map((icon) => {
-      icon.addEventListener("mouseover", onMouseOver);
-      icon.addEventListener("mouseout", onMouseOut);
-    });
-
-    return () => {
-      icons.map((icon) => {
-        icon.removeEventListener("mouseover", onMouseOver);
-        icon.removeEventListener("mouseout", onMouseOut);
-      });
-    };
-  });
+  const directMessagesSelected =
+    iconSelected.startsWith("/channels/@me") ||
+    iconSelected.startsWith("/store");
 
   return (
     <NewSidebar>
       <NewSidebar.Item
         id="directMessages"
         ref={(el) => (iconsRef.current[0] = el)}
-        url="/channels/@me"
+        url={directMessagesSelected ? null : "/channels/@me"}
       >
-        <NewSidebar.Pill
-          selected={iconSelected.startsWith("/channels/@me")}
-          active={
-            iconActive === "directMessages" &&
-            !iconSelected.startsWith("/channels/@me")
-          }
-          hidden={
-            iconActive !== "directMessages" &&
-            !iconSelected.startsWith("/channels/@me")
-          }
-        />
-        <DirectMessagesIcon
-          active={iconActive === "directMessages"}
-          selected={iconSelected.startsWith("/channels/@me")}
-        />
+        <NewSidebar.Icon selected={directMessagesSelected}>
+          <DirectMessagesIcon selected={directMessagesSelected} />
+        </NewSidebar.Icon>
+        <NewSidebar.Pill selected={directMessagesSelected} />
       </NewSidebar.Item>
       <NewSidebar.HorizontalLine />
-      {channels.map(({ id, ...channel }, idx) => {
+      {channelsArr.map(({ id, ...channel }, idx) => {
         const url = "/channels/" + id;
-        const active = iconActive === id;
         const selected = iconSelected.startsWith(url);
         return (
           <NewSidebar.Item
@@ -88,45 +67,33 @@ export default function Sidebar({ channels }) {
             ref={(el) => (iconsRef.current[idx + 1] = el)}
             url={url}
           >
-            <NewSidebar.Pill active={active} selected={selected} />
-            <NewSidebar.Icon active={active} selected={selected}>
-              {channel.tag}
-            </NewSidebar.Icon>
+            <NewSidebar.Icon selected={selected}>{channel.tag}</NewSidebar.Icon>
+            <NewSidebar.Pill selected={selected} height="8px" />
           </NewSidebar.Item>
         );
       })}
       {ADDITIONAL_ICONS.map((icon, idx) => {
         const { id, path, hr, pill, pathProps, url } = icon;
-        const active = iconActive === id;
         const selected = iconSelected.startsWith(url ?? id);
         return (
           <>
             {hr && <NewSidebar.HorizontalLine />}
             <NewSidebar.Item
               id={id}
-              ref={(el) => (iconsRef.current[channels.length + idx + 1] = el)}
+              ref={(el) =>
+                (iconsRef.current[channelsArr.length + idx + 1] = el)
+              }
               onClick={() => setIconSelected(url ?? id)}
               url={url}
             >
               <NewSidebar.Icon
                 color="#3BA55D"
-                active={active}
+                fillStyleHover="#ffffff"
                 selected={selected}
               >
-                {pill && (
-                  <NewSidebar.Pill
-                    selected={selected}
-                    active={active && !selected}
-                    hidden={!active && !selected}
-                  />
-                )}
-                <Icon
-                  active={active}
-                  selected={selected}
-                  path={path}
-                  pathProps={pathProps}
-                />
+                <Icon selected={selected} path={path} pathProps={pathProps} />
               </NewSidebar.Icon>
+              {pill && <NewSidebar.Pill selected={selected} />}
             </NewSidebar.Item>
           </>
         );

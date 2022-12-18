@@ -1,30 +1,20 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import ChannelRoot from "./pages/ChannelRoot";
-import DirectMessages from "./pages/DirectMessages";
+import FriendsList from "./pages/FriendsList";
+import Conversation from "./pages/Conversation";
+import Store from "./pages/Store";
 import UserChannel from "./pages/UserChannel";
 import Sidebar from "./fragments/Sidebar";
 import { Container } from "./styles/app";
 import "./App.css";
-
-const CHANNELS = [
-  {
-    name: "Peter's Channel",
-    tag: "PB",
-    id: "23423423423",
-  },
-  {
-    name: "Damon's Channel",
-    tag: "DK",
-    id: "234234223455",
-  },
-];
+import { StateProvider } from "./providers/StateProvider";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <Container>
-        <Sidebar channels={CHANNELS} />
+        <Sidebar />
         <Outlet />
       </Container>
     ),
@@ -35,26 +25,36 @@ const router = createBrowserRouter([
         children: [
           {
             path: "@me",
-            element: <DirectMessages />,
+            element: <FriendsList />,
           },
-          ...CHANNELS.map((channel) => {
-            return {
-              path: channel.id,
-              element: <UserChannel {...channel} />,
-            };
-          }),
+          {
+            path: "@me/:conversationId",
+            element: <Conversation />,
+          },
         ],
+      },
+      {
+        path: "channels/:channelId",
+        element: <UserChannel />,
       },
       {
         path: "guild-discovery",
         element: <div>Explore Servers</div>,
+      },
+      {
+        path: "store",
+        element: <Store />,
       },
     ],
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <StateProvider>
+      <RouterProvider router={router} />
+    </StateProvider>
+  );
 }
 
 export default App;

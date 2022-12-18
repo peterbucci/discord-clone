@@ -29,17 +29,27 @@ export const Icon = styled.div`
   width: 48px;
   height: 48px;
   background-color: ${(props) =>
-    props.active || props.selected ? props.color ?? "#6370f4" : "#36393f"};
-  border-radius: ${(props) =>
-    props.active || props.selected ? "15px" : "99%"};
-  color: ${(props) =>
-    props.active || props.selected
-      ? "rgb(255, 255, 255)"
-      : "rgb(220, 221, 222)"};
+    props.selected ? props.color ?? "#6370f4" : "#36393f"};
+  border-radius: ${(props) => (props.selected ? "15px" : "99%")};
+  color: ${(props) => (props.selected ? "#ffffff" : "rgb(220, 221, 222)")};
   font-size: 16px;
   font-weight: 500;
+  overflow: hidden;
   cursor: pointer;
   transition: all 150ms ease-out 0s;
+  &:hover {
+    background-color: ${(props) => props.color ?? "#6370f4"};
+    border-radius: 15px;
+    color: #ffffff;
+    & svg > path {
+      fill: ${(props) => props.fillStyleHover ?? "auto"};
+    }
+  }
+  &:hover + div {
+    & div {
+      height: 20px;
+    }
+  }
 `;
 export const HorizontalLine = styled.div`
   margin: 0 0 8px 0;
@@ -61,13 +71,7 @@ export const Pill = styled.div`
   position: inline-block;
   width: 8px;
   height: ${(props) =>
-    props.selected
-      ? "40px"
-      : props.active
-      ? "20px"
-      : props.hidden
-      ? "0"
-      : "8px"};
+    props.selected ? "40px !important" : props.height ?? "0px"};
   margin-left: -4px;
   background-color: #ffffff;
   border-radius: 0 4px 4px 0;

@@ -1,16 +1,8 @@
 import SvgIcon from "../../components/SvgIcon";
 
-export default function DirectMessagesIcon({ active, selected }) {
+export default function DirectMessagesIcon({ selected }) {
   return (
-    <SvgIcon active={active} selected={selected}>
-      <SvgIcon.Group>
-        <SvgIcon.Rect
-          width="48"
-          height="48"
-          fill={active || selected ? "#6370f4" : "#36393f"}
-          style={{ transition: "fill 150ms ease-out 0s" }}
-        ></SvgIcon.Rect>
-      </SvgIcon.Group>
+    <SvgIcon selected={selected} width="48px" height="48px" viewBox="0 0 48 48">
       <SvgIcon.Group
         fill="#fff"
         style={{ transition: "fill 150ms ease-out 0s" }}
