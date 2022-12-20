@@ -8,12 +8,14 @@ import Sidebar from "./fragments/Sidebar";
 import { Container } from "./styles/app";
 import "./App.css";
 import { StateProvider } from "./providers/StateProvider";
+import UserSettings from "./pages/UserSettings";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <Container>
+        <UserSettings />
         <Sidebar />
         <Outlet />
       </Container>

@@ -7,58 +7,12 @@ import {
   RightMainFooter,
   RightSidebar,
   Container,
-  Left,
-  LeftBody,
-  LeftFooter,
-  LeftGroup,
-  LeftHead,
-  LeftRow,
-  LeftGroupHeader,
-  Nav,
-  LeftGroupHeaderText,
-  FriendIconWrapper,
+  RightMainSearch,
+  RightMainHead,
 } from "./styles/channel";
 
 export const Channel = ({ children, ...restProps }) => {
   return <Container {...restProps}>{children}</Container>;
-};
-
-Channel.Left = ({ children, ...restProps }) => {
-  return <Left {...restProps}>{children}</Left>;
-};
-
-Channel.LeftHead = ({ children, ...restProps }) => {
-  return <LeftHead {...restProps}>{children}</LeftHead>;
-};
-
-Channel.LeftBody = ({ children, ...restProps }) => {
-  return <LeftBody {...restProps}>{children}</LeftBody>;
-};
-
-Channel.LeftGroup = ({ children, ...restProps }) => {
-  return <LeftGroup {...restProps}>{children}</LeftGroup>;
-};
-
-Channel.LeftGroupHeader = ({ children, ...restProps }) => {
-  return <LeftGroupHeader {...restProps}>{children}</LeftGroupHeader>;
-};
-
-Channel.LeftGroupHeaderText = ({ children, ...restProps }) => {
-  return <LeftGroupHeaderText {...restProps}>{children}</LeftGroupHeaderText>;
-};
-
-Channel.LeftRow = ({ children, url, ...restProps }) => {
-  return url ? (
-    <Nav to={url}>
-      <LeftRow {...restProps}>{children}</LeftRow>
-    </Nav>
-  ) : (
-    <LeftRow {...restProps}>{children}</LeftRow>
-  );
-};
-
-Channel.LeftFooter = ({ children, ...restProps }) => {
-  return <LeftFooter {...restProps}>{children}</LeftFooter>;
 };
 
 Channel.Right = ({ children, ...restProps }) => {
@@ -77,6 +31,14 @@ Channel.RightMainWrapper = ({ children, ...restProps }) => {
   return <RightMainWrapper {...restProps}>{children}</RightMainWrapper>;
 };
 
+Channel.RightMainSearch = ({ children, ...restProps }) => {
+  return <RightMainSearch {...restProps}>{children}</RightMainSearch>;
+};
+
+Channel.RightMainHead = ({ children, ...restProps }) => {
+  return <RightMainHead {...restProps}>{children}</RightMainHead>;
+};
+
 Channel.RightMain = ({ children, ...restProps }) => {
   return <RightMain {...restProps}>{children}</RightMain>;
 };
@@ -87,10 +49,6 @@ Channel.RightMainFooter = ({ children, ...restProps }) => {
 
 Channel.RightSidebar = ({ children, ...restProps }) => {
   return <RightSidebar {...restProps}>{children}</RightSidebar>;
-};
-
-Channel.FriendIconWrapper = ({ children, ...restProps }) => {
-  return <FriendIconWrapper {...restProps}>{children}</FriendIconWrapper>;
 };
 
 export default Channel;

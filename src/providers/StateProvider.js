@@ -16,6 +16,8 @@ const USERS = [
     avatar: null,
     status: "Online",
     friends: [2, 3, 4, 5],
+    pendingFriendRequests: [],
+    blocked: [],
     activeConversations: [
       "1051205863114821673",
       "1051205863114864536",
@@ -92,6 +94,12 @@ export const StateProvider = ({ children }) => {
     users: {},
     conversations: {},
     channels: {},
+    userSettings: {
+      enableSettings: false,
+      enableMicrophone: true,
+      enableHeadphones: true,
+    },
+    friendsListTab: "Online",
   });
 
   useEffect(() => {
