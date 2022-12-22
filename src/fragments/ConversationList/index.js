@@ -15,7 +15,7 @@ import SnowsgivingIcon from "../Icons/snowsgiving";
 export default function ConversationList() {
   const { state, dispatch } = useStateValue();
   const user = state.users[state.user];
-  const conversations = user.activeConversations.map(
+  const conversations = state.activeConversations.map(
     (id) => state.conversations[id]
   );
   const {
@@ -71,11 +71,12 @@ export default function ConversationList() {
             </ChannelLeft.GroupHeaderText>
             <AddIcon />
           </ChannelLeft.GroupHeader>
-          {conversations.map((conversation) => {
+          {conversations.map((conversation, i) => {
             const friendId = conversation.users.find((id) => id !== state.user);
             const friend = state.users[friendId];
             return (
               <ChannelLeft.Row
+                key={i}
                 url={`/channels/@me/${conversation.id}`}
                 selected={conversation.id === conversationId}
               >
@@ -99,7 +100,7 @@ export default function ConversationList() {
               {user.name}
             </ChannelLeft.NameTagRow>
             <ChannelLeft.NameTagRow fontSize="12px" color="#B9BBBE">
-              #{user.id}
+              #{user.tag}
             </ChannelLeft.NameTagRow>
           </ChannelLeft.NameTag>
         </ChannelLeft.UserInfoWrapper>

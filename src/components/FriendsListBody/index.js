@@ -1,6 +1,9 @@
 import {
   AvatarWrapper,
   Container,
+  Empty,
+  EmptyImage,
+  EmptyText,
   Head,
   HeadWrapper,
   IconWrapper,
@@ -20,6 +23,18 @@ import {
 export default function FriendsListBody({ children, ...restProps }) {
   return <Container {...restProps}>{children}</Container>;
 }
+
+FriendsListBody.Empty = ({ children, ...restProps }) => {
+  return <Empty {...restProps}>{children}</Empty>;
+};
+
+FriendsListBody.EmptyImage = ({ children, ...restProps }) => {
+  return <EmptyImage {...restProps}>{children}</EmptyImage>;
+};
+
+FriendsListBody.EmptyText = ({ children, ...restProps }) => {
+  return <EmptyText {...restProps}>{children}</EmptyText>;
+};
 
 FriendsListBody.Search = ({ children, ...restProps }) => {
   return <Search {...restProps}>{children}</Search>;

@@ -4,95 +4,32 @@ import React, {
   useReducer,
   useEffect,
   useState,
+  useRef,
 } from "react";
-import reducer, { actionTypes } from "../reducers/state_reducer";
+import reducer from "../reducers/state_reducer";
+import {
+  getChannelsSnapshot,
+  getConversationsSnapshot,
+  getFriendsSnapshot,
+  getUserSnapshot,
+} from "../api/get_snapshots";
 
 const StateContext = createContext();
 
-const USERS = [
-  {
-    id: 1,
-    name: "Peter",
-    avatar: null,
-    status: "Online",
-    friends: [2, 3, 4, 5],
-    pendingFriendRequests: [],
-    blocked: [],
-    activeConversations: [
-      "1051205863114821673",
-      "1051205863114864536",
-      "1051205863114029387",
-      "1051205863114235643",
-    ],
-  },
-  {
-    id: 2,
-    name: "Damon",
-    avatar: null,
-    status: "Online",
-  },
-  {
-    id: 3,
-    name: "Bacon",
-    avatar: null,
-    status: "AFK",
-  },
-  {
-    id: 4,
-    name: "Crumpet",
-    avatar: null,
-    status: "Offline",
-  },
-  {
-    id: 5,
-    name: "Artichoke",
-    avatar: null,
-    status: "DND",
-  },
-];
-
-const CONVERSATIONS = [
-  {
-    id: "1051205863114821673",
-    users: [1, 2],
-    messages: [],
-  },
-  {
-    id: "1051205863114864536",
-    users: [1, 3],
-    messages: [],
-  },
-  {
-    id: "1051205863114029387",
-    users: [1, 4],
-    messages: [],
-  },
-  {
-    id: "1051205863114235643",
-    users: [1, 5],
-    messages: [],
-  },
-];
-
-const CHANNELS = [
-  {
-    name: "Peter's Channel",
-    tag: "PB",
-    id: "23423423423",
-  },
-  {
-    name: "Damon's Channel",
-    tag: "DK",
-    id: "234234223455",
-  },
-];
-
 export const StateProvider = ({ children }) => {
-  const [initialRender, setInitialRender] = useState(true);
+  const unsubscribersRef = useRef({});
+  const initialRenderRef = useRef(true);
+  const [friendCount, setFriendCount] = useState(-1);
+  const [conversationCount, setConversationCount] = useState(-1);
+  const [channelCount, setChannelCount] = useState(-1);
   const [state, dispatch] = useReducer(reducer, {
     user: null,
     users: {},
+    friends: [],
     conversations: {},
+    activeConversations: [],
+    pendingRequests: {},
+    blocked: {},
     channels: {},
     userSettings: {
       enableSettings: false,
@@ -103,30 +40,64 @@ export const StateProvider = ({ children }) => {
   });
 
   useEffect(() => {
+    const unsubscribers = unsubscribersRef.current;
+    return () => {
+      Object.values(unsubscribers).forEach((unsubscribe) => unsubscribe());
+    };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribers = unsubscribersRef.current;
+    if (state.user) {
+      const unsubscribeFriends = getFriendsSnapshot(
+        state.user,
+        unsubscribers,
+        dispatch,
+        setFriendCount
+      );
+      const unsubscribeConversations = getConversationsSnapshot(
+        state.user,
+        unsubscribers,
+        dispatch,
+        setConversationCount
+      );
+      const unsubscribeChannels = getChannelsSnapshot(
+        state.user,
+        unsubscribers,
+        dispatch,
+        setChannelCount
+      );
+
+      return () => {
+        unsubscribeFriends();
+        unsubscribeConversations();
+        unsubscribeChannels();
+      };
+    }
+  }, [state.user]);
+
+  useEffect(() => {
+    const initialRender = initialRenderRef.current;
     if (initialRender) {
-      dispatch({
-        type: actionTypes.SET_USER,
-        user: 1,
-      });
-      dispatch({
-        type: actionTypes.SET_USERS,
-        users: USERS,
-      });
-      dispatch({
-        type: actionTypes.SET_CONVERSATIONS,
-        conversations: CONVERSATIONS,
-      });
-      dispatch({
-        type: actionTypes.SET_CHANNELS,
-        channels: CHANNELS,
-      });
-      setInitialRender(false);
+      const unsubscribeUser = getUserSnapshot(dispatch);
+      initialRenderRef.current = false;
+      return () => {
+        initialRenderRef.current = true;
+        unsubscribeUser();
+      };
     }
   }, []);
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>
-      {initialRender ? <></> : children}
+      {state.user &&
+      friendCount === state.friends.length &&
+      conversationCount === Object.values(state.conversations).length &&
+      channelCount === Object.values(state.channels).length ? (
+        children
+      ) : (
+        <></>
+      )}
     </StateContext.Provider>
   );
 };

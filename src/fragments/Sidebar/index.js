@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { default as NewSidebar } from "../../components/Sidebar";
 import DirectMessagesIcon from "./DirectMessagesIcon";
@@ -63,7 +63,7 @@ export default function Sidebar() {
         const selected = iconSelected.startsWith(url);
         return (
           <NewSidebar.Item
-            id={id}
+            key={id}
             ref={(el) => (iconsRef.current[idx + 1] = el)}
             url={url}
           >
@@ -76,10 +76,9 @@ export default function Sidebar() {
         const { id, path, hr, pill, pathProps, url } = icon;
         const selected = iconSelected.startsWith(url ?? id);
         return (
-          <>
+          <React.Fragment key={id}>
             {hr && <NewSidebar.HorizontalLine />}
             <NewSidebar.Item
-              id={id}
               ref={(el) =>
                 (iconsRef.current[channelsArr.length + idx + 1] = el)
               }
@@ -95,7 +94,7 @@ export default function Sidebar() {
               </NewSidebar.Icon>
               {pill && <NewSidebar.Pill selected={selected} />}
             </NewSidebar.Item>
-          </>
+          </React.Fragment>
         );
       })}
     </NewSidebar>

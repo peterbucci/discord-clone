@@ -5,5 +5,6 @@ export const Container = styled.div`
   flex-direction: row;
   height: 100%;
   max-height: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow: hidden;
 `;

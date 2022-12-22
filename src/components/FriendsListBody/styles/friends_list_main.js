@@ -24,6 +24,34 @@ export const Container = styled.div`
   flex: 1;
 `;
 
+export const Empty = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+`;
+
+export const EmptyImage = styled.div`
+  margin-bottom: 40px;
+  width: 100%;
+  height: 100%;
+  max-width: ${({ maxWidth }) => maxWidth};
+  max-height: ${({ maxHeight }) => maxHeight};
+  background-image: ${({ image }) => `url(${image})`};
+  background-size: 100% 100%;
+`;
+export const EmptyText = styled.div`
+  margin-top: 8px;
+  color: #a3a6aa;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: center;
+`;
+
 export const Search = styled.div`
   position: relative;
   display: flex;

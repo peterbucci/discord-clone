@@ -11,7 +11,9 @@ const reduceById = (arr) => {
 export const actionTypes = {
   SET_USER: "SET_USER",
   SET_USERS: "SET_USERS",
+  SET_FRIENDS: "SET_FRIENDS",
   SET_CONVERSATIONS: "SET_CONVERSATIONS",
+  SET_ACTIVE_CONVERSATIONS: "SET_ACTIVE_CONVERSATIONS",
   SET_CHANNELS: "SET_CHANNELS",
   UPDATE_SETTINGS: "UPDATE_SETTINGS",
   SET_FRIENDS_LIST_TAB: "SET_FRIENDS_LIST_TAB",
@@ -35,6 +37,12 @@ export default function reducer(state, action) {
         },
       };
 
+    case actionTypes.SET_FRIENDS:
+      return {
+        ...state,
+        friends: [...state.friends, ...action.friends],
+      };
+
     case actionTypes.SET_CONVERSATIONS:
       return {
         ...state,
@@ -42,6 +50,15 @@ export default function reducer(state, action) {
           ...state.conversations,
           ...reduceById(action.conversations),
         },
+      };
+
+    case actionTypes.SET_ACTIVE_CONVERSATIONS:
+      return {
+        ...state,
+        activeConversations: [
+          ...state.activeConversations,
+          ...action.activeConversations,
+        ],
       };
 
     case actionTypes.SET_CHANNELS:

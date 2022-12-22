@@ -1,5 +1,6 @@
 import { useParams, Navigate } from "react-router-dom";
 import Channel from "../../components/Channel";
+import ActiveNowSidebar from "../../fragments/ActiveNowSidebar";
 import ConversationList from "../../fragments/ConversationList";
 import { useStateValue } from "../../providers/StateProvider";
 
@@ -21,7 +22,7 @@ export default function Conversation() {
             <Channel.RightMain>Chat</Channel.RightMain>
             <Channel.RightMainFooter>Chat Input</Channel.RightMainFooter>
           </Channel.RightMainWrapper>
-          <Channel.RightSidebar>Right Sidebar</Channel.RightSidebar>
+          <ActiveNowSidebar />
         </Channel.RightBody>
       </Channel.Right>
     </Channel>
