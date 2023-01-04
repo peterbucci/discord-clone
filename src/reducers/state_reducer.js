@@ -14,6 +14,8 @@ export const actionTypes = {
   SET_FRIENDS: "SET_FRIENDS",
   SET_CONVERSATIONS: "SET_CONVERSATIONS",
   SET_ACTIVE_CONVERSATIONS: "SET_ACTIVE_CONVERSATIONS",
+  REMOVE_ACTIVE_CONVERSATIONS: "REMOVE_ACTIVE_CONVERSATIONS",
+  SET_MESSAGES: "SET_MESSAGES",
   SET_CHANNELS: "SET_CHANNELS",
   UPDATE_SETTINGS: "UPDATE_SETTINGS",
   SET_FRIENDS_LIST_TAB: "SET_FRIENDS_LIST_TAB",
@@ -55,10 +57,30 @@ export default function reducer(state, action) {
     case actionTypes.SET_ACTIVE_CONVERSATIONS:
       return {
         ...state,
-        activeConversations: [
-          ...state.activeConversations,
-          ...action.activeConversations,
-        ],
+        activeConversations:
+          state.activeConversations.indexOf(action.activeConversation) > -1
+            ? state.activeConversations
+            : [...state.activeConversations, action.activeConversation],
+      };
+
+    case actionTypes.REMOVE_ACTIVE_CONVERSATIONS:
+      return {
+        ...state,
+        activeConversations: state.activeConversations.filter(
+          (conversation) => action.activeConversation !== conversation
+        ),
+      };
+
+    case actionTypes.SET_MESSAGES:
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [action.id]: {
+            ...state.messages[action.id],
+            ...reduceById(action.messages),
+          },
+        },
       };
 
     case actionTypes.SET_CHANNELS:

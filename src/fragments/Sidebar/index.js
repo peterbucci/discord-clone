@@ -22,8 +22,8 @@ const ADDITIONAL_ICONS = [
     hr: true,
     pill: true,
     pathProps: {
-      "fill-rule": "evenodd",
-      "clip-rule": "evenodd",
+      fillRule: "evenodd",
+      clipRule: "evenodd",
     },
   },
 ];

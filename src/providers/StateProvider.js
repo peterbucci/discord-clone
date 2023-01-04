@@ -28,6 +28,7 @@ export const StateProvider = ({ children }) => {
     friends: [],
     conversations: {},
     activeConversations: [],
+    messages: {},
     pendingRequests: {},
     blocked: {},
     channels: {},

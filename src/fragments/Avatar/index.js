@@ -11,9 +11,9 @@ export default function Avatar({ status, image }) {
       <NewAvatar.Mask id={`userStatusMask${status}`}>
         <NewAvatar.StatusBaseTransparency />
         <NewAvatar.StatusCircleVisiblity />
-        {status === "AFK" && <NewAvatar.statusAFK />}
-        {status === "Offline" && <NewAvatar.statusOffline />}
-        {status === "DND" && <NewAvatar.statusDND />}
+        {status === "AFK" && <NewAvatar.StatusAFK />}
+        {status === "Offline" && <NewAvatar.StatusOffline />}
+        {status === "DND" && <NewAvatar.StatusDND />}
       </NewAvatar.Mask>
       <NewAvatar.Image image={image} />
       <NewAvatar.Status status={status} />

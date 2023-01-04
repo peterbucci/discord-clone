@@ -162,6 +162,9 @@ export const ListItem = styled(Link)`
     border-radius: 8px;
     z-index: -1;
   }
+  &:hover span {
+    opacity: 1;
+  }
 `;
 
 export const AvatarWrapper = styled.div`
@@ -181,5 +184,9 @@ export const ListItemTextRow = styled.div`
 `;
 
 export const ListItemTextSpan = styled.span`
-  opacity: ${({ opacity }) => opacity ?? "1"};
+  font-size: ${({ tag }) => (tag ? "14px" : "auto")};
+  line-height: ${({ tag }) => (tag ? "16px" : "auto")};
+  font-weight: ${({ tag }) => (tag ? "500" : "auto")};
+  color: ${({ tag }) => (tag ? "#B9BBBE" : "auto")};
+  opacity: ${({ tag }) => (tag ? "0" : "1")};
 `;

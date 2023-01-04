@@ -95,7 +95,7 @@ export default function FriendsTab() {
                     <FriendsListBody.ListItemTextSpan>
                       {friend.name}
                     </FriendsListBody.ListItemTextSpan>
-                    <FriendsListBody.ListItemTextSpan opacity="0">
+                    <FriendsListBody.ListItemTextSpan tag={true}>
                       #{friend.tag}
                     </FriendsListBody.ListItemTextSpan>
                   </FriendsListBody.ListItemTextRow>

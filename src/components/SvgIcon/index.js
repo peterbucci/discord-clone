@@ -36,7 +36,7 @@ SvgIcon.Path = ({ children, ...restProps }) => {
 
 SvgIcon.Polygon = ({ children, ...restProps }) => {
   return (
-    <Polygon fill-rule="nonzero" {...restProps}>
+    <Polygon fillRule="nonzero" {...restProps}>
       {children}
     </Polygon>
   );

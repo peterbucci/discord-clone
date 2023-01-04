@@ -15,6 +15,8 @@ import {
   IconsWrapper,
   IconWrapper,
   Nav,
+  LeftRowText,
+  DeleteConversationIcon,
 } from "./styles/channel_left";
 
 export default function ChannelLeft({ children, ...restProps }) {
@@ -54,6 +56,16 @@ ChannelLeft.Row = ({ children, url, ...restProps }) => {
 ChannelLeft.ConversationIconWrapper = ({ children, ...restProps }) => {
   return (
     <ConversationIconWrapper {...restProps}>{children}</ConversationIconWrapper>
+  );
+};
+
+ChannelLeft.RowText = ({ children, url, ...restProps }) => {
+  return <LeftRowText {...restProps}>{children}</LeftRowText>;
+};
+
+ChannelLeft.DeleteConversationIcon = ({ children, url, ...restProps }) => {
+  return (
+    <DeleteConversationIcon {...restProps}>{children}</DeleteConversationIcon>
   );
 };
 

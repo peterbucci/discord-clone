@@ -12,6 +12,8 @@
     "react-router": "^6.4.5",
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
+    "slate": "^0.87.0",
+    "slate-react": "^0.88.0",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },

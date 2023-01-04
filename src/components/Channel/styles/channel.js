@@ -50,6 +50,42 @@ export const RightMain = styled.div`
   overflow-y: auto;
 `;
 
+export const Conversation = styled.ol`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+export const DailyDivider = styled.div`
+  position: relative;
+  left: auto;
+  right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  height: 0;
+  border-top: 1px solid rgba(79, 84, 92, 0.48);
+  pointer-events: none;
+  z-index: 1;
+`;
+
+export const DailyDividerText = styled.span`
+  display: block;
+  flex: 0 0 auto;
+  margin-top: -1px;
+  padding: 2px 4px;
+  color: #a3a6aa;
+  line-height: 13px;
+  font-size: 11.5px;
+  font-weight: 600;
+`;
+
+export const ConversationSpacer = styled.div`
+  height: 30px;
+`;
+
 export const RightMainFooter = styled.div`
   flex: 0 0 68px;
 `;

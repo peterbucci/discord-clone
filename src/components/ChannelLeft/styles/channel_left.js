@@ -37,6 +37,7 @@ export const LeftGroupHeader = styled.h2`
   cursor: default;
   & svg {
     margin-right: 2px;
+    cursor: pointer;
     &:hover {
       fill: #dcddde;
     }
@@ -54,8 +55,8 @@ export const LeftRow = styled.div`
   display: flex;
   align-items: center;
   height: 42px;
-  margin: 1px 8px;
-  padding: 0 8px;
+  margin: ${({ channel }) => (channel ? "1px 0 1px 8px" : "1px 8px")};
+  padding: ${({ channel }) => (channel ? "0" : "0 8px")};
   background-color: ${(props) =>
     props.selected ? "rgba(79, 84, 92, 0.6)" : "auto"};
   border-radius: 4px;
@@ -75,6 +76,9 @@ export const LeftRow = styled.div`
     & .iconPath {
       fill: #dcddde;
     }
+    & .deleteConversationIcon {
+      opacity: 1;
+    }
   }
   &:active {
     background-color: ${(props) =>
@@ -92,8 +96,28 @@ export const LeftRow = styled.div`
 
 export const ConversationIconWrapper = styled.div`
   margin-right: 12px;
+  padding-left: 8px;
   width: 32px;
   height: 32px;
+  box-sizing: content-box;
+`;
+
+export const LeftRowText = styled.span`
+  flex: 1;
+  padding-right: 8px;
+`;
+
+export const DeleteConversationIcon = styled.div`
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+  margin: 2px;
+  padding-right: 8px;
+  box-sizing: content-box;
+  opacity: 0;
+  &:hover path {
+    fill: #ffffff;
+  }
 `;
 
 export const LeftFooter = styled.div`

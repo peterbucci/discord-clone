@@ -1,4 +1,11 @@
-import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  orderBy,
+} from "firebase/firestore";
 import { actionTypes } from "../reducers/state_reducer";
 import { db } from "../firebase";
 
@@ -61,21 +68,47 @@ export function getConversationsSnapshot(
     querySnapshot.forEach((docX) => {
       const dataX = docX.data();
       const id = docX.id;
+      if (dataX.active) {
+        dispatch({
+          type: actionTypes.SET_ACTIVE_CONVERSATIONS,
+          activeConversation: id,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.REMOVE_ACTIVE_CONVERSATIONS,
+          activeConversation: id,
+        });
+      }
       if (!unsubscribers[id]) {
-        const unsubscribe = onSnapshot(doc(db, "conversations", id), (docY) => {
-          const dataY = docY.data();
-          dispatch({
-            type: actionTypes.SET_CONVERSATIONS,
-            conversations: [dataY],
-          });
-          if (dataX.active) {
+        const conversationUnsubscribe = onSnapshot(
+          doc(db, "conversations", id),
+          (docY) => {
+            const dataY = docY.data();
             dispatch({
-              type: actionTypes.SET_ACTIVE_CONVERSATIONS,
-              activeConversations: [docY.id],
+              type: actionTypes.SET_CONVERSATIONS,
+              conversations: [dataY],
             });
           }
-        });
-        unsubscribers[id] = unsubscribe;
+        );
+        const messagesQuery = query(
+          collection(db, "conversations", id, "messages"),
+          orderBy("timestamp")
+        );
+        const messagesUnsubscribe = onSnapshot(
+          messagesQuery,
+          (querySnapshot) => {
+            querySnapshot.forEach((docZ) => {
+              const dataZ = docZ.data();
+              dispatch({
+                type: actionTypes.SET_MESSAGES,
+                id,
+                messages: [dataZ],
+              });
+            });
+          }
+        );
+        unsubscribers[id] = conversationUnsubscribe;
+        unsubscribers[id + "messages"] = messagesUnsubscribe;
       }
     });
   });

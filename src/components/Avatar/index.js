@@ -10,8 +10,8 @@ import {
   Image,
 } from "./styles/avatar";
 
-export default function Avatar({ children }) {
-  return <Svg>{children}</Svg>;
+export default function Avatar({ children, ...restProps }) {
+  return <Svg {...restProps}>{children}</Svg>;
 }
 
 Avatar.Mask = ({ children, ...restProps }) => {
@@ -38,15 +38,15 @@ Avatar.StatusCircleVisiblity = () => {
   return <VisibleCircle cx="27" cy="27" r="5" />;
 };
 
-Avatar.statusAFK = () => {
+Avatar.StatusAFK = () => {
   return <TransparentCircle cx="24" cy="24" r="4" />;
 };
 
-Avatar.statusOffline = () => {
+Avatar.StatusOffline = () => {
   return <TransparentCircle cx="27" cy="27" r="3" />;
 };
 
-Avatar.statusDND = () => {
+Avatar.StatusDND = () => {
   return <TransparentRect x="23.5" y="25.5" width="7" height="3" />;
 };
 

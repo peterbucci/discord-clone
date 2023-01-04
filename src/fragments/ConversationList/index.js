@@ -1,10 +1,12 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import updateActiveConversations from "../../api/update_active_conversations";
 import ChannelLeft from "../../components/ChannelLeft";
 import { DirectMessagesSearchBar } from "../../components/DirectMessages";
 import { useStateValue } from "../../providers/StateProvider";
 import { actionTypes } from "../../reducers/state_reducer";
 import Avatar from "../Avatar";
 import AddIcon from "../Icons/add";
+import CloseIcon from "../Icons/close";
 import CogwheelIcon from "../Icons/cogwheel";
 import FriendIcon from "../Icons/friend";
 import HeadphonesIcon from "../Icons/headphones";
@@ -25,6 +27,7 @@ export default function ConversationList() {
   const pathname = location.pathname.toLowerCase();
   const params = useParams();
   const conversationId = params.conversationId;
+  const navigate = useNavigate();
 
   const updateSettings = (actions) => {
     dispatch({
@@ -79,11 +82,29 @@ export default function ConversationList() {
                 key={i}
                 url={`/channels/@me/${conversation.id}`}
                 selected={conversation.id === conversationId}
+                channel={true}
               >
                 <ChannelLeft.ConversationIconWrapper>
                   <Avatar status={friend.status} />
                 </ChannelLeft.ConversationIconWrapper>
-                {friend.name}
+                <ChannelLeft.RowText>{friend.name}</ChannelLeft.RowText>
+                <ChannelLeft.DeleteConversationIcon
+                  className="deleteConversationIcon"
+                  onClick={(e) => {
+                    updateActiveConversations(
+                      state.user,
+                      conversation.id,
+                      false
+                    );
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (conversationId === conversation.id) {
+                      navigate("/channels/@me");
+                    }
+                  }}
+                >
+                  <CloseIcon />
+                </ChannelLeft.DeleteConversationIcon>
               </ChannelLeft.Row>
             );
           })}
