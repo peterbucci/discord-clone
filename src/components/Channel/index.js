@@ -14,6 +14,12 @@ import {
   ConversationSpacer,
   DailyDivider,
   DailyDividerText,
+  RightHeadTitle,
+  RightHeadIconWrapper,
+  RightHeadRecipient,
+  RightHeadRecipientStatus,
+  RightHeadToolbar,
+  RightHeadSearchWrapper,
 } from "./styles/channel";
 
 export const Channel = ({ children, ...restProps }) => {
@@ -26,6 +32,36 @@ Channel.Right = ({ children, ...restProps }) => {
 
 Channel.RightHead = ({ children, ...restProps }) => {
   return <RightHead {...restProps}>{children}</RightHead>;
+};
+
+Channel.RightHeadTitle = ({ children, ...restProps }) => {
+  return <RightHeadTitle {...restProps}>{children}</RightHeadTitle>;
+};
+
+Channel.RightHeadIconWrapper = ({ children, ...restProps }) => {
+  return <RightHeadIconWrapper {...restProps}>{children}</RightHeadIconWrapper>;
+};
+
+Channel.RightHeadRecipient = ({ children, ...restProps }) => {
+  return <RightHeadRecipient {...restProps}>{children}</RightHeadRecipient>;
+};
+
+Channel.RightHeadRecipientStatus = ({ children, ...restProps }) => {
+  return (
+    <RightHeadRecipientStatus {...restProps}>
+      {children}
+    </RightHeadRecipientStatus>
+  );
+};
+
+Channel.RightHeadToolbar = ({ children, ...restProps }) => {
+  return <RightHeadToolbar {...restProps}>{children}</RightHeadToolbar>;
+};
+
+Channel.RightHeadSearchWrapper = ({ children, ...restProps }) => {
+  return (
+    <RightHeadSearchWrapper {...restProps}>{children}</RightHeadSearchWrapper>
+  );
 };
 
 Channel.RightBody = ({ children, ...restProps }) => {

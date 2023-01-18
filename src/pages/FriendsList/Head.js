@@ -1,5 +1,5 @@
 import { default as Head } from "../../components/FriendsListHead";
-import FriendIcon from "../../fragments/Icons/friend";
+import FriendIcon from "../../fragments/ConversationList/icons/friend";
 import GroupDMIcon from "../../fragments/Icons/group_dm";
 import HelpIcon from "../../fragments/Icons/help";
 import InboxIcon from "../../fragments/Icons/inbox";

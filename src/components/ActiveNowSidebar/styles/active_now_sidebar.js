@@ -6,7 +6,7 @@ export const Container = styled.div`
   margin: 0 0 0 2px;
   padding: 16px 8px 16px 16px;
   border: 1px solid rgba(74, 84, 92, 0.48);
-  backgroundcolor: #32353b;
+  background-color: #32353b;
   overflow-y: auto;
 `;
 

@@ -21,13 +21,11 @@ export default function FriendsTab() {
     },
   } = useStateValue();
   const listItems =
-    friendsListTab === "Online"
-      ? friends
-      : friendsListTab === "Pending"
+    friendsListTab === "Pending"
       ? Object.values(pendingRequests)
       : friendsListTab === "Blocked"
       ? Object.values(blocked)
-      : friends;
+      : Object.keys(friends);
 
   const itemCount =
     friendsListTab === "Online"
@@ -88,7 +86,10 @@ export default function FriendsTab() {
                 to={`/channels/@me/${conversation.id}`}
               >
                 <FriendsListBody.AvatarWrapper>
-                  <Avatar status={friend.status} />
+                  <Avatar
+                    status={friend.status}
+                    image={friend.avatar ?? `default_avatars/${friend.tag % 6}`}
+                  />
                 </FriendsListBody.AvatarWrapper>
                 <FriendsListBody.ListItemText>
                   <FriendsListBody.ListItemTextRow>

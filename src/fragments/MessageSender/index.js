@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { createEditor, Editor, Transforms } from "slate";
-import { Slate, withReact, ReactEditor } from "slate-react";
+import { Slate, withReact } from "slate-react";
 import { CodeElement, DefaultElement, Leaf } from "./elements";
 import { default as NewMessageSender } from "../../components/MessageSender";
 import FormatToolbar from "./FormatToolbar";
 import { handleKeyboardShortcuts, handleSelection } from "./event_listeners";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useStateValue } from "../../providers/StateProvider";
 import AttachIcon from "../Icons/attach";
@@ -14,6 +14,7 @@ import GiftIcon from "../Icons/gift";
 import GifIcon from "../Icons/gif";
 import StickersIcon from "../Icons/stickers";
 import SmileyIcons from "../SmileyIcons";
+import ReplyTo from "./ReplyTo";
 
 const initialValue = [
   {
@@ -22,7 +23,15 @@ const initialValue = [
   },
 ];
 
-export default function MessageSender() {
+export default function MessageSender({
+  editMessageLayout,
+  value,
+  id,
+  setEdit,
+  messageToReply,
+  setMessageToReply,
+}) {
+  const mouseDownRef = useRef(false);
   const [displayFormatToolbar, setDisplayFormatToolbar] = useState(false);
   const [editor] = useState(() => withReact(createEditor()));
   const {
@@ -33,30 +42,46 @@ export default function MessageSender() {
 
   const sendMessage = () => {
     if (editor.children.some((child) => !Editor.isEmpty(editor, child))) {
-      const newMessageRef = doc(
-        collection(db, "conversations", conversationId, "messages")
-      );
-      setDoc(newMessageRef, {
-        id: newMessageRef.id,
-        sender: user,
-        nodes: editor.children,
-        timestamp: new Date(),
-      });
-      // Delete all entries leaving 1 empty node
-      Transforms.delete(editor, {
-        at: {
-          anchor: Editor.start(editor, []),
-          focus: Editor.end(editor, []),
-        },
-      });
+      if (id) {
+        const messageRef = doc(
+          db,
+          "conversations",
+          conversationId,
+          "messages",
+          id
+        );
+        updateDoc(messageRef, {
+          nodes: editor.children,
+          edited: new Date(),
+        });
+        setEdit(null);
+      } else {
+        const newMessageRef = doc(
+          collection(db, "conversations", conversationId, "messages")
+        );
+        setDoc(newMessageRef, {
+          id: newMessageRef.id,
+          sender: user,
+          nodes: editor.children,
+          timestamp: new Date(),
+          reply: messageToReply,
+        });
+        // Delete all entries leaving 1 empty node
+        Transforms.delete(editor, {
+          at: {
+            anchor: Editor.start(editor, []),
+            focus: Editor.end(editor, []),
+          },
+        });
 
-      // Removes empty node
-      Transforms.removeNodes(editor, {
-        at: [0],
-      });
+        // Removes empty node
+        Transforms.removeNodes(editor, {
+          at: [0],
+        });
 
-      // Insert array of children nodes
-      Transforms.insertNodes(editor, initialValue);
+        // Insert array of children nodes
+        Transforms.insertNodes(editor, initialValue);
+      }
     }
   };
 
@@ -74,7 +99,10 @@ export default function MessageSender() {
   }, []);
 
   const onMouseUp = useCallback(() => {
-    handleSelection(editor, setDisplayFormatToolbar);
+    if (mouseDownRef.current) {
+      handleSelection(editor, setDisplayFormatToolbar);
+      mouseDownRef.current = false;
+    }
   }, [editor]);
 
   useEffect(() => {
@@ -84,29 +112,43 @@ export default function MessageSender() {
   }, [onMouseUp]);
 
   return (
-    <Slate editor={editor} value={initialValue}>
-      <NewMessageSender onSubmit={(event) => event.preventDefault()}>
-        <NewMessageSender.ScrollableContainer>
+    <Slate editor={editor} value={value ?? initialValue}>
+      <NewMessageSender
+        onSubmit={(event) => event.preventDefault()}
+        editMessageLayout={editMessageLayout}
+      >
+        {messageToReply && (
+          <NewMessageSender.AttachedBars>
+            <ReplyTo
+              messageToReply={messageToReply}
+              setMessageToReply={setMessageToReply}
+              conversationId={conversationId}
+            />
+          </NewMessageSender.AttachedBars>
+        )}
+        <NewMessageSender.ScrollableContainer attachedBar={messageToReply}>
           <FormatToolbar
             displayFormatToolbar={displayFormatToolbar}
             editor={editor}
           />
           <NewMessageSender.InnerContainer>
-            <NewMessageSender.AttachWrapper>
-              <NewMessageSender.AttachButton>
-                <AttachIcon />
-              </NewMessageSender.AttachButton>
-            </NewMessageSender.AttachWrapper>
+            {!editMessageLayout && (
+              <NewMessageSender.AttachWrapper>
+                <NewMessageSender.AttachButton>
+                  <AttachIcon />
+                </NewMessageSender.AttachButton>
+              </NewMessageSender.AttachWrapper>
+            )}
             <NewMessageSender.TextboxWrapper>
               <NewMessageSender.Textbox
                 id="messageSender"
-                placeholder="Message @"
+                placeholder={!editMessageLayout ? "Message @" : ""}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 onBlur={() => setDisplayFormatToolbar(false)}
                 onMouseDown={() => {
-                  ReactEditor.deselect(editor);
-                  setDisplayFormatToolbar(false);
+                  if (displayFormatToolbar) setDisplayFormatToolbar(false);
+                  else mouseDownRef.current = true;
                 }}
                 onKeyDown={(e) =>
                   handleKeyboardShortcuts(e, editor, sendMessage)
@@ -114,21 +156,37 @@ export default function MessageSender() {
               />
             </NewMessageSender.TextboxWrapper>
             <NewMessageSender.ButtonsContainer>
-              <NewMessageSender.Button>
-                <GiftIcon />
-              </NewMessageSender.Button>
-              <NewMessageSender.Button>
-                <GifIcon />
-              </NewMessageSender.Button>
-              <NewMessageSender.Button>
-                <StickersIcon />
-              </NewMessageSender.Button>
+              {!editMessageLayout && (
+                <>
+                  <NewMessageSender.Button>
+                    <GiftIcon />
+                  </NewMessageSender.Button>
+                  <NewMessageSender.Button>
+                    <GifIcon />
+                  </NewMessageSender.Button>
+                  <NewMessageSender.Button>
+                    <StickersIcon />
+                  </NewMessageSender.Button>
+                </>
+              )}
               <NewMessageSender.Button>
                 <SmileyIcons />
               </NewMessageSender.Button>
             </NewMessageSender.ButtonsContainer>
           </NewMessageSender.InnerContainer>
         </NewMessageSender.ScrollableContainer>
+        {editMessageLayout && (
+          <NewMessageSender.EditOperations>
+            escape to{" "}
+            <NewMessageSender.Clickable onClick={() => setEdit(null)}>
+              cancel
+            </NewMessageSender.Clickable>{" "}
+            • enter to{" "}
+            <NewMessageSender.Clickable onClick={sendMessage}>
+              save
+            </NewMessageSender.Clickable>
+          </NewMessageSender.EditOperations>
+        )}
       </NewMessageSender>
     </Slate>
   );

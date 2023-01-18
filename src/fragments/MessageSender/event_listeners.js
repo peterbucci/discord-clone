@@ -1,4 +1,3 @@
-import { Transforms } from "slate";
 import CustomEditor from "./CustomEditor";
 
 export const handleSelection = (editor, setDisplayFormatToolbar) => {
@@ -6,7 +5,6 @@ export const handleSelection = (editor, setDisplayFormatToolbar) => {
   const { anchor, focus } = editor.selection;
   const startLine = anchor.path[0];
   const endLine = focus.path[0];
-  const startLeaf = anchor.path[1];
   const endLeaf = focus.path[1];
   const startOffset = anchor.offset;
   const endOffset = focus.offset;
@@ -62,6 +60,10 @@ export const handleKeyboardShortcuts = (event, editor, sendMessage) => {
     case "x": {
       event.preventDefault();
       CustomEditor.toggleFormatting(editor, "lineThrough");
+      break;
+    }
+
+    default: {
       break;
     }
   }

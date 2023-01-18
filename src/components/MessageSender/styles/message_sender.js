@@ -8,13 +8,14 @@ export const Form = styled.form`
 `;
 
 export const Container = styled.div`
-  margin-bottom: 24px;
+  margin: ${({ editMessageLayout }) =>
+    editMessageLayout ? "8px 0 0" : "0 0 24px 0"};
 `;
 
 export const ScrollableContainer = styled.div`
   padding: 0 16px;
   max-height: 50vh;
-  border-radius: 8px;
+  border-radius: ${({ attachedBar }) => (attachedBar ? "0 0 8px 8px" : "8px")};
   overflow-x: hidden;
   overflow-y: scroll;
   background-color: #40444b;
@@ -98,4 +99,28 @@ export const SmileyIcon = styled.div`
     filter: none !important;
     transform: scale(1.14) !important;
   }
+`;
+
+export const EditOperations = styled.div`
+  padding: 7px 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #dcddde;
+`;
+
+export const Clickable = styled.span`
+  color: #00aff4;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const AttachedBars = styled.div`
+  padding-top: 3px;
+  margin-top: -3px;
+  background-color: #2f3136;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  overflow: hidden;
 `;

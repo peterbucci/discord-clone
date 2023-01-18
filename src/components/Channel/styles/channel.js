@@ -24,6 +24,70 @@ export const RightHead = styled.div`
   box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
 `;
 
+export const RightHeadTitle = styled.div`
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+`;
+
+export const RightHeadIconWrapper = styled.div`
+  flex: 0 0 auto;
+  position: relative;
+  margin: 0 8px;
+  height: 24px;
+  width: auto;
+  & path {
+    fill: ${({ highlighted }) => (highlighted ? "#ffffff" : "#B9BBBE")};
+  }
+`;
+
+export const RightHeadRecipient = styled.div`
+  flex: 0 0 auto;
+  margin: 0 8px 0 0;
+  min-width: auto;
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+`;
+
+export const RightHeadRecipientStatus = styled.div`
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+`;
+
+export const RightHeadToolbar = styled.div`
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  & div:hover {
+    cursor: pointer;
+    & path {
+      fill: #dcddde;
+    }
+  }
+`;
+
+export const RightHeadSearchWrapper = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  padding: 0 2px;
+  height: 24px;
+  width: 144px;
+  border-radius: 4px;
+  background-color: #202225;
+  color: #dcddde;
+  cursor: text !important;
+  overflow: hidden;
+`;
+
 export const RightBody = styled.div`
   display: flex;
   flex: 1;

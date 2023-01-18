@@ -9,9 +9,11 @@ const reduceById = (arr) => {
 };
 
 export const actionTypes = {
+  SET_UID: "SET_UID",
   SET_USER: "SET_USER",
   SET_USERS: "SET_USERS",
   SET_FRIENDS: "SET_FRIENDS",
+  SET_NOTES: "SET_NOTES",
   SET_CONVERSATIONS: "SET_CONVERSATIONS",
   SET_ACTIVE_CONVERSATIONS: "SET_ACTIVE_CONVERSATIONS",
   REMOVE_ACTIVE_CONVERSATIONS: "REMOVE_ACTIVE_CONVERSATIONS",
@@ -19,11 +21,18 @@ export const actionTypes = {
   SET_CHANNELS: "SET_CHANNELS",
   UPDATE_SETTINGS: "UPDATE_SETTINGS",
   SET_FRIENDS_LIST_TAB: "SET_FRIENDS_LIST_TAB",
+  LOGOUT_USER: "LOGOUT_USER",
 };
 
 export default function reducer(state, action) {
   const { type, ...restAction } = action;
   switch (action.type) {
+    case actionTypes.SET_UID:
+      return {
+        ...state,
+        uid: action.uid,
+      };
+
     case actionTypes.SET_USER:
       return {
         ...state,
@@ -42,7 +51,13 @@ export default function reducer(state, action) {
     case actionTypes.SET_FRIENDS:
       return {
         ...state,
-        friends: [...state.friends, ...action.friends],
+        friends: { ...state.friends, ...reduceById(action.friends) },
+      };
+
+    case actionTypes.SET_NOTES:
+      return {
+        ...state,
+        notes: { ...state.notes, ...reduceById(action.notes) },
       };
 
     case actionTypes.SET_CONVERSATIONS:
@@ -105,6 +120,27 @@ export default function reducer(state, action) {
       return {
         ...state,
         friendsListTab: action.tab,
+      };
+
+    case actionTypes.LOGOUT_USER:
+      return {
+        uid: null,
+        user: null,
+        users: {},
+        friends: {},
+        notes: {},
+        conversations: {},
+        activeConversations: [],
+        messages: {},
+        pendingRequests: {},
+        blocked: {},
+        channels: {},
+        userSettings: {
+          enableSettings: false,
+          enableMicrophone: true,
+          enableHeadphones: true,
+        },
+        friendsListTab: "Online",
       };
 
     default:

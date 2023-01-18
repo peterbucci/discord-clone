@@ -1,14 +1,13 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import ChannelRoot from "./pages/ChannelRoot";
+import Sidebar from "./fragments/Sidebar";
+import UserSettings from "./pages/UserSettings";
+import Channels from "./pages/Channels";
+import Channel from "./pages/Channel";
 import FriendsList from "./pages/FriendsList";
 import Conversation from "./pages/Conversation";
 import Store from "./pages/Store";
-import UserChannel from "./pages/UserChannel";
-import Sidebar from "./fragments/Sidebar";
-import { Container } from "./styles/app";
-import "./App.css";
 import { StateProvider } from "./providers/StateProvider";
-import UserSettings from "./pages/UserSettings";
+import { Container } from "./styles/app";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "channels",
-        element: <ChannelRoot />,
+        element: <Channels />,
         children: [
           {
             path: "@me",
@@ -37,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "channels/:channelId",
-        element: <UserChannel />,
+        element: <Channel />,
       },
       {
         path: "guild-discovery",

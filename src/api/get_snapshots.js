@@ -5,16 +5,32 @@ import {
   onSnapshot,
   doc,
   orderBy,
+  setDoc,
 } from "firebase/firestore";
 import { actionTypes } from "../reducers/state_reducer";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 
-export function getUserSnapshot(dispatch) {
-  const q = query(
-    collection(db, "users"),
-    where("email", "==", "sb1285n@gmail.com")
-  );
+function randomIntFromInterval(min, max) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export function getUserSnapshot(dispatch, uid) {
+  const q = query(collection(db, "users"), where("uid", "==", uid));
   return onSnapshot(q, (querySnapshot) => {
+    if (querySnapshot.empty) {
+      const user = auth.currentUser;
+      const newMessageRef = doc(collection(db, "users"));
+      setDoc(newMessageRef, {
+        uid,
+        id: newMessageRef.id,
+        name: user.displayName.split(" ")[0],
+        signup: new Date(),
+        status: "Online",
+        tag: randomIntFromInterval(1000, 9999),
+        email: user.email,
+      });
+    }
     querySnapshot.forEach((doc) => {
       dispatch({
         type: actionTypes.SET_USER,
@@ -39,15 +55,15 @@ export function getFriendsSnapshot(
     setFriendCount(querySnapshot.size);
     querySnapshot.forEach((docX) => {
       const id = docX.id;
+      dispatch({
+        type: actionTypes.SET_FRIENDS,
+        friends: [docX.data()],
+      });
       if (!unsubscribers[id]) {
         const unsubscribe = onSnapshot(doc(db, "users", id), (docY) => {
           dispatch({
             type: actionTypes.SET_USERS,
             users: [docY.data()],
-          });
-          dispatch({
-            type: actionTypes.SET_FRIENDS,
-            friends: [docY.id],
           });
         });
         unsubscribers[id] = unsubscribe;
@@ -110,6 +126,18 @@ export function getConversationsSnapshot(
         unsubscribers[id] = conversationUnsubscribe;
         unsubscribers[id + "messages"] = messagesUnsubscribe;
       }
+    });
+  });
+}
+
+export function getNotesSnapshot(userId, dispatch) {
+  const q = query(collection(db, "users", userId, "notes"));
+  return onSnapshot(q, (querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      dispatch({
+        type: actionTypes.SET_NOTES,
+        notes: [doc.data()],
+      });
     });
   });
 }

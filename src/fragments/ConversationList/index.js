@@ -5,14 +5,14 @@ import { DirectMessagesSearchBar } from "../../components/DirectMessages";
 import { useStateValue } from "../../providers/StateProvider";
 import { actionTypes } from "../../reducers/state_reducer";
 import Avatar from "../Avatar";
-import AddIcon from "../Icons/add";
-import CloseIcon from "../Icons/close";
-import CogwheelIcon from "../Icons/cogwheel";
-import FriendIcon from "../Icons/friend";
-import HeadphonesIcon from "../Icons/headphones";
-import MicrophoneIcon from "../Icons/microphone";
-import NitroIcon from "../Icons/nitro";
-import SnowsgivingIcon from "../Icons/snowsgiving";
+import AddIcon from "./icons/add";
+import CloseIcon from "./icons/close";
+import CogwheelIcon from "./icons/cogwheel";
+import FriendIcon from "./icons/friend";
+import HeadphonesIcon from "./icons/headphones";
+import MicrophoneIcon from "./icons/microphone";
+import NitroIcon from "./icons/nitro";
+import SnowsgivingIcon from "./icons/snowsgiving";
 
 export default function ConversationList() {
   const { state, dispatch } = useStateValue();
@@ -85,7 +85,10 @@ export default function ConversationList() {
                 channel={true}
               >
                 <ChannelLeft.ConversationIconWrapper>
-                  <Avatar status={friend.status} />
+                  <Avatar
+                    status={friend.status}
+                    image={friend.avatar ?? `default_avatars/${friend.tag % 6}`}
+                  />
                 </ChannelLeft.ConversationIconWrapper>
                 <ChannelLeft.RowText>{friend.name}</ChannelLeft.RowText>
                 <ChannelLeft.DeleteConversationIcon
@@ -114,7 +117,10 @@ export default function ConversationList() {
       <ChannelLeft.Footer>
         <ChannelLeft.UserInfoWrapper>
           <ChannelLeft.AvatarWrapper>
-            <Avatar status={user.status} image={user.avatar} />
+            <Avatar
+              status={user.status}
+              image={user.avatar ?? `default_avatars/${user.tag % 6}`}
+            />
           </ChannelLeft.AvatarWrapper>
           <ChannelLeft.NameTag>
             <ChannelLeft.NameTagRow weight="600">

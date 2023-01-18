@@ -11,8 +11,15 @@ import {
   getChannelsSnapshot,
   getConversationsSnapshot,
   getFriendsSnapshot,
+  getNotesSnapshot,
   getUserSnapshot,
 } from "../api/get_snapshots";
+import onAuthChange from "../api/on_auth_change";
+
+import { auth } from "../firebase";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import Loading from "../pages/Loading";
+const provider = new GoogleAuthProvider();
 
 const StateContext = createContext();
 
@@ -23,9 +30,11 @@ export const StateProvider = ({ children }) => {
   const [conversationCount, setConversationCount] = useState(-1);
   const [channelCount, setChannelCount] = useState(-1);
   const [state, dispatch] = useReducer(reducer, {
+    uid: null,
     user: null,
     users: {},
-    friends: [],
+    friends: {},
+    notes: {},
     conversations: {},
     activeConversations: [],
     messages: {},
@@ -56,6 +65,7 @@ export const StateProvider = ({ children }) => {
         dispatch,
         setFriendCount
       );
+      const unsubscribeNotes = getNotesSnapshot(state.user, dispatch);
       const unsubscribeConversations = getConversationsSnapshot(
         state.user,
         unsubscribers,
@@ -71,6 +81,7 @@ export const StateProvider = ({ children }) => {
 
       return () => {
         unsubscribeFriends();
+        unsubscribeNotes();
         unsubscribeConversations();
         unsubscribeChannels();
       };
@@ -78,26 +89,28 @@ export const StateProvider = ({ children }) => {
   }, [state.user]);
 
   useEffect(() => {
-    const initialRender = initialRenderRef.current;
-    if (initialRender) {
-      const unsubscribeUser = getUserSnapshot(dispatch);
-      initialRenderRef.current = false;
-      return () => {
-        initialRenderRef.current = true;
-        unsubscribeUser();
-      };
+    if (state.uid) {
+      const unsubscribeUser = getUserSnapshot(dispatch, state.uid);
+      return () => unsubscribeUser();
     }
+  }, [state.uid]);
+
+  useEffect(() => {
+    const unsubscribeAuth = onAuthChange(dispatch, initialRenderRef);
+    return () => unsubscribeAuth();
   }, []);
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>
       {state.user &&
-      friendCount === state.friends.length &&
+      friendCount === Object.keys(state.friends).length &&
       conversationCount === Object.values(state.conversations).length &&
       channelCount === Object.values(state.channels).length ? (
         children
+      ) : initialRenderRef.current || state.uid ? (
+        <Loading />
       ) : (
-        <></>
+        <div onClick={() => signInWithPopup(auth, provider)}>Sign in</div>
       )}
     </StateContext.Provider>
   );

@@ -1,3 +1,5 @@
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 import { useStateValue } from "../../providers/StateProvider";
 import { actionTypes } from "../../reducers/state_reducer";
 import { default as NewUserSettings } from "../../components/UserSettings";
@@ -20,6 +22,7 @@ export default function UserSettings() {
       <div onClick={() => updateSettings({ enableSettings: false })}>
         Settings
       </div>
+      <div onClick={() => signOut(auth)}>Log out</div>
     </NewUserSettings>
   ) : (
     <></>

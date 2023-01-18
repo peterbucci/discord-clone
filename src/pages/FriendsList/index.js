@@ -1,6 +1,6 @@
 import Channel from "../../components/Channel";
 import ConversationList from "../../fragments/ConversationList";
-import ActiveNowSidebar from "../../fragments/ActiveNowSidebar";
+import ActiveNowSidebar from "./ActiveNowSidebar";
 import Head from "./Head";
 import Body from "./Body";
 

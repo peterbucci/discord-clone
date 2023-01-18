@@ -1,9 +1,12 @@
 import {
   AttachButton,
+  AttachedBars,
   AttachWrapper,
   Button,
   ButtonsContainer,
+  Clickable,
   Container,
+  EditOperations,
   Form,
   InnerContainer,
   ScrollableContainer,
@@ -12,10 +15,14 @@ import {
   TextboxWrapper,
 } from "./styles/message_sender";
 
-export default function MessageSender({ children, ...restProps }) {
+export default function MessageSender({
+  children,
+  editMessageLayout,
+  ...restProps
+}) {
   return (
     <Form {...restProps}>
-      <Container>{children}</Container>
+      <Container editMessageLayout={editMessageLayout}>{children}</Container>
     </Form>
   );
 }
@@ -54,4 +61,16 @@ MessageSender.Button = ({ children, ...restProps }) => {
 
 MessageSender.SmileyIcon = (props) => {
   return <SmileyIcon {...props} />;
+};
+
+MessageSender.EditOperations = ({ children, ...restProps }) => {
+  return <EditOperations {...restProps}>{children}</EditOperations>;
+};
+
+MessageSender.Clickable = ({ children, ...restProps }) => {
+  return <Clickable {...restProps}>{children}</Clickable>;
+};
+
+MessageSender.AttachedBars = ({ children, ...restProps }) => {
+  return <AttachedBars {...restProps}>{children}</AttachedBars>;
 };
