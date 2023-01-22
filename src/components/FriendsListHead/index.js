@@ -8,6 +8,7 @@ import {
   NavLink,
   AddFriend,
   Right,
+  RequestBadge,
 } from "./styles/friends_list_head";
 
 export default function FriendsListHead({ children, ...restProps }) {
@@ -40,6 +41,10 @@ FriendsListHead.NavLink = ({ children, addFriend, ...restProps }) => {
   ) : (
     <NavLink {...restProps}>{children}</NavLink>
   );
+};
+
+FriendsListHead.RequestBadge = ({ children, ...restProps }) => {
+  return <RequestBadge {...restProps}>{children}</RequestBadge>;
 };
 
 FriendsListHead.Right = ({ children, ...restProps }) => {

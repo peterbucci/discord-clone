@@ -19,6 +19,7 @@ import AddFriendIcon from "./icons/add_friend";
 import HideProfileIcon from "./icons/hide_profile";
 import InboxIcon from "./icons/inbox";
 import HelpIcon from "./icons/help";
+import Head from "./Head";
 
 export default function Conversation() {
   const profilePanelRef = useRef(null);
@@ -37,7 +38,7 @@ export default function Conversation() {
     : [];
 
   const sender = users[user];
-  const recipientId = conversation.users.find((id) => id !== user);
+  const recipientId = Object.keys(conversation.users).find((id) => id !== user);
   const recipient = users[recipientId];
 
   useLayoutEffect(() => {
@@ -73,7 +74,7 @@ export default function Conversation() {
               <AtIcon />
             </Channel.RightHeadIconWrapper>
             <Channel.RightHeadRecipient>
-              {recipient.name}
+              {recipient && recipient.name}
             </Channel.RightHeadRecipient>
             <Channel.RightHeadRecipientStatus>
               <OfflineIcon />
@@ -113,6 +114,7 @@ export default function Conversation() {
           <Channel.RightMainWrapper>
             <Channel.RightMain ref={conversationRef}>
               <Channel.Conversation>
+                <Head recipientId={recipientId} />
                 {conversationMessages.map(
                   ({ sender, id, ...message }, idx, arr) => {
                     const date = message.timestamp.toDate();

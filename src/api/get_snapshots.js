@@ -53,20 +53,59 @@ export function getFriendsSnapshot(
   const q = query(collection(db, "users", userId, "friends"));
   return onSnapshot(q, (querySnapshot) => {
     setFriendCount(querySnapshot.size);
-    querySnapshot.forEach((docX) => {
+    querySnapshot.docChanges().forEach((change) => {
+      const docX = change.doc;
       const id = docX.id;
-      dispatch({
-        type: actionTypes.SET_FRIENDS,
-        friends: [docX.data()],
-      });
-      if (!unsubscribers[id]) {
-        const unsubscribe = onSnapshot(doc(db, "users", id), (docY) => {
-          dispatch({
-            type: actionTypes.SET_USERS,
-            users: [docY.data()],
-          });
+      if (change.type === "removed") {
+        dispatch({
+          type: actionTypes.REMOVE_FRIEND,
+          friendId: id,
         });
-        unsubscribers[id] = unsubscribe;
+      } else {
+        dispatch({
+          type: actionTypes.SET_FRIENDS,
+          friends: [docX.data()],
+        });
+        if (!unsubscribers[id]) {
+          const unsubscribe = onSnapshot(doc(db, "users", id), (docY) => {
+            dispatch({
+              type: actionTypes.SET_USERS,
+              users: [docY.data()],
+            });
+          });
+          unsubscribers[id] = unsubscribe;
+        }
+      }
+    });
+  });
+}
+
+export function getFriendRequestsSnapshot(userId, unsubscribers, dispatch) {
+  const q = query(collection(db, "users", userId, "friendRequests"));
+  return onSnapshot(q, (querySnapshot) => {
+    querySnapshot.docChanges().forEach((change) => {
+      const docX = change.doc;
+      const id = docX.id;
+      if (change.type === "removed") {
+        dispatch({
+          type: actionTypes.REMOVE_FRIEND_REQUEST,
+          friendRequestId: id,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.SET_FRIEND_REQUESTS,
+          friendRequests: [docX.data()],
+        });
+
+        if (!unsubscribers[id]) {
+          const unsubscribe = onSnapshot(doc(db, "users", id), (docY) => {
+            dispatch({
+              type: actionTypes.SET_USERS,
+              users: [docY.data()],
+            });
+          });
+          unsubscribers[id] = unsubscribe;
+        }
       }
     });
   });
@@ -100,6 +139,20 @@ export function getConversationsSnapshot(
           doc(db, "conversations", id),
           (docY) => {
             const dataY = docY.data();
+            Object.keys(dataY.users).forEach((userId) => {
+              if (!unsubscribers[userId]) {
+                const unsubscribe = onSnapshot(
+                  doc(db, "users", userId),
+                  (docZ) => {
+                    dispatch({
+                      type: actionTypes.SET_USERS,
+                      users: [docZ.data()],
+                    });
+                  }
+                );
+                unsubscribers[id] = unsubscribe;
+              }
+            });
             dispatch({
               type: actionTypes.SET_CONVERSATIONS,
               conversations: [dataY],

@@ -6,25 +6,27 @@ import React, {
   useState,
   useRef,
 } from "react";
-import reducer from "../reducers/state_reducer";
+import reducer from "reducers/state_reducer";
 import {
   getChannelsSnapshot,
   getConversationsSnapshot,
   getFriendsSnapshot,
   getNotesSnapshot,
   getUserSnapshot,
-} from "../api/get_snapshots";
+} from "api/get_snapshots";
 import onAuthChange from "../api/on_auth_change";
 
-import { auth } from "../firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import Loading from "../pages/Loading";
+import { auth } from "firebase.js";
+import Loading from "pages/Loading";
+import { getFriendRequestsSnapshot } from "../api/get_snapshots";
 const provider = new GoogleAuthProvider();
 
 const StateContext = createContext();
 
 export const StateProvider = ({ children }) => {
   const unsubscribersRef = useRef({});
+  const onAuthChangeUnsub = useRef(null);
   const initialRenderRef = useRef(true);
   const [friendCount, setFriendCount] = useState(-1);
   const [conversationCount, setConversationCount] = useState(-1);
@@ -38,7 +40,7 @@ export const StateProvider = ({ children }) => {
     conversations: {},
     activeConversations: [],
     messages: {},
-    pendingRequests: {},
+    friendRequests: {},
     blocked: {},
     channels: {},
     userSettings: {
@@ -51,53 +53,57 @@ export const StateProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribers = unsubscribersRef.current;
-    return () => {
-      Object.values(unsubscribers).forEach((unsubscribe) => unsubscribe());
-    };
-  }, []);
-
-  useEffect(() => {
-    const unsubscribers = unsubscribersRef.current;
     if (state.user) {
-      const unsubscribeFriends = getFriendsSnapshot(
-        state.user,
-        unsubscribers,
-        dispatch,
-        setFriendCount
-      );
-      const unsubscribeNotes = getNotesSnapshot(state.user, dispatch);
-      const unsubscribeConversations = getConversationsSnapshot(
-        state.user,
-        unsubscribers,
-        dispatch,
-        setConversationCount
-      );
-      const unsubscribeChannels = getChannelsSnapshot(
-        state.user,
-        unsubscribers,
-        dispatch,
-        setChannelCount
-      );
-
-      return () => {
-        unsubscribeFriends();
-        unsubscribeNotes();
-        unsubscribeConversations();
-        unsubscribeChannels();
-      };
+      if (!unsubscribers.friends)
+        unsubscribers.friends = getFriendsSnapshot(
+          state.user,
+          unsubscribers,
+          dispatch,
+          setFriendCount
+        );
+      if (!unsubscribers.friendRequests)
+        unsubscribers.friendRequests = getFriendRequestsSnapshot(
+          state.user,
+          unsubscribers,
+          dispatch
+        );
+      if (!unsubscribers.notes)
+        unsubscribers.notes = getNotesSnapshot(state.user, dispatch);
+      if (!unsubscribers.conversations)
+        unsubscribers.conversations = getConversationsSnapshot(
+          state.user,
+          unsubscribers,
+          dispatch,
+          setConversationCount
+        );
+      if (!unsubscribers.channels)
+        unsubscribers.channels = getChannelsSnapshot(
+          state.user,
+          unsubscribers,
+          dispatch,
+          setChannelCount
+        );
     }
   }, [state.user]);
 
   useEffect(() => {
     if (state.uid) {
-      const unsubscribeUser = getUserSnapshot(dispatch, state.uid);
-      return () => unsubscribeUser();
+      const unsubscribers = unsubscribersRef.current;
+      if (!unsubscribers.user)
+        unsubscribers.user = getUserSnapshot(dispatch, state.uid);
     }
   }, [state.uid]);
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthChange(dispatch, initialRenderRef);
-    return () => unsubscribeAuth();
+    if (!onAuthChangeUnsub.current)
+      onAuthChangeUnsub.current = onAuthChange(
+        dispatch,
+        initialRenderRef,
+        setChannelCount,
+        setConversationCount,
+        setFriendCount,
+        unsubscribersRef
+      );
   }, []);
 
   return (

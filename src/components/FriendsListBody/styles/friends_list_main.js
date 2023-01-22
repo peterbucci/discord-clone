@@ -165,12 +165,23 @@ export const ListItem = styled(Link)`
   &:hover span {
     opacity: 1;
   }
+  &:hover #friendsListActions div {
+    background-color: #202225;
+  }
 `;
 
 export const AvatarWrapper = styled.div`
   margin-right: 12px;
   width: 32px;
   height: 32px;
+`;
+
+export const Avatar = styled.img`
+  margin-right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
 `;
 
 export const ListItemText = styled.div`
@@ -189,4 +200,27 @@ export const ListItemTextSpan = styled.span`
   font-weight: ${({ tag }) => (tag ? "500" : "auto")};
   color: ${({ tag }) => (tag ? "#B9BBBE" : "auto")};
   opacity: ${({ tag }) => (tag ? "0" : "1")};
+`;
+
+export const ListItemActions = styled.div`
+  display: flex;
+  margin-left: auto;
+  line-height: 20px;
+`;
+
+export const ListItemAction = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #b9bbbe;
+  background-color: #2f3136;
+  &:last-child {
+    margin-left: 10px;
+  }
+  &:hover svg path {
+    fill: ${({ cancel }) => (cancel ? "#ED4245" : "#3BA55D")};
+  }
 `;

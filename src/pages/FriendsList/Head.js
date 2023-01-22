@@ -8,9 +8,13 @@ import { actionTypes } from "../../reducers/state_reducer";
 
 export default function FriendsListHead() {
   const {
-    state: { friendsListTab },
+    state: { friendsListTab, friendRequests, user },
     dispatch,
   } = useStateValue();
+
+  const friendRequestCount = Object.keys(friendRequests).filter(
+    (id) => friendRequests[id].sender !== user
+  ).length;
 
   const setTab = (tab) => {
     dispatch({
@@ -45,6 +49,9 @@ export default function FriendsListHead() {
             onClick={() => setTab("Pending")}
           >
             Pending
+            {friendRequestCount > 0 && (
+              <Head.RequestBadge>{friendRequestCount}</Head.RequestBadge>
+            )}
           </Head.NavLink>
           <Head.NavLink
             selected={friendsListTab === "Blocked"}

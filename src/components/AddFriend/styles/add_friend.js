@@ -35,7 +35,14 @@ export const SearchbarOuterWrapper = styled.div`
   margin-top: 16px;
   padding: 0 12px;
   height: 48px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: ${({ alert }) =>
+    `1px solid ${
+      alert?.props.success
+        ? "#3BA55C"
+        : alert
+        ? "#EE4245"
+        : "rgba(0, 0, 0, 0.3)"
+    }`};
   border-radius: 8px;
   background-color: #202225;
 `;
@@ -95,6 +102,14 @@ export const SearchbarButton = styled.button`
     cursor: not-allowed;
     opacity: 0.5;
   }
+`;
+
+export const Alert = styled.div`
+  margin-top: 8px;
+  line-height: 20px;
+  color: ${({ success }) => (success ? "#46C46E" : "#f38688")};
+  font-size: 14px;
+  font-weight: 400;
 `;
 
 export const HeadTwo = styled.div`

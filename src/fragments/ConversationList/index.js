@@ -1,3 +1,4 @@
+import React from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import updateActiveConversations from "../../api/update_active_conversations";
 import ChannelLeft from "../../components/ChannelLeft";
@@ -75,9 +76,13 @@ export default function ConversationList() {
             <AddIcon />
           </ChannelLeft.GroupHeader>
           {conversations.map((conversation, i) => {
-            const friendId = conversation.users.find((id) => id !== state.user);
+            const friendId = Object.keys(conversation.users).find(
+              (id) => id !== state.user
+            );
             const friend = state.users[friendId];
-            return (
+            return !friend ? (
+              <React.Fragment key={friendId} />
+            ) : (
               <ChannelLeft.Row
                 key={i}
                 url={`/channels/@me/${conversation.id}`}

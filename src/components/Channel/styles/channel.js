@@ -10,7 +10,7 @@ export const Right = styled.div`
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
-  background-color: #32353b;
+  background-color: #36393f;
   color: #ffffff;
 `;
 

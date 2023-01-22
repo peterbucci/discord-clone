@@ -1,4 +1,5 @@
 import {
+  Avatar,
   AvatarWrapper,
   Container,
   Empty,
@@ -11,6 +12,8 @@ import {
   InputWrapper,
   List,
   ListItem,
+  ListItemAction,
+  ListItemActions,
   ListItemText,
   ListItemTextRow,
   ListItemTextSpan,
@@ -84,6 +87,10 @@ FriendsListBody.AvatarWrapper = ({ children, ...restProps }) => {
   return <AvatarWrapper {...restProps}>{children}</AvatarWrapper>;
 };
 
+FriendsListBody.Avatar = (props) => {
+  return <Avatar {...props} />;
+};
+
 FriendsListBody.ListItemText = ({ children, ...restProps }) => {
   return <ListItemText {...restProps}>{children}</ListItemText>;
 };
@@ -94,4 +101,16 @@ FriendsListBody.ListItemTextRow = ({ children, ...restProps }) => {
 
 FriendsListBody.ListItemTextSpan = ({ children, ...restProps }) => {
   return <ListItemTextSpan {...restProps}>{children}</ListItemTextSpan>;
+};
+
+FriendsListBody.ListItemActions = ({ children, ...restProps }) => {
+  return (
+    <ListItemActions id="friendsListActions" {...restProps}>
+      {children}
+    </ListItemActions>
+  );
+};
+
+FriendsListBody.ListItemAction = ({ children, ...restProps }) => {
+  return <ListItemAction {...restProps}>{children}</ListItemAction>;
 };

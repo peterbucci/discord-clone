@@ -18,6 +18,7 @@ import {
   SearchbarOuterWrapper,
   SearchForm,
   SearchFormText,
+  Alert,
 } from "./styles/add_friend";
 
 export default function AddFriend({ children, ...restProps }) {
@@ -62,6 +63,10 @@ AddFriend.SearchbarInputUnderlay = ({ ...props }) => {
 
 AddFriend.SearchbarButton = ({ children, ...restProps }) => {
   return <SearchbarButton {...restProps}>{children}</SearchbarButton>;
+};
+
+AddFriend.Alert = ({ children, ...restProps }) => {
+  return <Alert {...restProps}>{children}</Alert>;
 };
 
 AddFriend.HeadTwo = ({ children, ...restProps }) => {

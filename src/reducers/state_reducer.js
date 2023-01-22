@@ -13,6 +13,9 @@ export const actionTypes = {
   SET_USER: "SET_USER",
   SET_USERS: "SET_USERS",
   SET_FRIENDS: "SET_FRIENDS",
+  REMOVE_FRIEND: "REMOVE_FRIEND",
+  SET_FRIEND_REQUESTS: "SET_FRIEND_REQUESTS",
+  REMOVE_FRIEND_REQUEST: "REMOVE_FRIEND_REQUEST",
   SET_NOTES: "SET_NOTES",
   SET_CONVERSATIONS: "SET_CONVERSATIONS",
   SET_ACTIVE_CONVERSATIONS: "SET_ACTIVE_CONVERSATIONS",
@@ -52,6 +55,37 @@ export default function reducer(state, action) {
       return {
         ...state,
         friends: { ...state.friends, ...reduceById(action.friends) },
+      };
+
+    case actionTypes.REMOVE_FRIEND:
+      return {
+        ...state,
+        friends: Object.keys(state.friends)
+          .filter((key) => key !== action.friendId)
+          .reduce((obj, key) => {
+            obj[key] = state.friends[key];
+            return obj;
+          }, {}),
+      };
+
+    case actionTypes.SET_FRIEND_REQUESTS:
+      return {
+        ...state,
+        friendRequests: {
+          ...state.friendRequests,
+          ...reduceById(action.friendRequests),
+        },
+      };
+
+    case actionTypes.REMOVE_FRIEND_REQUEST:
+      return {
+        ...state,
+        friendRequests: Object.keys(state.friendRequests)
+          .filter((key) => key !== action.friendRequestId)
+          .reduce((obj, key) => {
+            obj[key] = state.friendRequests[key];
+            return obj;
+          }, {}),
       };
 
     case actionTypes.SET_NOTES:
@@ -132,7 +166,7 @@ export default function reducer(state, action) {
         conversations: {},
         activeConversations: [],
         messages: {},
-        pendingRequests: {},
+        friendRequests: {},
         blocked: {},
         channels: {},
         userSettings: {

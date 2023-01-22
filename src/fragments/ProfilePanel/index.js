@@ -10,7 +10,7 @@ export default function ProfilePanel({ thisRef, id, absolutePosition }) {
   const {
     state: { user, users, notes },
   } = useStateValue();
-  const profile = users[id];
+  const profile = users[id] ?? {};
   const [placeholderText, setPlaceholderText] = useState("Click to add a note");
   const [note, setNote] = useState(notes[id]?.text ?? "");
 
@@ -98,7 +98,7 @@ export default function ProfilePanel({ thisRef, id, absolutePosition }) {
             DISCORD MEMBER SINCE
           </NewPanel.UserPanelSectionHead>
           <NewPanel.UserPanelSectionText>
-            {profile.signUp.toDate().toLocaleString("default", {
+            {profile.signUp?.toDate().toLocaleString("default", {
               year: "numeric",
               month: "short",
               day: "numeric",

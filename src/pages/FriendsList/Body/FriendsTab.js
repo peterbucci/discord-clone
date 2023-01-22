@@ -1,30 +1,23 @@
 import { useState } from "react";
 import FriendsListBody from "../../../components/FriendsListBody";
 import { useStateValue } from "../../../providers/StateProvider";
-import Avatar from "../../../fragments/Avatar";
 import ClearSearchIcon from "../../../fragments/Icons/clear_search";
 import SearchIcon from "../../../fragments/Icons/search";
 import FriendsTabEmpty from "./FriendsTabEmpty";
+import Friend from "./Friend";
+import FriendRequest from "./FriendRequest";
 
 export default function FriendsTab() {
   const [firstTextEntered, setFirstTextEntered] = useState(true);
   const [searchText, setSearchText] = useState("");
   const {
-    state: {
-      friendsListTab,
-      user,
-      users,
-      friends,
-      conversations,
-      pendingRequests,
-      blocked,
-    },
+    state: { friendsListTab, user, users, friends, friendRequests, blocked },
   } = useStateValue();
   const listItems =
     friendsListTab === "Pending"
-      ? Object.values(pendingRequests)
+      ? Object.keys(friendRequests)
       : friendsListTab === "Blocked"
-      ? Object.values(blocked)
+      ? Object.keys(blocked)
       : Object.keys(friends);
 
   const itemCount =
@@ -66,48 +59,17 @@ export default function FriendsTab() {
       <FriendsListBody.Main>
         <FriendsListBody.List>
           {listItems.map((id) => {
-            const friend = users[id];
-            const conversation = Object.values(conversations).find(
-              (conversation) => {
-                return (
-                  conversation.users &&
-                  conversation.users.indexOf(id) > -1 &&
-                  conversation.users.indexOf(user) > -1 &&
-                  conversation.users.length === 2
-                );
-              }
-            );
-            return (
-              <FriendsListBody.ListItem
+            return friendsListTab === "Online" ||
+              friendsListTab === "All Friends" ? (
+              <Friend key={id} id={id} />
+            ) : friendsListTab === "Pending" ? (
+              <FriendRequest
                 key={id}
-                visible={
-                  !(friendsListTab === "Online" && friend.status === "Offline")
-                }
-                to={`/channels/@me/${conversation.id}`}
-              >
-                <FriendsListBody.AvatarWrapper>
-                  <Avatar
-                    status={friend.status}
-                    image={friend.avatar ?? `default_avatars/${friend.tag % 6}`}
-                  />
-                </FriendsListBody.AvatarWrapper>
-                <FriendsListBody.ListItemText>
-                  <FriendsListBody.ListItemTextRow>
-                    <FriendsListBody.ListItemTextSpan>
-                      {friend.name}
-                    </FriendsListBody.ListItemTextSpan>
-                    <FriendsListBody.ListItemTextSpan tag={true}>
-                      #{friend.tag}
-                    </FriendsListBody.ListItemTextSpan>
-                  </FriendsListBody.ListItemTextRow>
-                  <FriendsListBody.ListItemTextRow
-                    fontSize="13px"
-                    color="#B9BBBE"
-                  >
-                    {friend.status}
-                  </FriendsListBody.ListItemTextRow>
-                </FriendsListBody.ListItemText>
-              </FriendsListBody.ListItem>
+                id={id}
+                outgoing={friendRequests[id].sender === user}
+              />
+            ) : (
+              <div key={id}>Test</div>
             );
           })}
         </FriendsListBody.List>

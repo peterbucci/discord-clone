@@ -44,6 +44,8 @@ export const Nav = styled.div`
 `;
 
 export const NavLink = styled.div`
+  display: flex;
+  align-items: center;
   margin: 0 8px;
   padding: 2px 8px;
   color: ${({ selected }) => (selected ? "#ffffff" : "#B9BBBE")};
@@ -64,6 +66,22 @@ export const AddFriend = styled.div`
   border-radius: 4px;
   color: ${({ selected }) => (selected ? "#46C46E" : "#ffffff")};
   cursor: pointer;
+`;
+
+export const RequestBadge = styled.div`
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background-color: #ed4245;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
 `;
 
 export const Right = styled.div`
