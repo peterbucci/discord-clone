@@ -8,7 +8,10 @@ export const Svg = styled.svg`
 
 export const Group = styled.g``;
 export const Rect = styled.rect``;
-export const Path = styled.path``;
+export const Path = styled.path`
+  color: ${({ theme }) => theme.interactiveNormal};
+`;
+
 export const Polygon = styled.polygon``;
 export const ForeignObject = styled.foreignObject`
   & div,

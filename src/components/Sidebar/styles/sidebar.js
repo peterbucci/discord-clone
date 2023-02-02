@@ -9,7 +9,7 @@ export const List = styled.ul`
   padding: 12px 0 0 0;
   width: 72px;
   height: 100%;
-  background-color: rgb(32, 34, 37);
+  background-color: ${({ theme }) => theme.backgroundTertiary};
   list-style: none;
 `;
 export const Item = styled.li`
@@ -28,19 +28,20 @@ export const Icon = styled.div`
   justify-content: center;
   width: 48px;
   height: 48px;
-  background-color: ${(props) =>
-    props.selected ? props.color ?? "#6370f4" : "#36393f"};
+  background-color: ${({ selected, color, theme }) =>
+    selected ? color ?? theme.brand : theme.backgroundPrimary};
   border-radius: ${(props) => (props.selected ? "15px" : "99%")};
-  color: ${(props) => (props.selected ? "#ffffff" : "rgb(220, 221, 222)")};
+  color: ${({ selected, theme }) =>
+    selected ? theme.white : theme.textNormal};
   font-size: 16px;
   font-weight: 500;
   overflow: hidden;
   cursor: pointer;
   transition: all 150ms ease-out 0s;
   &:hover {
-    background-color: ${(props) => props.color ?? "#6370f4"};
+    background-color: ${({ color, theme }) => color ?? theme.brand};
     border-radius: 15px;
-    color: #ffffff;
+    color: ${({ theme }) => theme.white};
     & svg > path {
       fill: ${(props) => props.fillStyleHover ?? "auto"};
     }
@@ -52,10 +53,10 @@ export const Icon = styled.div`
   }
 `;
 export const HorizontalLine = styled.div`
-  margin: 0 0 8px 0;
-  width: 50%;
+  width: 32px;
   height: 2px;
-  background-color: rgba(79, 84, 92, 0.48);
+  border-radius: 1px;
+  background-color: ${({ theme }) => theme.backgroundModifierAccent};
 `;
 export const PillContainer = styled.div`
   position: absolute;
@@ -73,7 +74,7 @@ export const Pill = styled.div`
   height: ${(props) =>
     props.selected ? "40px !important" : props.height ?? "0px"};
   margin-left: -4px;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.white};
   border-radius: 0 4px 4px 0;
   transition: all 150ms ease-out 0s;
 `;

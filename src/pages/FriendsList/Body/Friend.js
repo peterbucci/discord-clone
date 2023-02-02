@@ -1,8 +1,11 @@
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import FriendsListBody from "../../../components/FriendsListBody";
 import Avatar from "../../../fragments/Avatar";
 import { useStateValue } from "../../../providers/StateProvider";
 
 export default function Friend({ id }) {
+  const themeContext = useContext(ThemeContext);
   const {
     state: { user, users, conversations, friendsListTab },
   } = useStateValue();
@@ -31,7 +34,10 @@ export default function Friend({ id }) {
             #{friend.tag}
           </FriendsListBody.ListItemTextSpan>
         </FriendsListBody.ListItemTextRow>
-        <FriendsListBody.ListItemTextRow fontSize="13px" color="#B9BBBE">
+        <FriendsListBody.ListItemTextRow
+          fontSize="13px"
+          color={themeContext.interactiveNormal}
+        >
           {friend.status}
         </FriendsListBody.ListItemTextRow>
       </FriendsListBody.ListItemText>

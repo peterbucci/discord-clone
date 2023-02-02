@@ -1,6 +1,10 @@
 import CustomEditor from "./CustomEditor";
 
-export const handleSelection = (editor, setDisplayFormatToolbar) => {
+export const handleSelection = (
+  editor,
+  setDisplayFormatToolbar,
+  editMessageLayout
+) => {
   if (!editor.selection) return;
   const { anchor, focus } = editor.selection;
   const startLine = anchor.path[0];
@@ -10,7 +14,9 @@ export const handleSelection = (editor, setDisplayFormatToolbar) => {
   const endOffset = focus.offset;
 
   if (startLine - endLine !== 0 || startOffset - endOffset !== 0) {
-    const messageSender = document.getElementById("messageSender");
+    const messageSender = document.getElementById(
+      `messageSender${editMessageLayout ? "Edit" : ""}`
+    );
     const el = messageSender.children[endLine];
     const elRect = el.getBoundingClientRect();
     const leaf = el.children[endLeaf];

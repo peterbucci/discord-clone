@@ -18,7 +18,7 @@ export const ScrollableContainer = styled.div`
   border-radius: ${({ attachedBar }) => (attachedBar ? "0 0 8px 8px" : "8px")};
   overflow-x: hidden;
   overflow-y: scroll;
-  background-color: #40444b;
+  background-color: ${({ theme }) => theme.channelTextAreaBackground};
 `;
 
 export const InnerContainer = styled.div`
@@ -42,7 +42,7 @@ export const AttachButton = styled.button`
   padding: 10px;
   cursor: pointer;
   &:hover svg path {
-    fill: #dcddde;
+    fill: ${({ theme }) => theme.textNormal};
   }
 `;
 
@@ -60,7 +60,7 @@ export const TextBox = styled(Editable)`
 export const PlaceHolder = styled.div`
   font-size: 1rem;
   line-height: 1.375rem;
-  color: #72767d;
+  color: ${({ theme }) => theme.channelTextAreaPlaceholder};
 `;
 
 export const ButtonsContainer = styled.div`
@@ -79,7 +79,7 @@ export const Button = styled.button`
   margin-right: 4px;
   cursor: pointer;
   &:hover svg path {
-    fill: #dcddde;
+    fill: ${({ theme }) => theme.textNormal};
   }
 `;
 
@@ -105,11 +105,11 @@ export const EditOperations = styled.div`
   padding: 7px 0;
   font-size: 12px;
   font-weight: 400;
-  color: #dcddde;
+  color: ${({ theme }) => theme.textNormal};
 `;
 
 export const Clickable = styled.span`
-  color: #00aff4;
+  color: ${({ theme }) => theme.textLink};
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -119,7 +119,7 @@ export const Clickable = styled.span`
 export const AttachedBars = styled.div`
   padding-top: 3px;
   margin-top: -3px;
-  background-color: #2f3136;
+  background-color: ${({ theme }) => theme.backgroundSecondary};
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   overflow: hidden;

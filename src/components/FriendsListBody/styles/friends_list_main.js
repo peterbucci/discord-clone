@@ -45,7 +45,7 @@ export const EmptyImage = styled.div`
 `;
 export const EmptyText = styled.div`
   margin-top: 8px;
-  color: #a3a6aa;
+  color: ${({ theme }) => theme.textMuted};
   font-size: 15px;
   font-weight: 500;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -83,7 +83,7 @@ export const IconWrapper = styled.div.attrs((props) => ({
   &.clearSearch {
     cursor: ${({ visible }) => (visible ? "pointer" : "text")};
     &:hover > svg > path {
-      fill: #ffffff;
+      fill: ${({ theme }) => theme.white};
     }
   }
 `;
@@ -99,9 +99,9 @@ export const Input = styled.input`
   flex: 1;
   margin: 1px;
   padding: 0 8px;
-  background-color: #202225;
+  background-color: ${({ theme }) => theme.backgroundTertiary};
   border-radius: 4px;
-  color: #a3a6aa;
+  color: ${({ theme }) => theme.textMuted};
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
   font-weight: 500;
@@ -109,7 +109,7 @@ export const Input = styled.input`
   line-height: 32px;
   white-space: nowrap;
   &::placeholder {
-    color: #a3a6aa;
+    color: ${({ theme }) => theme.textMuted};
   }
 `;
 
@@ -122,7 +122,7 @@ export const Head = styled.h2`
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 11px;
   font-weight: 600;
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
   text-transform: uppercase;
 `;
 
@@ -138,7 +138,7 @@ export const List = styled.div``;
 export const ListItemWrapper = styled.div`
   margin: 0 30px;
   height: ${({ visible }) => (visible ? "61px" : "0")};
-  border-top: solid 1px rgba(79, 84, 92, 0.48);
+  border-top: ${({ theme }) => `solid 1px ${theme.backgroundModifierAccent}`};
   opacity: ${({ visible }) => (visible ? "1" : "0")};
   transition: opacity 0.1s ease-in, height 0.1s ease-in;
 `;
@@ -154,7 +154,7 @@ export const ListItem = styled(Link)`
   cursor: pointer;
   &:hover:before {
     content: "";
-    background-color: rgba(79, 84, 92, 0.48);
+    background-color: ${({ theme }) => theme.backgroundModifierAccent};
     position: absolute;
     height: 100%;
     left: -8px;
@@ -166,7 +166,7 @@ export const ListItem = styled(Link)`
     opacity: 1;
   }
   &:hover #friendsListActions div {
-    background-color: #202225;
+    background-color: ${({ theme }) => theme.backgroundTertiary};
   }
 `;
 
@@ -191,14 +191,14 @@ export const ListItemText = styled.div`
 
 export const ListItemTextRow = styled.div`
   font-size: ${({ fontSize }) => fontSize ?? "15px"};
-  color: ${({ color }) => color ?? "#ffffff"};
+  color: ${({ color, theme }) => color ?? theme.white};
 `;
 
 export const ListItemTextSpan = styled.span`
   font-size: ${({ tag }) => (tag ? "14px" : "auto")};
   line-height: ${({ tag }) => (tag ? "16px" : "auto")};
   font-weight: ${({ tag }) => (tag ? "500" : "auto")};
-  color: ${({ tag }) => (tag ? "#B9BBBE" : "auto")};
+  color: ${({ tag, theme }) => (tag ? theme.interactiveNormal : "auto")};
   opacity: ${({ tag }) => (tag ? "0" : "1")};
 `;
 
@@ -215,12 +215,13 @@ export const ListItemAction = styled.div`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  color: #b9bbbe;
-  background-color: #2f3136;
+  color: ${({ theme }) => theme.interactiveNormal};
+  background-color: ${({ theme }) => theme.backgroundSecondary};
   &:last-child {
     margin-left: 10px;
   }
   &:hover svg path {
-    fill: ${({ cancel }) => (cancel ? "#ED4245" : "#3BA55D")};
+    fill: ${({ cancel, theme }) =>
+      cancel ? theme.infoDangerForeground : theme.statusGreen600};
   }
 `;

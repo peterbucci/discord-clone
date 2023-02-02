@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { default as Head } from "../../components/FriendsListHead";
 import FriendIcon from "../../fragments/ConversationList/icons/friend";
 import GroupDMIcon from "../../fragments/Icons/group_dm";
@@ -7,6 +9,7 @@ import { useStateValue } from "../../providers/StateProvider";
 import { actionTypes } from "../../reducers/state_reducer";
 
 export default function FriendsListHead() {
+  const themeContext = useContext(ThemeContext);
   const {
     state: { friendsListTab, friendRequests, user },
     dispatch,
@@ -27,7 +30,7 @@ export default function FriendsListHead() {
     <Head>
       <Head.Left>
         <Head.IconWrapper>
-          <FriendIcon fill="#8E9297" />
+          <FriendIcon fill={themeContext.channelIcon} />
         </Head.IconWrapper>
         <Head.Text>Friends</Head.Text>
         <Head.Divider />

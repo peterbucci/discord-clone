@@ -26,7 +26,11 @@ Sidebar.Icon = ({ children, ...restProps }) => {
 };
 
 Sidebar.HorizontalLine = (props) => {
-  return <HorizontalLine {...props} />;
+  return (
+    <Item>
+      <HorizontalLine {...props} />
+    </Item>
+  );
 };
 
 Sidebar.Pill = (props) => {

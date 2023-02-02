@@ -20,6 +20,8 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "firebase.js";
 import Loading from "pages/Loading";
 import { getFriendRequestsSnapshot } from "../api/get_snapshots";
+import { ThemeProvider } from "styled-components";
+import darkTheme from "themes/dark";
 const provider = new GoogleAuthProvider();
 
 const StateContext = createContext();
@@ -108,16 +110,18 @@ export const StateProvider = ({ children }) => {
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>
-      {state.user &&
-      friendCount === Object.keys(state.friends).length &&
-      conversationCount === Object.values(state.conversations).length &&
-      channelCount === Object.values(state.channels).length ? (
-        children
-      ) : initialRenderRef.current || state.uid ? (
-        <Loading />
-      ) : (
-        <div onClick={() => signInWithPopup(auth, provider)}>Sign in</div>
-      )}
+      <ThemeProvider theme={darkTheme}>
+        {state.user &&
+        friendCount === Object.keys(state.friends).length &&
+        conversationCount === Object.values(state.conversations).length &&
+        channelCount === Object.values(state.channels).length ? (
+          children
+        ) : initialRenderRef.current || state.uid ? (
+          <Loading />
+        ) : (
+          <div onClick={() => signInWithPopup(auth, provider)}>Sign in</div>
+        )}
+      </ThemeProvider>
     </StateContext.Provider>
   );
 };

@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { useLocation } from "react-router-dom";
 import { default as NewSidebar } from "../../components/Sidebar";
 import DirectMessagesIcon from "./DirectMessagesIcon";
@@ -29,6 +30,7 @@ const ADDITIONAL_ICONS = [
 ];
 
 export default function Sidebar() {
+  const themeContext = useContext(ThemeContext);
   const {
     state: { channels },
   } = useStateValue();
@@ -38,7 +40,7 @@ export default function Sidebar() {
   const iconsRef = useRef([]);
 
   useEffect(() => {
-    setIconSelected(location.pathname.toLowerCase());
+    setIconSelected(location.pathname);
   }, [location]);
 
   const directMessagesSelected =
@@ -86,8 +88,8 @@ export default function Sidebar() {
               url={url}
             >
               <NewSidebar.Icon
-                color="#3BA55D"
-                fillStyleHover="#ffffff"
+                color={themeContext.statusGreen600}
+                fillStyleHover={themeContext.white}
                 selected={selected}
               >
                 <Icon selected={selected} path={path} pathProps={pathProps} />

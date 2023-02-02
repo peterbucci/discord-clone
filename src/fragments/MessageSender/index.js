@@ -28,8 +28,8 @@ export default function MessageSender({
   value,
   id,
   setEdit,
-  messageToReply,
-  setMessageToReply,
+  replyToMessage,
+  setReplyToMessage,
 }) {
   const mouseDownRef = useRef(false);
   const [displayFormatToolbar, setDisplayFormatToolbar] = useState(false);
@@ -64,7 +64,7 @@ export default function MessageSender({
           sender: user,
           nodes: editor.children,
           timestamp: new Date(),
-          reply: messageToReply,
+          reply: replyToMessage,
         });
         // Delete all entries leaving 1 empty node
         Transforms.delete(editor, {
@@ -82,6 +82,7 @@ export default function MessageSender({
         // Insert array of children nodes
         Transforms.insertNodes(editor, initialValue);
       }
+      setReplyToMessage(null);
     }
   };
 
@@ -100,10 +101,10 @@ export default function MessageSender({
 
   const onMouseUp = useCallback(() => {
     if (mouseDownRef.current) {
-      handleSelection(editor, setDisplayFormatToolbar);
+      handleSelection(editor, setDisplayFormatToolbar, editMessageLayout);
       mouseDownRef.current = false;
     }
-  }, [editor]);
+  }, [editor, editMessageLayout]);
 
   useEffect(() => {
     document.addEventListener("mouseup", onMouseUp);
@@ -117,16 +118,16 @@ export default function MessageSender({
         onSubmit={(event) => event.preventDefault()}
         editMessageLayout={editMessageLayout}
       >
-        {messageToReply && (
+        {replyToMessage && (
           <NewMessageSender.AttachedBars>
             <ReplyTo
-              messageToReply={messageToReply}
-              setMessageToReply={setMessageToReply}
+              replyToMessage={replyToMessage}
+              setReplyToMessage={setReplyToMessage}
               conversationId={conversationId}
             />
           </NewMessageSender.AttachedBars>
         )}
-        <NewMessageSender.ScrollableContainer attachedBar={messageToReply}>
+        <NewMessageSender.ScrollableContainer attachedBar={replyToMessage}>
           <FormatToolbar
             displayFormatToolbar={displayFormatToolbar}
             editor={editor}
@@ -141,7 +142,7 @@ export default function MessageSender({
             )}
             <NewMessageSender.TextboxWrapper>
               <NewMessageSender.Textbox
-                id="messageSender"
+                id={`messageSender${editMessageLayout ? "Edit" : ""}`}
                 placeholder={!editMessageLayout ? "Message @" : ""}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}

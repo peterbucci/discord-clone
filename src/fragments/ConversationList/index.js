@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "styled-components";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import updateActiveConversations from "../../api/update_active_conversations";
 import ChannelLeft from "../../components/ChannelLeft";
@@ -16,6 +17,7 @@ import NitroIcon from "./icons/nitro";
 import SnowsgivingIcon from "./icons/snowsgiving";
 
 export default function ConversationList() {
+  const themeContext = useContext(ThemeContext);
   const { state, dispatch } = useStateValue();
   const user = state.users[state.user];
   const conversations = state.activeConversations.map(
@@ -51,7 +53,11 @@ export default function ConversationList() {
             selected={pathname === "/channels/@me"}
           >
             <FriendIcon
-              fill={pathname === "/channels/@me" ? "#dcddde" : "#96989D"}
+              fill={
+                pathname === "/channels/@me"
+                  ? themeContext.textNormal
+                  : themeContext.channelsDefault
+              }
               className="iconPath"
             />
             Friends
@@ -62,7 +68,11 @@ export default function ConversationList() {
           </ChannelLeft.Row>
           <ChannelLeft.Row url="/store" selected={pathname === "/store"}>
             <NitroIcon
-              fill={pathname === "/store" ? "#dcddde" : "#96989D"}
+              fill={
+                pathname === "/store"
+                  ? themeContext.textNormal
+                  : themeContext.channelsDefault
+              }
               className="iconPath"
             />
             Nitro
@@ -131,7 +141,10 @@ export default function ConversationList() {
             <ChannelLeft.NameTagRow weight="600">
               {user.name}
             </ChannelLeft.NameTagRow>
-            <ChannelLeft.NameTagRow fontSize="12px" color="#B9BBBE">
+            <ChannelLeft.NameTagRow
+              fontSize="12px"
+              color={themeContext.interactiveNormal}
+            >
               #{user.tag}
             </ChannelLeft.NameTagRow>
           </ChannelLeft.NameTag>

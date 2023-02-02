@@ -5,8 +5,8 @@ export const Left = styled.div`
   display: flex;
   flex-direction: column;
   width: 240px;
-  background-color: #2f3136;
-  color: #ffffff;
+  background-color: ${({ theme }) => theme.backgroundSecondary};
+  color: ${({ theme }) => theme.white};
 `;
 
 export const LeftHead = styled.div`
@@ -15,7 +15,7 @@ export const LeftHead = styled.div`
   justify-content: center;
   flex-shrink: 0;
   height: 48px;
-  box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
+  box-shadow: ${({ theme }) => theme.elevationLow};
 `;
 
 export const LeftBody = styled.div`
@@ -33,17 +33,17 @@ export const LeftGroupHeader = styled.h2`
   padding: 18px 8px 4px 18px;
   font-size: 12px;
   font-weight: 600;
-  color: #96989d;
+  color: ${({ theme }) => theme.channelsDefault};
   cursor: default;
   & svg {
     margin-right: 2px;
     cursor: pointer;
     &:hover {
-      fill: #dcddde;
+      fill: ${({ theme }) => theme.textNormal};
     }
   }
   &:hover {
-    color: #dcddde;
+    color: ${({ theme }) => theme.textNormal};
   }
 `;
 
@@ -57,10 +57,11 @@ export const LeftRow = styled.div`
   height: 42px;
   margin: ${({ channel }) => (channel ? "1px 0 1px 8px" : "1px 8px")};
   padding: ${({ channel }) => (channel ? "0" : "0 8px")};
-  background-color: ${(props) =>
-    props.selected ? "rgba(79, 84, 92, 0.6)" : "auto"};
+  background-color: ${({ selected, theme }) =>
+    selected ? theme.backgroundModifierSelected : "auto"};
   border-radius: 4px;
-  color: ${(props) => (props.selected ? "#dcddde" : "#96989D")};
+  color: ${({ selected, theme }) =>
+    selected ? theme.textNormal : theme.channelsDefault};
   font-family: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial,
     sans-serif;
   font-size: 16px;
@@ -70,22 +71,22 @@ export const LeftRow = styled.div`
   user-select: none;
   cursor: ${(props) => (props.disabled ? "auto" : "pointer")};
   &:hover {
-    background-color: ${(props) =>
-      props.selected || props.disabled ? "auto" : "rgba(79, 84, 92, 0.4)"};
-    color: #dcddde;
+    background-color: ${({ selected, disabled, theme }) =>
+      selected || disabled ? "auto" : theme.backgroundModifierHover};
+    color: ${({ theme }) => theme.textNormal};
     & .iconPath {
-      fill: #dcddde;
+      fill: ${({ theme }) => theme.textNormal};
     }
     & .deleteConversationIcon {
       opacity: 1;
     }
   }
   &:active {
-    background-color: ${(props) =>
-      props.disabled ? "auto" : "rgba(79, 84, 92, 0.7)"};
-    color: #ffffff;
+    background-color: ${({ disabled, theme }) =>
+      disabled ? "auto" : theme.backgroundModifierActive};
+    color: ${({ theme }) => theme.white};
     & .iconPath {
-      fill: #ffffff;
+      fill: ${({ theme }) => theme.white};
     }
   }
   & > svg:first-child {
@@ -116,7 +117,7 @@ export const DeleteConversationIcon = styled.div`
   box-sizing: content-box;
   opacity: 0;
   &:hover path {
-    fill: #ffffff;
+    fill: ${({ theme }) => theme.white};
   }
 `;
 
@@ -126,7 +127,7 @@ export const LeftFooter = styled.div`
   align-items: center;
   padding: 0 8px;
   height: 53px;
-  background-color: #292b2f;
+  background-color: ${({ theme }) => theme.backgroundSecondaryAlt};
 `;
 
 export const UserInfoWrapper = styled.div`
@@ -138,7 +139,7 @@ export const UserInfoWrapper = styled.div`
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: rgba(79, 84, 92, 0.6);
+    background-color: ${({ theme }) => theme.backgroundModifierSelected};
   }
 `;
 
@@ -174,9 +175,9 @@ export const IconWrapper = styled.div`
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: rgba(79, 84, 92, 0.6);
+    background-color: ${({ theme }) => theme.backgroundModifierSelected};
     & .iconPath {
-      fill: #dcddde;
+      fill: ${({ theme }) => theme.textNormal};
     }
   }
 `;

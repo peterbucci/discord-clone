@@ -32,7 +32,7 @@ export const Description = styled.div`
   line-height: 20px;
   font-size: 16px;
   font-weight: 400;
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
 `;
 
 export const Strong = styled.strong`
@@ -55,7 +55,7 @@ export const Divider = styled.div`
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background-color: #4f545c;
+  background-color: ${({ theme }) => theme.interactiveMuted};
 `;
 
 export const FriendRequestSent = styled.div`
@@ -76,11 +76,11 @@ export const Button = styled.button`
   min-width: 52px;
   min-height: 24px;
   background: none;
-  background-color: ${({ altBackground }) =>
-    altBackground ? "#5865F2" : "#4f545c"};
+  background-color: ${({ altBackground, theme }) =>
+    altBackground ? theme.brand : theme.interactiveMuted};
   border: none;
   border-radius: 3px;
-  color: #ffffff;
+  color: ${({ theme }) => theme.white};
   line-height: 16px;
   font-size: 14px;
   font-weight: 600;
@@ -88,15 +88,15 @@ export const Button = styled.button`
   user-select: none;
   cursor: pointer;
   &:hover {
-    background-color: ${({ altBackground }) =>
-      altBackground ? "#4752C4" : "#686d73"};
+    background-color: ${({ altBackground, theme }) =>
+      altBackground ? theme.brand560 : theme.buttonSecondaryBackgroundHover};
   }
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
     &:hover {
-      background-color: ${({ altBackground }) =>
-        altBackground ? "#5865F2" : "#4f545c"};
+      background-color: ${({ altBackground, theme }) =>
+        altBackground ? theme.brand : theme.interactiveMuted};
     }
   }
 `;

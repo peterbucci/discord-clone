@@ -10,7 +10,6 @@ export default function FriendIcon({ fill, ...pathProps }) {
           transform="translate(2 4)"
           {...pathProps}
         ></SvgIcon.Path>
-        <SvgIcon.Path d="M0,0 L24,0 L24,24 L0,24 L0,0 Z M0,0 L24,0 L24,24 L0,24 L0,0 Z M0,0 L24,0 L24,24 L0,24 L0,0 Z"></SvgIcon.Path>
       </SvgIcon.Group>
     </SvgIcon>
   );

@@ -10,8 +10,8 @@ export const Right = styled.div`
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
-  background-color: #36393f;
-  color: #ffffff;
+  background-color: ${({ theme }) => theme.backgroundPrimary};
+  color: ${({ theme }) => theme.white};
 `;
 
 export const RightHead = styled.div`
@@ -21,7 +21,7 @@ export const RightHead = styled.div`
   margin-bottom: 1px;
   padding: 0 8px;
   height: 48px;
-  box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
+  box-shadow: ${({ theme }) => theme.elevationLow};
 `;
 
 export const RightHeadTitle = styled.div`
@@ -40,7 +40,8 @@ export const RightHeadIconWrapper = styled.div`
   height: 24px;
   width: auto;
   & path {
-    fill: ${({ highlighted }) => (highlighted ? "#ffffff" : "#B9BBBE")};
+    fill: ${({ highlighted, theme }) =>
+      highlighted ? theme.white : theme.interactiveNormal};
   }
 `;
 
@@ -51,7 +52,7 @@ export const RightHeadRecipient = styled.div`
   line-height: 20px;
   font-size: 16px;
   font-weight: 600;
-  color: #ffffff;
+  color: ${({ theme }) => theme.white};
   cursor: pointer;
 `;
 
@@ -69,7 +70,7 @@ export const RightHeadToolbar = styled.div`
   & div:hover {
     cursor: pointer;
     & path {
-      fill: #dcddde;
+      fill: ${({ theme }) => theme.textNormal};
     }
   }
 `;
@@ -82,8 +83,8 @@ export const RightHeadSearchWrapper = styled.div`
   height: 24px;
   width: 144px;
   border-radius: 4px;
-  background-color: #202225;
-  color: #dcddde;
+  background-color: ${({ theme }) => theme.backgroundTertiary};
+  color: ${({ theme }) => theme.textNormal};
   cursor: text !important;
   overflow: hidden;
 `;
@@ -130,7 +131,7 @@ export const DailyDivider = styled.div`
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   height: 0;
-  border-top: 1px solid rgba(79, 84, 92, 0.48);
+  border-top: ${({ theme }) => `1px solid ${theme.backgroundModifierAccent}`};
   pointer-events: none;
   z-index: 1;
 `;
@@ -140,7 +141,7 @@ export const DailyDividerText = styled.span`
   flex: 0 0 auto;
   margin-top: -1px;
   padding: 2px 4px;
-  color: #a3a6aa;
+  color: ${({ theme }) => theme.textMuted};
   line-height: 13px;
   font-size: 11.5px;
   font-weight: 600;
@@ -160,6 +161,7 @@ export const RightSidebar = styled.div`
   padding: ${({ padding }) => padding ?? 0};
   width: ${({ width }) => width ?? "340px"};
   border-left: ${({ border }) => border ?? "0"};
-  background-color: ${({ backgroundColor }) => backgroundColor ?? "#292b2f"};
+  background-color: ${({ backgroundColor, theme }) =>
+    backgroundColor ?? theme.backgroundSecondaryAlt};
   overflow-y: auto;
 `;

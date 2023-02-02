@@ -9,7 +9,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #2a2b32;
+  background-color: ${({ theme }) => theme.backgroundLoading};
   transform: translateZ(0);
   z-index: 3000;
   overflow: hidden;
@@ -33,7 +33,7 @@ const Text = styled.div`
 const Head = styled.div`
   margin-bottom: 8px;
   max-width: 300px;
-  color: #ffffff;
+  color: ${({ theme }) => theme.white};
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -42,7 +42,7 @@ const Head = styled.div`
 
 const Paragraph = styled.div`
   max-width: 300px;
-  color: #dcddde;
+  color: ${({ theme }) => theme.textNormal};
   font-size: 16px;
   line-height: 20px;
 `;

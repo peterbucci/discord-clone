@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.aside`
   flex-shrink: 0;
   width: 340px;
-  background-color: #292b2f;
+  background-color: ${({ theme }) => theme.backgroundSecondaryAlt};
   overflow-y: auto;
 `;
 
@@ -12,7 +12,7 @@ export const InnerContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   border-radius: 8px 8px 0 0;
-  color: #ffffff;
+  color: ${({ theme }) => theme.white};
 `;
 
 export const Header = styled.div`
@@ -32,11 +32,11 @@ export const BannerMask = styled.mask``;
 export const BannerMaskRect = styled.rect`
   width: 100%;
   height: 100%;
-  fill: white;
+  fill: ${({ theme }) => theme.white};
 `;
 
 export const BannerMaskCircle = styled.circle`
-  fill: black;
+  fill: ${({ theme }) => theme.black};
   cx: 58;
   cy: ${({ absolutePosition }) =>
     absolutePosition ? "calc(112 - 60)" : "112"};
@@ -82,7 +82,7 @@ export const UserPanelOverlay = styled.div`
   flex-direction: column;
   margin: 16px;
   padding: 0 12px 12px;
-  background-color: #18191c;
+  background-color: ${({ theme }) => theme.backgroundHover};
   border-radius: 8px;
   overflow: hidden;
 `;
@@ -112,7 +112,7 @@ export const UserPanelDivider = styled.div`
   top: 0;
   margin-top: 12px;
   height: 1px;
-  background-color: rgba(79, 84, 92, 0.48);
+  background-color: ${({ theme }) => theme.backgroundModifierAccent};
 `;
 
 export const UserText = styled.div`
@@ -131,7 +131,7 @@ export const Username = styled.span`
 `;
 
 export const UserTag = styled.span`
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
   vertical-align: top;
 `;
 
@@ -164,9 +164,9 @@ export const NoteEdit = styled.textarea`
   width: 100%;
   line-height: 14px;
   font-size: 12px;
-  color: #ffffff;
+  color: ${({ theme }) => theme.white};
   box-sizing: border-box;
   &::placeholder {
-    color: #b9bbbe;
+    color: ${({ theme }) => theme.interactiveNormal};
   }
 `;

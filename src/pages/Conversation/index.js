@@ -5,9 +5,6 @@ import updateUser from "../../api/update_user";
 import Channel from "../../components/Channel";
 import ConversationList from "../../fragments/ConversationList";
 import { useStateValue } from "../../providers/StateProvider";
-import Message from "./Message";
-import sameDay from "../../helpers/same_day";
-import MessageSender from "../../fragments/MessageSender";
 import ProfilePanel from "../../fragments/ProfilePanel";
 import LayerContainer from "../../fragments/LayerContainer";
 import AtIcon from "./icons/at";
@@ -19,13 +16,11 @@ import AddFriendIcon from "./icons/add_friend";
 import HideProfileIcon from "./icons/hide_profile";
 import InboxIcon from "./icons/inbox";
 import HelpIcon from "./icons/help";
-import Head from "./Head";
+import Body from "./Body";
 
 export default function Conversation() {
   const profilePanelRef = useRef(null);
   const [layerDetails, setLayerDetails] = useState(null);
-  const [messageToEdit, setMessageToEdit] = useState(null);
-  const [messageToReply, setMessageToReply] = useState(null);
   const {
     state: { user, users, conversations, messages },
   } = useStateValue();
@@ -33,9 +28,6 @@ export default function Conversation() {
   const params = useParams();
   const conversationId = params.conversationId;
   const conversation = conversations[conversationId];
-  const conversationMessages = messages[conversationId]
-    ? Object.values(messages[conversationId])
-    : [];
 
   const sender = users[user];
   const recipientId = Object.keys(conversation.users).find((id) => id !== user);
@@ -47,16 +39,6 @@ export default function Conversation() {
       conversationContainer.scrollTo(0, conversationContainer.scrollHeight);
     }
   }, [messages]);
-
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") setMessageToEdit(null);
-    };
-    if (messageToEdit) {
-      document.addEventListener("keydown", onKeyDown);
-    }
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [messageToEdit]);
 
   useEffect(() => {
     if (conversation) {
@@ -110,53 +92,12 @@ export default function Conversation() {
             </Channel.RightHeadIconWrapper>
           </Channel.RightHeadToolbar>
         </Channel.RightHead>
-        <Channel.RightBody>
-          <Channel.RightMainWrapper>
-            <Channel.RightMain ref={conversationRef}>
-              <Channel.Conversation>
-                <Head recipientId={recipientId} />
-                {conversationMessages.map(
-                  ({ sender, id, ...message }, idx, arr) => {
-                    const date = message.timestamp.toDate();
-                    const prevDate = arr[idx - 1]?.timestamp.toDate();
-                    return (
-                      <React.Fragment key={id}>
-                        {(!prevDate || !sameDay(date, prevDate)) && (
-                          <Channel.DailyDivider>
-                            {date.toLocaleString("default", {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            })}
-                          </Channel.DailyDivider>
-                        )}
-                        <Message
-                          {...message}
-                          sender={users[sender]}
-                          id={id}
-                          prevPost={arr[idx - 1]}
-                          edit={messageToEdit === id}
-                          conversationId={conversationId}
-                          setEdit={setMessageToEdit}
-                          setMessageToReply={setMessageToReply}
-                          setLayerDetails={setLayerDetails}
-                        />
-                      </React.Fragment>
-                    );
-                  }
-                )}
-                <Channel.ConversationSpacer />
-              </Channel.Conversation>
-            </Channel.RightMain>
-            <Channel.RightMainFooter>
-              <MessageSender
-                messageToReply={messageToReply}
-                setMessageToReply={setMessageToReply}
-              />
-            </Channel.RightMainFooter>
-          </Channel.RightMainWrapper>
-          {!sender.hideUserProfile && <ProfilePanel id={recipientId} />}
-        </Channel.RightBody>
+        <Body
+          conversationRef={conversationRef}
+          recipientId={recipientId}
+          conversationId={conversationId}
+          setLayerDetails={setLayerDetails}
+        />
       </Channel.Right>
       <LayerContainer
         anchorRef={layerDetails?.anchorRef}

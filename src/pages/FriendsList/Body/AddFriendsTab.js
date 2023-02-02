@@ -2,6 +2,7 @@ import { useState } from "react";
 import AddFriend from "components/AddFriend";
 import searchForFriend from "api/search_for_friend";
 import { useStateValue } from "providers/StateProvider";
+import RightArrowIcon from "../icons/right_arrow";
 
 const formatAlertMessage = (alert, searchText) => {
   return alert === "success" ? (
@@ -106,20 +107,7 @@ export default function AddFriendsTab() {
         <AddFriend.ExploreButtonText>
           Explore Public Servers
         </AddFriend.ExploreButtonText>
-        <svg
-          fill="none"
-          height="20"
-          viewBox="0 0 20 20"
-          width="20"
-          style={{ marginLeft: "auto", marginRight: "16px" }}
-        >
-          <path
-            clipRule="evenodd"
-            d="m5.41667 4.2625 5.66573 5.7375-5.66573 5.7375 1.74426 1.7625 7.42237-7.5-7.42237-7.5z"
-            fill="#B9BBBE"
-            fillRule="evenodd"
-          ></path>
-        </svg>
+        <RightArrowIcon />
       </AddFriend.ExploreButton>
       <AddFriend.Footer>
         <AddFriend.FooterImg />

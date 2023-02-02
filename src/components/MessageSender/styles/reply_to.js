@@ -18,7 +18,7 @@ export const ButtonText = styled.div`
   margin-left: 16px;
   font-size: 14px;
   line-height: 18px;
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -43,6 +43,6 @@ export const CloseButton = styled.div`
   line-height: 0;
   cursor: pointer;
   &:hover svg path {
-    fill: #dcddde;
+    fill: ${({ theme }) => theme.textNormal};
   }
 `;

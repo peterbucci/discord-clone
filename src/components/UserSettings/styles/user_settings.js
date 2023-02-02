@@ -6,7 +6,7 @@ export const Container = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #36393f;
-  color: #ffffff;
+  background-color: ${({ theme }) => theme.backgroundPrimary};
+  color: ${({ theme }) => theme.white};
   z-index: 1000;
 `;

@@ -2,9 +2,10 @@ import styled from "styled-components";
 
 export const ListItem = styled.li`
   position: relative;
-  background-color: ${({ edit }) => (edit ? "#2f3136" : "initial")};
+  background-color: ${({ edit, theme }) =>
+    edit ? theme.backgroundSecondary : "initial"};
   &:hover {
-    background-color: #2f3136;
+    background-color: ${({ theme }) => theme.backgroundSecondary};
     & .newMessageTimestamp {
       opacity: 1;
     }
@@ -31,7 +32,7 @@ export const Reply = styled.div`
   align-items: center;
   margin-bottom: 4px;
   font-size: 0.875rem;
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
   &:before {
     content: "";
     display: block;
@@ -42,10 +43,10 @@ export const Reply = styled.div`
     left: 35px;
     width: 33px;
     height: 16px;
-    border-left: 2px solid #4f545c;
-    border-bottom: 0 solid #4f545c;
-    border-right: 0 solid #4f545c;
-    border-top: 2px solid #4f545c;
+    border-left: ${({ theme }) => `2px solid ${theme.interactiveMuted}`};
+    border-bottom: ${({ theme }) => `0 solid ${theme.interactiveMuted}`};
+    border-right: ${({ theme }) => `0 solid ${theme.interactiveMuted}`};
+    border-top: ${({ theme }) => `2px solid ${theme.interactiveMuted}`};
     border-top-left-radius: 6px;
   }
 `;
@@ -106,7 +107,7 @@ export const HeaderSpan = styled.span`
     margin-left: 0.25rem;
     font-size: 0.65em;
     font-weight: 400;
-    color: #a3a6aa;
+    color: ${({ theme }) => theme.textMuted};
   }
 `;
 
@@ -119,7 +120,7 @@ export const Timestamp = styled.div`
   line-height: 1.35rem;
   font-size: 0.6875rem;
   text-align: right;
-  color: #a3a6aa;
+  color: ${({ theme }) => theme.textMuted};
   user-select: none;
   opacity: 0;
   z-index: 1;
@@ -129,7 +130,7 @@ export const Text = styled.div`
   user-select: text;
   margin-left: -72px;
   padding-left: 72px;
-  color: #dcddde;
+  color: ${({ theme }) => theme.textNormal};
 `;
 
 export const Paragraph = styled.div`
@@ -156,9 +157,9 @@ export const ButtonsWrapper = styled.div`
   display: grid;
   grid-auto-flow: column;
   height: 32px;
-  box-shadow 0 0 0 1px rgba(4, 4, 5 ,0.15);
+  box-shadow ${({ theme }) => `0 0 0 1px ${theme.elevationStroke}`};
   border-radius: 4px;
-  background-color: #36393f;
+  background-color: ${({ theme }) => theme.backgroundPrimary};
 `;
 
 export const Button = styled.div`
@@ -169,10 +170,10 @@ export const Button = styled.div`
   width: 32px;
   cursor: pointer;
   &:hover {
-    background-color: rgba(79, 84, 92, 0.4);
+    background-color: ${({ theme }) => theme.backgroundModifierHover};
   }
   &:hover svg path {
-    fill: #dcddde;
+    fill: ${({ theme }) => theme.textNormal};
   }
 `;
 
@@ -180,7 +181,7 @@ export const EditedTimestamp = styled.span`
   position: relative;
   font-size: 0.65rem;
   line-height: 1.375rem;
-  color: #a3a6aa;
+  color: ${({ theme }) => theme.textMuted};
   vertical-align: baseline;
   cursor: default;
   user-select: none;
@@ -197,12 +198,12 @@ export const EditedTimestampHover = styled.div`
   display: none;
   padding: 6px;
   white-space: nowrap;
-  background-color: #18191c;
-  box-shadow: rgba(0, 0, 0, 0.24) 0 8px 16px;
+  background-color: ${({ theme }) => theme.backgroundHover};
+  box-shadow: ${({ theme }) => `hsl(${theme.black500HSL} / 0.24) 0 8px 16px`};
   border-radius: 4px;
   font-size: 0.85rem;
   font-weight: 500;
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
   z-index: 100;
   &:after {
     content: "";
@@ -214,6 +215,6 @@ export const EditedTimestampHover = styled.div`
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid #18191c;
+    border-top: ${({ theme }) => `5px solid ${theme.backgroundHover}`};
   }
 `;

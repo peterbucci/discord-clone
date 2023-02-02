@@ -30,16 +30,21 @@ export default async function addFriend(userId, friendId) {
     note: "",
   });
 
-  // Create Conversation
-
-  const conversationsRef = collection(db, "conversations");
   const userMap = {
     [userId]: null,
     [friendId]: null,
   };
-  const q = query(conversationsRef, where("users", "==", userMap));
+  const q = query(
+    collection(db, "conversations"),
+    where("users", "==", userMap)
+  );
 
   const querySnapshot = await getDocs(q);
+
+  /**
+   * Conversation may exist between users prior to friend request.
+   * If so, don't need to create a new one
+   */
   if (querySnapshot.empty) {
     const conversationDoc = doc(collection(db, "conversations"));
     setDoc(conversationDoc, {
@@ -67,7 +72,6 @@ export default async function addFriend(userId, friendId) {
     });
   }
 
-  // Create Conversation
-
+  // Clear out request now that it has been resolved.
   deleteFriendRequest(friendId, userId, true);
 }

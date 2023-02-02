@@ -7,7 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: row;
   height: 32px;
-  background-color: #18191c;
+  background-color: ${({ theme }) => theme.backgroundHover};
   border-radius: 4px;
   opacity: ${({ visible }) => (visible ? "1" : "0")};
   z-index: 100;
@@ -19,9 +19,9 @@ export const Button = styled.button`
   width: 32px;
   cursor: pointer;
   &:hover {
-    background-color: rgba(79, 84, 92, 0.48);
+    background-color: ${({ theme }) => theme.backgroundModifierAccent};
     & svg path {
-      fill: #ffffff;
+      fill: ${({ theme }) => theme.white};
     }
   }
 `;
@@ -36,7 +36,7 @@ export const IconWrapper = styled.div`
 `;
 
 export const VerticalDivider = styled.div`
-  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: ${({ theme }) => `1px solid hsl(${theme.white500HSL} / 0.06)`};
   display: inline-block;
   height: 20px;
   margin: 6px;

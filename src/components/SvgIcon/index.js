@@ -31,7 +31,11 @@ SvgIcon.Group = ({ children, ...restProps }) => {
 };
 
 SvgIcon.Path = ({ children, ...restProps }) => {
-  return <Path {...restProps}>{children}</Path>;
+  return (
+    <Path fill="currentColor" {...restProps}>
+      {children}
+    </Path>
+  );
 };
 
 SvgIcon.Polygon = ({ children, ...restProps }) => {

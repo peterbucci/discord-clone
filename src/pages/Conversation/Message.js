@@ -19,7 +19,7 @@ export default function Message({
   conversationId,
   setEdit,
   edited,
-  setMessageToReply,
+  setReplyToMessage,
   setLayerDetails,
 }) {
   const senderAvatarRef = useRef(null);
@@ -174,7 +174,7 @@ export default function Message({
                 <EditIcon />
               </NewMessage.Button>
             ) : (
-              <NewMessage.Button onClick={() => setMessageToReply(id)}>
+              <NewMessage.Button onClick={() => setReplyToMessage(id)}>
                 <ReplyIcon />
               </NewMessage.Button>
             )}

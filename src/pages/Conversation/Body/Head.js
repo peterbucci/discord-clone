@@ -1,9 +1,9 @@
-import addFriend from "../../api/add_friend";
-import deleteFriend from "../../api/delete_friend";
-import deleteFriendRequest from "../../api/delete_friend_request";
-import sendFriendRequest from "../../api/send_friend_request";
-import ConversationHead from "../../components/ConversationHead";
-import { useStateValue } from "../../providers/StateProvider";
+import addFriend from "api/add_friend";
+import deleteFriend from "api/delete_friend";
+import deleteFriendRequest from "api/delete_friend_request";
+import sendFriendRequest from "api/send_friend_request";
+import ConversationHead from "components/ConversationHead";
+import { useStateValue } from "providers/StateProvider";
 
 export default function Head({ recipientId }) {
   const {

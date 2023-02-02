@@ -3,14 +3,14 @@ import { useStateValue } from "../../providers/StateProvider";
 import CloseIcon from "./icons/close";
 
 export default function ReplyTo({
-  messageToReply,
-  setMessageToReply,
+  replyToMessage,
+  setReplyToMessage,
   conversationId,
 }) {
   const {
     state: { messages, users },
   } = useStateValue();
-  const message = messages[conversationId][messageToReply];
+  const message = messages[conversationId][replyToMessage];
   const sender = users[message.sender];
   return (
     <NewReplyTo>
@@ -20,7 +20,7 @@ export default function ReplyTo({
         </NewReplyTo.ButtonText>
       </NewReplyTo.Button>
       <NewReplyTo.Actions>
-        <NewReplyTo.CloseButton onClick={() => setMessageToReply(null)}>
+        <NewReplyTo.CloseButton onClick={() => setReplyToMessage(null)}>
           <CloseIcon />
         </NewReplyTo.CloseButton>
       </NewReplyTo.Actions>

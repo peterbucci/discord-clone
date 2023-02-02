@@ -9,7 +9,8 @@ export const Container = styled.div`
 export const HeadOne = styled.header`
   margin-bottom: 1px;
   padding: 20px 30px;
-  border-bottom: 1px solid rgba(79, 84, 92, 0.48);
+  border-bottom: ${({ theme }) => `1px solid
+    ${theme.backgroundModifierAccent}`};
 `;
 
 export const HeadOneTitle = styled.h2`
@@ -26,7 +27,7 @@ export const SearchFormText = styled.div`
   line-height: 20px;
   font-size: 13px;
   font-weight: 400;
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
 `;
 
 export const SearchbarOuterWrapper = styled.div`
@@ -35,16 +36,16 @@ export const SearchbarOuterWrapper = styled.div`
   margin-top: 16px;
   padding: 0 12px;
   height: 48px;
-  border: ${({ alert }) =>
+  border: ${({ alert, theme }) =>
     `1px solid ${
       alert?.props.success
-        ? "#3BA55C"
+        ? theme.statusGreen600
         : alert
-        ? "#EE4245"
-        : "rgba(0, 0, 0, 0.3)"
+        ? theme.statusDanger
+        : theme.textInputBorder
     }`};
   border-radius: 8px;
-  background-color: #202225;
+  background-color: ${({ theme }) => theme.backgroundTertiary};
 `;
 
 export const SearchbarInnerWrapper = styled.div`
@@ -74,7 +75,7 @@ export const SearchbarInputUnderlay = styled.div`
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  color: #4f545c;
+  color: ${({ theme }) => theme.interactiveMuted};
   z-index: 1;
 `;
 
@@ -86,17 +87,17 @@ export const SearchbarButton = styled.button`
   width: auto;
   min-width: 60px;
   border-radius: 3px;
-  background-color: #5865f2;
+  background-color: ${({ theme }) => theme.brand};
   line-height: 16px;
   font-size: 13px;
   font-weight: 500;
-  color: #ffffff;
+  color: ${({ theme }) => theme.white};
   cursor: pointer;
   &:hover:enabled {
-    background-color: #4752c4;
+    background-color: ${({ theme }) => theme.brand560};
   }
   &:active:enabled {
-    background-color: #3d46a8;
+    background-color: ${({ theme }) => theme.brand600};
   }
   &:disabled {
     cursor: not-allowed;
@@ -107,7 +108,8 @@ export const SearchbarButton = styled.button`
 export const Alert = styled.div`
   margin-top: 8px;
   line-height: 20px;
-  color: ${({ success }) => (success ? "#46C46E" : "#f38688")};
+  color: ${({ success, theme }) =>
+    success ? theme.textPositive : theme.textDanger};
   font-size: 14px;
   font-weight: 400;
 `;
@@ -139,15 +141,15 @@ export const ExploreButton = styled.button`
   align-items: center;
   padding: 1px 6px;
   width: 100%;
-  background-color: #2f3136;
-  border: 1px solid rgba(79, 84, 92, 0.48);
+  background-color: ${({ theme }) => theme.backgroundSecondary};
+  border: ${({ theme }) => `1px solid ${theme.backgroundModifierAccent}`};
   border-radius: 8px;
   cursor: pointer;
   &:hover {
-    background-color: rgba(79, 84, 92, 0.4);
+    background-color: ${({ theme }) => theme.backgroundModifierHover};
   }
   &:active {
-    background-color: rgba(79, 84, 92, 0.48);
+    background-color: ${({ theme }) => theme.backgroundModifierAccent};
   }
 `;
 
@@ -158,13 +160,13 @@ export const ExploreButtonImg = styled.img`
   margin: 8px;
   width: 36px;
   height: 36px;
-  background-color: #3ba55d;
+  background-color: ${({ theme }) => theme.statusGreen600};
   border-radius: 8px;
 `;
 
 export const ExploreButtonText = styled.div`
   line-height: 20px;
-  color: #dcddde;
+  color: ${({ theme }) => theme.textNormal};
   font-size: 15px;
   font-weight: 500;
   overflow: hidden;
@@ -195,7 +197,7 @@ export const FooterImg = styled.div`
 
 export const FooterText = styled.div`
   flex: 0 1 auto;
-  color: #a3a6aa;
+  color: ${({ theme }) => theme.textMuted};
   font-size: 15px;
   line-height: 20px;
 `;

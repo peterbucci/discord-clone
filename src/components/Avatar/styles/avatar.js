@@ -8,13 +8,13 @@ export const Svg = styled.svg.attrs(({ size }) => ({
 `;
 export const Mask = styled.mask``;
 export const TransparentRect = styled.rect`
-  fill: #000000;
+  fill: ${({ theme }) => theme.black};
 `;
 export const VisibleCircle = styled.circle`
-  fill: #ffffff;
+  fill: ${({ theme }) => theme.white};
 `;
 export const TransparentCircle = styled.circle`
-  fill: #000000;
+  fill: ${({ theme }) => theme.black};
 `;
 
 export const ForeignObject = styled.foreignObject`
@@ -34,12 +34,12 @@ export const StatusRect = styled.rect`
   y: ${({ size }) => (size === "Large" ? "60px" : "22px")};
   width: ${({ size }) => (size === "Large" ? "16px" : "10px")};
   height: ${({ size }) => (size === "Large" ? "16px" : "10px")};
-  fill ${({ status }) =>
+  fill ${({ status, theme }) =>
     status === "AFK"
-      ? "#faa61a"
+      ? theme.statusAFK
       : status === "Offline"
-      ? "#747f8d"
+      ? theme.statusOffline
       : status === "DND"
-      ? "#ED4245"
-      : "#3ba55c"}
+      ? theme.infoDangerForeground
+      : theme.statusGreen600}
 `;

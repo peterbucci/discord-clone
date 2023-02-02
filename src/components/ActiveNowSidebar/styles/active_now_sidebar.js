@@ -5,8 +5,8 @@ export const Container = styled.div`
   width: 358px;
   margin: 0 0 0 2px;
   padding: 16px 8px 16px 16px;
-  border: 1px solid rgba(74, 84, 92, 0.48);
-  background-color: #36393f;
+  border-left: ${({ theme }) => `1px solid ${theme.backgroundModifierAccent}`};
+  background-color: ${({ theme }) => theme.backgroundPrimary};
   overflow-y: auto;
 `;
 
@@ -33,5 +33,5 @@ export const ActiveNowEmptyText = styled.div`
   line-height: 18px;
   font-size: 13px;
   font-weight: 400;
-  color: #b9bbbe;
+  color: ${({ theme }) => theme.interactiveNormal};
 `;

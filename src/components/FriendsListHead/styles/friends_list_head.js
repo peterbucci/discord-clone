@@ -21,7 +21,7 @@ export const IconWrapper = styled.div`
   &.iconPath:hover {
     cursor: pointer;
     & path {
-      fill: #dcddde;
+      fill: ${({ theme }) => theme.textNormal};
     }
   }
 `;
@@ -36,7 +36,7 @@ export const Divider = styled.div`
   margin: 0 8px;
   height: 24px;
   width: 1px;
-  background-color: rgba(74, 84, 92, 0.48);
+  background-color: ${({ theme }) => theme.backgroundModifierAccent};
 `;
 
 export const Nav = styled.div`
@@ -48,23 +48,30 @@ export const NavLink = styled.div`
   align-items: center;
   margin: 0 8px;
   padding: 2px 8px;
-  color: ${({ selected }) => (selected ? "#ffffff" : "#B9BBBE")};
+  color: ${({ selected, theme }) =>
+    selected ? theme.white : theme.interactiveNormal};
   cursor: ${({ selected }) => (selected ? "default" : "pointer")};
-  background-color: ${({ selected }) =>
-    selected ? "rgba(79, 84, 92, 0.6)" : "auto"};
+  background-color: ${({ selected, theme }) =>
+    selected ? theme.backgroundModifierSelected : "auto"};
   border-radius: 4px;
   &:hover {
-    background-color: rgba(79, 84, 92, 0.48);
-    color: #dcddde;
+    background-color: ${({ theme }) => theme.backgroundModifierAccent};
+    color: ${({ selected, theme }) =>
+      selected ? theme.white : theme.textNormal};
+  }
+  &:active {
+    color: ${({ theme }) => theme.white};
   }
 `;
 
 export const AddFriend = styled.div`
   margin: 0 8px;
   padding: 2px 8px;
-  background-color: ${({ selected }) => (selected ? "auto" : "#2d7d46")};
+  background-color: ${({ selected, theme }) =>
+    selected ? "auto" : theme.statusGreen660};
   border-radius: 4px;
-  color: ${({ selected }) => (selected ? "#46C46E" : "#ffffff")};
+  color: ${({ selected, theme }) =>
+    selected ? theme.textPositive : theme.white};
   cursor: pointer;
 `;
 
@@ -77,10 +84,10 @@ export const RequestBadge = styled.div`
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  background-color: #ed4245;
+  background-color: ${({ theme }) => theme.infoDangerForeground};
   font-size: 12px;
   font-weight: 700;
-  color: #ffffff;
+  color: ${({ theme }) => theme.white};
   text-align: center;
 `;
 
