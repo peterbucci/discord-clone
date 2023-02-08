@@ -5,7 +5,7 @@ import { actionTypes } from "../reducers/state_reducer";
 export default function onAuthChange(
   dispatch,
   initialRenderRef,
-  setChannelCount,
+  setServerCount,
   setConversationCount,
   setFriendCount,
   unsubscribersRef
@@ -21,7 +21,7 @@ export default function onAuthChange(
       });
       // ...
     } else {
-      setChannelCount(-1);
+      setServerCount(-1);
       setConversationCount(-1);
       setFriendCount(-1);
       dispatch({

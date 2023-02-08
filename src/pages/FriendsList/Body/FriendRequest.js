@@ -4,8 +4,7 @@ import FriendsListBody from "components/FriendsListBody";
 import { useStateValue } from "providers/StateProvider";
 import addFriend from "../../../api/add_friend";
 import deleteFriendRequest from "../../../api/delete_friend_request";
-import CheckMarkIcon from "../icons/check_mark";
-import CloseIcon from "../icons/close";
+import * as Icons from "assets/icons";
 
 export default function FriendRequest({ id, outgoing }) {
   const themeContext = useContext(ThemeContext);
@@ -41,14 +40,14 @@ export default function FriendRequest({ id, outgoing }) {
       <FriendsListBody.ListItemActions>
         {!outgoing && (
           <FriendsListBody.ListItemAction onClick={() => addFriend(user, id)}>
-            <CheckMarkIcon />
+            <Icons.CheckMark />
           </FriendsListBody.ListItemAction>
         )}
         <FriendsListBody.ListItemAction
           cancel={true}
           onClick={() => deleteFriendRequest(id, user, request.sender === user)}
         >
-          <CloseIcon />
+          <Icons.Close width={20} height={20} />
         </FriendsListBody.ListItemAction>
       </FriendsListBody.ListItemActions>
     </FriendsListBody.ListItem>

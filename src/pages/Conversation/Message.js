@@ -1,12 +1,9 @@
 import { useRef } from "react";
 import { default as NewMessage } from "../../components/Message";
 import MessageSender from "../../fragments/MessageSender";
-import ReactionIcon from "../../fragments/Icons/reaction";
 import sameDay from "../../helpers/same_day";
-import EditIcon from "./icons/edit";
-import MoreIcon from "./icons/more";
 import { useStateValue } from "../../providers/StateProvider";
-import ReplyIcon from "./icons/reply";
+import * as Icons from "assets/icons";
 
 export default function Message({
   timestamp,
@@ -167,19 +164,19 @@ export default function Message({
         {!edit && (
           <NewMessage.Buttons id="newMessageButtons" isHeader={renderHeader()}>
             <NewMessage.Button>
-              <ReactionIcon />
+              <Icons.Reaction />
             </NewMessage.Button>
             {sender.id === user ? (
               <NewMessage.Button onClick={() => setEdit(id)}>
-                <EditIcon />
+                <Icons.Edit />
               </NewMessage.Button>
             ) : (
               <NewMessage.Button onClick={() => setReplyToMessage(id)}>
-                <ReplyIcon />
+                <Icons.Reply />
               </NewMessage.Button>
             )}
             <NewMessage.Button>
-              <MoreIcon />
+              <Icons.More />
             </NewMessage.Button>
           </NewMessage.Buttons>
         )}

@@ -1,12 +1,9 @@
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
 import { default as Head } from "../../components/FriendsListHead";
-import FriendIcon from "../../fragments/ConversationList/icons/friend";
-import GroupDMIcon from "../../fragments/Icons/group_dm";
-import HelpIcon from "../../fragments/Icons/help";
-import InboxIcon from "../../fragments/Icons/inbox";
 import { useStateValue } from "../../providers/StateProvider";
 import { actionTypes } from "../../reducers/state_reducer";
+import * as Icons from "assets/icons";
 
 export default function FriendsListHead() {
   const themeContext = useContext(ThemeContext);
@@ -30,7 +27,7 @@ export default function FriendsListHead() {
     <Head>
       <Head.Left>
         <Head.IconWrapper>
-          <FriendIcon fill={themeContext.channelIcon} />
+          <Icons.Friend fill={themeContext.channelIcon} />
         </Head.IconWrapper>
         <Head.Text>Friends</Head.Text>
         <Head.Divider />
@@ -73,14 +70,14 @@ export default function FriendsListHead() {
       </Head.Left>
       <Head.Right>
         <Head.IconWrapper className="iconPath">
-          <GroupDMIcon />
+          <Icons.GroupDM />
         </Head.IconWrapper>
         <Head.Divider />
         <Head.IconWrapper className="iconPath">
-          <InboxIcon />
+          <Icons.Inbox />
         </Head.IconWrapper>
         <Head.IconWrapper className="iconPath">
-          <HelpIcon />
+          <Icons.Help />
         </Head.IconWrapper>
       </Head.Right>
     </Head>

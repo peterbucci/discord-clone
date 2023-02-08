@@ -1,23 +1,11 @@
-import { collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import createDoc from "helpers/create_doc";
 
 export default function sendFriendRequest(userId, friendId) {
-  const pendingRequest = doc(
-    collection(db, "users", userId, "friendRequests"),
-    friendId
-  );
-  const friendRequest = doc(
-    collection(db, "users", friendId, "friendRequests"),
-    userId
-  );
-  setDoc(pendingRequest, {
-    id: pendingRequest.id,
+  const collectionPath = (id) => ["users", id, "friendRequests"];
+  const data = {
     timestamp: new Date(),
     sender: userId,
-  });
-  setDoc(friendRequest, {
-    id: friendRequest.id,
-    timestamp: new Date(),
-    sender: userId,
-  });
+  };
+  createDoc(collectionPath(userId), data, friendId);
+  createDoc(collectionPath(friendId), data, userId);
 }

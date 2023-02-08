@@ -21,7 +21,7 @@ export const actionTypes = {
   SET_ACTIVE_CONVERSATIONS: "SET_ACTIVE_CONVERSATIONS",
   REMOVE_ACTIVE_CONVERSATIONS: "REMOVE_ACTIVE_CONVERSATIONS",
   SET_MESSAGES: "SET_MESSAGES",
-  SET_CHANNELS: "SET_CHANNELS",
+  SET_SERVERS: "SET_SERVERS",
   UPDATE_SETTINGS: "UPDATE_SETTINGS",
   SET_FRIENDS_LIST_TAB: "SET_FRIENDS_LIST_TAB",
   LOGOUT_USER: "LOGOUT_USER",
@@ -132,12 +132,12 @@ export default function reducer(state, action) {
         },
       };
 
-    case actionTypes.SET_CHANNELS:
+    case actionTypes.SET_SERVERS:
       return {
         ...state,
-        channels: {
-          ...state.channels,
-          ...reduceById(action.channels),
+        servers: {
+          ...state.servers,
+          ...reduceById(action.servers),
         },
       };
 

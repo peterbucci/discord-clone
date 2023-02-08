@@ -5,39 +5,22 @@ import updateActiveConversations from "../../api/update_active_conversations";
 import ChannelLeft from "../../components/ChannelLeft";
 import { DirectMessagesSearchBar } from "../../components/DirectMessages";
 import { useStateValue } from "../../providers/StateProvider";
-import { actionTypes } from "../../reducers/state_reducer";
 import Avatar from "../Avatar";
-import AddIcon from "./icons/add";
-import CloseIcon from "./icons/close";
-import CogwheelIcon from "./icons/cogwheel";
-import FriendIcon from "./icons/friend";
-import HeadphonesIcon from "./icons/headphones";
-import MicrophoneIcon from "./icons/microphone";
-import NitroIcon from "./icons/nitro";
-import SnowsgivingIcon from "./icons/snowsgiving";
+import * as Icons from "assets/icons";
+import UserPanel from "fragments/UserPanel";
 
 export default function ConversationList() {
   const themeContext = useContext(ThemeContext);
-  const { state, dispatch } = useStateValue();
-  const user = state.users[state.user];
+  const { state } = useStateValue();
   const conversations = state.activeConversations.map(
     (id) => state.conversations[id]
   );
-  const {
-    userSettings: { enableHeadphones, enableMicrophone, enableSettings },
-  } = state;
+
   const location = useLocation();
   const pathname = location.pathname.toLowerCase();
   const params = useParams();
   const conversationId = params.conversationId;
   const navigate = useNavigate();
-
-  const updateSettings = (actions) => {
-    dispatch({
-      type: actionTypes.UPDATE_SETTINGS,
-      ...actions,
-    });
-  };
 
   return (
     <ChannelLeft>
@@ -52,7 +35,7 @@ export default function ConversationList() {
             url="/channels/@me"
             selected={pathname === "/channels/@me"}
           >
-            <FriendIcon
+            <Icons.Friend
               fill={
                 pathname === "/channels/@me"
                   ? themeContext.textNormal
@@ -63,11 +46,11 @@ export default function ConversationList() {
             Friends
           </ChannelLeft.Row>
           <ChannelLeft.Row>
-            <SnowsgivingIcon />
+            <Icons.Snowsgiving />
             Snowsgiving
           </ChannelLeft.Row>
           <ChannelLeft.Row url="/store" selected={pathname === "/store"}>
-            <NitroIcon
+            <Icons.Nitro
               fill={
                 pathname === "/store"
                   ? themeContext.textNormal
@@ -83,7 +66,7 @@ export default function ConversationList() {
             <ChannelLeft.GroupHeaderText>
               DIRECT MESSAGES
             </ChannelLeft.GroupHeaderText>
-            <AddIcon />
+            <Icons.Add />
           </ChannelLeft.GroupHeader>
           {conversations.map((conversation, i) => {
             const friendId = Object.keys(conversation.users).find(
@@ -121,7 +104,7 @@ export default function ConversationList() {
                     }
                   }}
                 >
-                  <CloseIcon />
+                  <Icons.Close fill="textNormal" />
                 </ChannelLeft.DeleteConversationIcon>
               </ChannelLeft.Row>
             );
@@ -129,48 +112,7 @@ export default function ConversationList() {
           <ChannelLeft.Row disabled={true}></ChannelLeft.Row>
         </ChannelLeft.Group>
       </ChannelLeft.Body>
-      <ChannelLeft.Footer>
-        <ChannelLeft.UserInfoWrapper>
-          <ChannelLeft.AvatarWrapper>
-            <Avatar
-              status={user.status}
-              image={user.avatar ?? `default_avatars/${user.tag % 6}`}
-            />
-          </ChannelLeft.AvatarWrapper>
-          <ChannelLeft.NameTag>
-            <ChannelLeft.NameTagRow weight="600">
-              {user.name}
-            </ChannelLeft.NameTagRow>
-            <ChannelLeft.NameTagRow
-              fontSize="12px"
-              color={themeContext.interactiveNormal}
-            >
-              #{user.tag}
-            </ChannelLeft.NameTagRow>
-          </ChannelLeft.NameTag>
-        </ChannelLeft.UserInfoWrapper>
-        <ChannelLeft.IconsWrapper>
-          <ChannelLeft.IconWrapper
-            onClick={() =>
-              updateSettings({ enableMicrophone: !enableMicrophone })
-            }
-          >
-            <MicrophoneIcon enabled={enableMicrophone} />
-          </ChannelLeft.IconWrapper>
-          <ChannelLeft.IconWrapper
-            onClick={() =>
-              updateSettings({ enableHeadphones: !enableHeadphones })
-            }
-          >
-            <HeadphonesIcon enabled={enableHeadphones} />
-          </ChannelLeft.IconWrapper>
-          <ChannelLeft.IconWrapper
-            onClick={() => updateSettings({ enableSettings: !enableSettings })}
-          >
-            <CogwheelIcon />
-          </ChannelLeft.IconWrapper>
-        </ChannelLeft.IconsWrapper>
-      </ChannelLeft.Footer>
+      <UserPanel />
     </ChannelLeft>
   );
 }

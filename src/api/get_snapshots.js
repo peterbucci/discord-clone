@@ -5,42 +5,38 @@ import {
   onSnapshot,
   doc,
   orderBy,
-  setDoc,
 } from "firebase/firestore";
 import { actionTypes } from "../reducers/state_reducer";
 import { db, auth } from "../firebase";
-
-function randomIntFromInterval(min, max) {
-  // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+import createDoc from "helpers/create_doc";
+import randomIntFromInterval from "helpers/random_int_from_interval";
 
 export function getUserSnapshot(dispatch, uid) {
   const q = query(collection(db, "users"), where("uid", "==", uid));
   return onSnapshot(q, (querySnapshot) => {
     if (querySnapshot.empty) {
       const user = auth.currentUser;
-      const newMessageRef = doc(collection(db, "users"));
-      setDoc(newMessageRef, {
+      const data = {
         uid,
-        id: newMessageRef.id,
         name: user.displayName.split(" ")[0],
         signup: new Date(),
         status: "Online",
         tag: randomIntFromInterval(1000, 9999),
         email: user.email,
+      };
+      createDoc(["users"], data);
+    } else {
+      querySnapshot.forEach((doc) => {
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: doc.id,
+        });
+        dispatch({
+          type: actionTypes.SET_USERS,
+          users: [doc.data()],
+        });
       });
     }
-    querySnapshot.forEach((doc) => {
-      dispatch({
-        type: actionTypes.SET_USER,
-        user: doc.id,
-      });
-      dispatch({
-        type: actionTypes.SET_USERS,
-        users: [doc.data()],
-      });
-    });
   });
 }
 
@@ -195,22 +191,22 @@ export function getNotesSnapshot(userId, dispatch) {
   });
 }
 
-export function getChannelsSnapshot(
+export function getServersSnapshot(
   userId,
   unsubscribers,
   dispatch,
-  setChannelCount
+  setServerCount
 ) {
-  const q = query(collection(db, "users", userId, "channels"));
+  const q = query(collection(db, "users", userId, "servers"));
   return onSnapshot(q, (querySnapshot) => {
-    setChannelCount(querySnapshot.size);
+    setServerCount(querySnapshot.size);
     querySnapshot.forEach((docX) => {
       const id = docX.id;
       if (!unsubscribers[id]) {
-        const unsubscribe = onSnapshot(doc(db, "channels", id), (docY) => {
+        const unsubscribe = onSnapshot(doc(db, "servers", id), (docY) => {
           dispatch({
-            type: actionTypes.SET_CHANNELS,
-            channels: [docY.data()],
+            type: actionTypes.SET_SERVERS,
+            servers: [docY.data()],
           });
         });
         unsubscribers[id] = unsubscribe;

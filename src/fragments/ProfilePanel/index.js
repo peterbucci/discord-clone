@@ -1,10 +1,8 @@
-import { doc, query, setDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-
 import { useState, useEffect, useLayoutEffect } from "react";
 import { default as NewPanel } from "../../components/ProfilePanel";
 import Avatar from "../../fragments/Avatar";
 import { useStateValue } from "../../providers/StateProvider";
+import createDoc from "helpers/create_doc";
 
 export default function ProfilePanel({ thisRef, id, absolutePosition }) {
   const {
@@ -17,8 +15,8 @@ export default function ProfilePanel({ thisRef, id, absolutePosition }) {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (note !== notes[id]?.text) {
-        const q = query(doc(db, "users", user, "notes", id));
-        setDoc(q, { id, text: note }, { merge: true });
+        const collectionPath = ["users", user, "notes"];
+        createDoc(collectionPath, { text: note }, id);
       }
     }, 1000);
 

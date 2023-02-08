@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import reducer from "reducers/state_reducer";
 import {
-  getChannelsSnapshot,
+  getServersSnapshot,
   getConversationsSnapshot,
   getFriendsSnapshot,
   getNotesSnapshot,
@@ -32,7 +32,7 @@ export const StateProvider = ({ children }) => {
   const initialRenderRef = useRef(true);
   const [friendCount, setFriendCount] = useState(-1);
   const [conversationCount, setConversationCount] = useState(-1);
-  const [channelCount, setChannelCount] = useState(-1);
+  const [serverCount, setServerCount] = useState(-1);
   const [state, dispatch] = useReducer(reducer, {
     uid: null,
     user: null,
@@ -44,7 +44,7 @@ export const StateProvider = ({ children }) => {
     messages: {},
     friendRequests: {},
     blocked: {},
-    channels: {},
+    servers: {},
     userSettings: {
       enableSettings: false,
       enableMicrophone: true,
@@ -78,12 +78,12 @@ export const StateProvider = ({ children }) => {
           dispatch,
           setConversationCount
         );
-      if (!unsubscribers.channels)
-        unsubscribers.channels = getChannelsSnapshot(
+      if (!unsubscribers.servers)
+        unsubscribers.servers = getServersSnapshot(
           state.user,
           unsubscribers,
           dispatch,
-          setChannelCount
+          setServerCount
         );
     }
   }, [state.user]);
@@ -101,7 +101,7 @@ export const StateProvider = ({ children }) => {
       onAuthChangeUnsub.current = onAuthChange(
         dispatch,
         initialRenderRef,
-        setChannelCount,
+        setServerCount,
         setConversationCount,
         setFriendCount,
         unsubscribersRef
@@ -114,7 +114,7 @@ export const StateProvider = ({ children }) => {
         {state.user &&
         friendCount === Object.keys(state.friends).length &&
         conversationCount === Object.values(state.conversations).length &&
-        channelCount === Object.values(state.channels).length ? (
+        serverCount === Object.values(state.servers).length ? (
           children
         ) : initialRenderRef.current || state.uid ? (
           <Loading />

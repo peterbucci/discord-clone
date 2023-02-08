@@ -6,15 +6,11 @@ import { CodeElement, DefaultElement, Leaf } from "./elements";
 import { default as NewMessageSender } from "../../components/MessageSender";
 import FormatToolbar from "./FormatToolbar";
 import { handleKeyboardShortcuts, handleSelection } from "./event_listeners";
-import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
 import { useStateValue } from "../../providers/StateProvider";
-import AttachIcon from "../Icons/attach";
-import GiftIcon from "../Icons/gift";
-import GifIcon from "../Icons/gif";
-import StickersIcon from "../Icons/stickers";
 import SmileyIcons from "../SmileyIcons";
 import ReplyTo from "./ReplyTo";
+import createDoc from "helpers/create_doc";
+import * as Icons from "assets/icons";
 
 const initialValue = [
   {
@@ -42,25 +38,19 @@ export default function MessageSender({
 
   const sendMessage = () => {
     if (editor.children.some((child) => !Editor.isEmpty(editor, child))) {
+      const collectionPath = ["conversations", conversationId, "messages"];
       if (id) {
-        const messageRef = doc(
-          db,
-          "conversations",
-          conversationId,
-          "messages",
+        createDoc(
+          collectionPath,
+          {
+            nodes: editor.children,
+            edited: new Date(),
+          },
           id
         );
-        updateDoc(messageRef, {
-          nodes: editor.children,
-          edited: new Date(),
-        });
         setEdit(null);
       } else {
-        const newMessageRef = doc(
-          collection(db, "conversations", conversationId, "messages")
-        );
-        setDoc(newMessageRef, {
-          id: newMessageRef.id,
+        createDoc(collectionPath, {
           sender: user,
           nodes: editor.children,
           timestamp: new Date(),
@@ -136,7 +126,7 @@ export default function MessageSender({
             {!editMessageLayout && (
               <NewMessageSender.AttachWrapper>
                 <NewMessageSender.AttachButton>
-                  <AttachIcon />
+                  <Icons.Attach />
                 </NewMessageSender.AttachButton>
               </NewMessageSender.AttachWrapper>
             )}
@@ -160,13 +150,13 @@ export default function MessageSender({
               {!editMessageLayout && (
                 <>
                   <NewMessageSender.Button>
-                    <GiftIcon />
+                    <Icons.Gift />
                   </NewMessageSender.Button>
                   <NewMessageSender.Button>
-                    <GifIcon />
+                    <Icons.Gif />
                   </NewMessageSender.Button>
                   <NewMessageSender.Button>
-                    <StickersIcon />
+                    <Icons.Stickers />
                   </NewMessageSender.Button>
                 </>
               )}

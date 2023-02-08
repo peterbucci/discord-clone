@@ -32,9 +32,9 @@ const ADDITIONAL_ICONS = [
 export default function Sidebar() {
   const themeContext = useContext(ThemeContext);
   const {
-    state: { channels },
+    state: { servers },
   } = useStateValue();
-  const channelsArr = Object.values(channels);
+  const serversArr = Object.values(servers);
   const location = useLocation();
   const [iconSelected, setIconSelected] = useState(location.pathname);
   const iconsRef = useRef([]);
@@ -60,7 +60,7 @@ export default function Sidebar() {
         <NewSidebar.Pill selected={directMessagesSelected} />
       </NewSidebar.Item>
       <NewSidebar.HorizontalLine />
-      {channelsArr.map(({ id, ...channel }, idx) => {
+      {serversArr.map(({ id, ...server }, idx) => {
         const url = "/channels/" + id;
         const selected = iconSelected.startsWith(url);
         return (
@@ -69,7 +69,7 @@ export default function Sidebar() {
             ref={(el) => (iconsRef.current[idx + 1] = el)}
             url={url}
           >
-            <NewSidebar.Icon selected={selected}>{channel.tag}</NewSidebar.Icon>
+            <NewSidebar.Icon selected={selected}>{server.tag}</NewSidebar.Icon>
             <NewSidebar.Pill selected={selected} height="8px" />
           </NewSidebar.Item>
         );
@@ -81,9 +81,7 @@ export default function Sidebar() {
           <React.Fragment key={id}>
             {hr && <NewSidebar.HorizontalLine />}
             <NewSidebar.Item
-              ref={(el) =>
-                (iconsRef.current[channelsArr.length + idx + 1] = el)
-              }
+              ref={(el) => (iconsRef.current[serversArr.length + idx + 1] = el)}
               onClick={() => setIconSelected(url ?? id)}
               url={url}
             >

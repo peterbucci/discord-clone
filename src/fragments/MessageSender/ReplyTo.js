@@ -1,6 +1,6 @@
 import { default as NewReplyTo } from "../../components/MessageSender/ReplyTo";
 import { useStateValue } from "../../providers/StateProvider";
-import CloseIcon from "./icons/close";
+import * as Icons from "assets/icons";
 
 export default function ReplyTo({
   replyToMessage,
@@ -21,7 +21,7 @@ export default function ReplyTo({
       </NewReplyTo.Button>
       <NewReplyTo.Actions>
         <NewReplyTo.CloseButton onClick={() => setReplyToMessage(null)}>
-          <CloseIcon />
+          <Icons.CloseAlt />
         </NewReplyTo.CloseButton>
       </NewReplyTo.Actions>
     </NewReplyTo>

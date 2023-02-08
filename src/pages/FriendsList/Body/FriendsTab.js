@@ -1,11 +1,10 @@
 import { useState } from "react";
 import FriendsListBody from "../../../components/FriendsListBody";
 import { useStateValue } from "../../../providers/StateProvider";
-import ClearSearchIcon from "../../../fragments/Icons/clear_search";
-import SearchIcon from "../../../fragments/Icons/search";
 import FriendsTabEmpty from "./FriendsTabEmpty";
 import Friend from "./Friend";
 import FriendRequest from "./FriendRequest";
+import * as Icons from "assets/icons";
 
 export default function FriendsTab() {
   const [firstTextEntered, setFirstTextEntered] = useState(true);
@@ -41,7 +40,7 @@ export default function FriendsTab() {
             visible={searchText.length === 0}
             animate={!firstTextEntered}
           >
-            <SearchIcon />
+            <Icons.Search />
           </FriendsListBody.IconWrapper>
           <FriendsListBody.IconWrapper
             className="clearSearch"
@@ -49,7 +48,7 @@ export default function FriendsTab() {
             animate={!firstTextEntered}
             onClick={() => setSearchText("")}
           >
-            <ClearSearchIcon />
+            <Icons.ClearSearch />
           </FriendsListBody.IconWrapper>
         </FriendsListBody.SearchIcons>
       </FriendsListBody.Search>

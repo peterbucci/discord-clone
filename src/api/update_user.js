@@ -1,7 +1,5 @@
-import { doc, query, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import createDoc from "helpers/create_doc";
 
 export default function updateUser(userId, updates) {
-  const q = query(doc(db, "users", userId));
-  setDoc(q, updates, { merge: true });
+  createDoc(["users"], updates, userId);
 }

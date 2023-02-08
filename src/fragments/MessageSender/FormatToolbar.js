@@ -1,11 +1,6 @@
 import { default as Toolbar } from "../../components/FormatToolbar";
 import CustomEditor from "./CustomEditor";
-import BoldIcon from "../Icons/bold";
-import ItalicIcon from "../Icons/Italic";
-import LineThroughIcon from "../Icons/line_through";
-import CodeBlockIcon from "../Icons/code_block";
-import QuoteIcon from "../Icons/quote";
-import HideIcon from "../Icons/hide";
+import * as Icons from "assets/icons";
 
 export default function FormatToolbar({ displayFormatToolbar, editor }) {
   return (
@@ -17,7 +12,7 @@ export default function FormatToolbar({ displayFormatToolbar, editor }) {
         }}
       >
         <Toolbar.IconWrapper>
-          <BoldIcon />
+          <Icons.Bold />
         </Toolbar.IconWrapper>
       </Toolbar.Button>
       <Toolbar.Button
@@ -27,7 +22,7 @@ export default function FormatToolbar({ displayFormatToolbar, editor }) {
         }}
       >
         <Toolbar.IconWrapper>
-          <ItalicIcon />
+          <Icons.Italic />
         </Toolbar.IconWrapper>
       </Toolbar.Button>
       <Toolbar.Button
@@ -37,13 +32,13 @@ export default function FormatToolbar({ displayFormatToolbar, editor }) {
         }}
       >
         <Toolbar.IconWrapper>
-          <LineThroughIcon />
+          <Icons.LineThrough />
         </Toolbar.IconWrapper>
       </Toolbar.Button>
       <Toolbar.VerticalDivider />
       <Toolbar.Button>
         <Toolbar.IconWrapper>
-          <QuoteIcon />
+          <Icons.Quote />
         </Toolbar.IconWrapper>
       </Toolbar.Button>
       <Toolbar.Button
@@ -53,12 +48,12 @@ export default function FormatToolbar({ displayFormatToolbar, editor }) {
         }}
       >
         <Toolbar.IconWrapper>
-          <CodeBlockIcon />
+          <Icons.CodeBlock />
         </Toolbar.IconWrapper>
       </Toolbar.Button>
       <Toolbar.Button>
         <Toolbar.IconWrapper>
-          <HideIcon />
+          <Icons.Hide />
         </Toolbar.IconWrapper>
       </Toolbar.Button>
     </Toolbar>

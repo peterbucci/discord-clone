@@ -1,34 +1,16 @@
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import createDoc from "helpers/create_doc";
 import { db } from "../firebase";
 import deleteFriendRequest from "./delete_friend_request";
 
 export default async function addFriend(userId, friendId) {
-  const userFriendDoc = doc(
-    collection(db, "users", userId, "friends"),
-    friendId
-  );
-  setDoc(userFriendDoc, {
-    id: userFriendDoc.id,
+  const dataX = {
     timestamp: new Date(),
-    note: "",
-  });
+  };
+  const friendPath = (id) => ["users", id, "friends"];
 
-  const friendsFriendDoc = doc(
-    collection(db, "users", friendId, "friends"),
-    userId
-  );
-  setDoc(friendsFriendDoc, {
-    id: friendsFriendDoc.id,
-    timestamp: new Date(),
-    note: "",
-  });
+  createDoc(friendPath(userId), dataX, friendId);
+  createDoc(friendPath(friendId), dataX, userId);
 
   const userMap = {
     [userId]: null,
@@ -46,30 +28,18 @@ export default async function addFriend(userId, friendId) {
    * If so, don't need to create a new one
    */
   if (querySnapshot.empty) {
-    const conversationDoc = doc(collection(db, "conversations"));
-    setDoc(conversationDoc, {
-      id: conversationDoc.id,
+    const dataY = {
       startDate: new Date(),
-      users: [userId, friendId],
-    });
+      users: userMap,
+    };
+    const conversationDoc = createDoc(["conversations"], dataY);
 
-    const userConversationDoc = doc(
-      collection(db, "users", userId, "conversations"),
-      conversationDoc.id
-    );
-    setDoc(userConversationDoc, {
-      id: userConversationDoc.id,
+    const dataZ = {
       active: true,
-    });
-
-    const friendConversationDoc = doc(
-      collection(db, "users", friendId, "conversations"),
-      conversationDoc.id
-    );
-    setDoc(friendConversationDoc, {
-      id: friendConversationDoc.id,
-      active: true,
-    });
+    };
+    const conversationPath = (id) => ["users", id, "conversations"];
+    createDoc(conversationPath(userId), dataZ, conversationDoc.id);
+    createDoc(conversationPath(friendId), dataZ, conversationDoc.id);
   }
 
   // Clear out request now that it has been resolved.

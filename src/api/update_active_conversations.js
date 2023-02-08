@@ -1,11 +1,13 @@
-import { doc, query, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import createDoc from "helpers/create_doc";
 
 export default function updateActiveConversations(
   userId,
   conversationId,
   isActive
 ) {
-  const q = query(doc(db, "users", userId, "conversations", conversationId));
-  setDoc(q, { active: isActive }, { merge: true });
+  createDoc(
+    ["users", userId, "conversations"],
+    { active: isActive },
+    conversationId
+  );
 }

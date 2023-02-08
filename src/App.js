@@ -2,12 +2,12 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Sidebar from "./fragments/Sidebar";
 import UserSettings from "./pages/UserSettings";
 import Channels from "./pages/Channels";
-import Channel from "./pages/Channel";
 import FriendsList from "./pages/FriendsList";
 import Conversation from "./pages/Conversation";
 import Store from "./pages/Store";
 import { StateProvider } from "./providers/StateProvider";
 import { Container } from "./styles/app";
+import Server from "pages/Server";
 
 const router = createBrowserRouter([
   {
@@ -35,8 +35,12 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "channels/:channelId",
-        element: <Channel />,
+        path: "channels/:serverId",
+        element: <Server />,
+      },
+      {
+        path: "channels/:serverId/:channelId",
+        element: <Server />,
       },
       {
         path: "guild-discovery",
