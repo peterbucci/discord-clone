@@ -67,6 +67,10 @@ export const OriginalSender = styled.span`
   margin-right: 0.25rem;
   font-weight: 500;
   opacity: 0.64;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const OriginalMessage = styled.div`
@@ -74,6 +78,10 @@ export const OriginalMessage = styled.div`
   min-width: calc(100% - 60px);
   overflow: hidden;
   white-space: pre;
+  cursor: pointer;
+  &:hover {
+    color: ${({ theme }) => theme.white};
+  }
 `;
 
 export const Avatar = styled.img`
@@ -102,12 +110,17 @@ export const HeaderSpan = styled.span`
     margin-right: 0.25rem;
     font-size: 0.85em;
     font-weight: 500;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   &:last-child {
     margin-left: 0.25rem;
     font-size: 0.65em;
     font-weight: 400;
     color: ${({ theme }) => theme.textMuted};
+    cursor: default;
   }
 `;
 

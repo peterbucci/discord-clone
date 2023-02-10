@@ -1,37 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import Channel from "components/Channel";
-import sameDay from "helpers/same_day";
 import { useStateValue } from "providers/StateProvider";
 import Head from "./Head";
 import ProfilePanel from "fragments/ProfilePanel";
-import Message from "../Message";
 import MessageSender from "fragments/MessageSender";
+import MessageList from "fragments/MessageList";
 
-export default function Body({
-  conversationRef,
-  recipientId,
-  conversationId,
-  setLayerDetails,
-}) {
+export default function Body({ recipientId, conversationId }) {
+  const conversationRef = useRef(null);
   const [replyToMessage, setReplyToMessage] = useState(null);
-  const [messageToEdit, setMessageToEdit] = useState(null);
   const {
-    state: { messages, users, user },
+    state: { users, user },
   } = useStateValue();
-  const sender = users[user];
-  const conversationMessages = messages[conversationId]
-    ? Object.values(messages[conversationId])
-    : [];
-
-  useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.key === "Escape") setMessageToEdit(null);
-    };
-    if (messageToEdit) {
-      document.addEventListener("keydown", onKeyDown);
-    }
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [messageToEdit]);
 
   return (
     <Channel.RightBody>
@@ -39,36 +19,11 @@ export default function Body({
         <Channel.RightMain ref={conversationRef}>
           <Channel.Conversation>
             <Head recipientId={recipientId} />
-            {conversationMessages.map(
-              ({ sender, id, ...message }, idx, arr) => {
-                const date = message.timestamp.toDate();
-                const prevDate = arr[idx - 1]?.timestamp.toDate();
-                return (
-                  <React.Fragment key={id}>
-                    {(!prevDate || !sameDay(date, prevDate)) && (
-                      <Channel.DailyDivider>
-                        {date.toLocaleString("default", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </Channel.DailyDivider>
-                    )}
-                    <Message
-                      {...message}
-                      sender={users[sender]}
-                      id={id}
-                      prevPost={arr[idx - 1]}
-                      edit={messageToEdit === id}
-                      conversationId={conversationId}
-                      setEdit={setMessageToEdit}
-                      setReplyToMessage={setReplyToMessage}
-                      setLayerDetails={setLayerDetails}
-                    />
-                  </React.Fragment>
-                );
-              }
-            )}
+            <MessageList
+              conversationId={conversationId}
+              containerRef={conversationRef}
+              setReplyToMessage={setReplyToMessage}
+            />
             <Channel.ConversationSpacer />
           </Channel.Conversation>
         </Channel.RightMain>
@@ -79,7 +34,7 @@ export default function Body({
           />
         </Channel.RightMainFooter>
       </Channel.RightMainWrapper>
-      {!sender.hideUserProfile && <ProfilePanel id={recipientId} />}
+      {!users[user].hideUserProfile && <ProfilePanel id={recipientId} />}
     </Channel.RightBody>
   );
 }

@@ -24,6 +24,7 @@ export const actionTypes = {
   SET_SERVERS: "SET_SERVERS",
   UPDATE_SETTINGS: "UPDATE_SETTINGS",
   SET_FRIENDS_LIST_TAB: "SET_FRIENDS_LIST_TAB",
+  SET_UNSUBSCRIBERS: "SET_UNSUBSCRIBERS",
   LOGOUT_USER: "LOGOUT_USER",
 };
 
@@ -156,6 +157,15 @@ export default function reducer(state, action) {
         friendsListTab: action.tab,
       };
 
+    case actionTypes.SET_UNSUBSCRIBERS:
+      return {
+        ...state,
+        unsubscribers: {
+          ...state.unsubscribers,
+          ...action.unsubscribers,
+        },
+      };
+
     case actionTypes.LOGOUT_USER:
       return {
         uid: null,
@@ -175,6 +185,7 @@ export default function reducer(state, action) {
           enableHeadphones: true,
         },
         friendsListTab: "Online",
+        unsubscribers: {},
       };
 
     default:

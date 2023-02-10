@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { default as ServerSidebar } from "components/ChannelLeft";
 import { Navigate, useParams } from "react-router-dom";
 import { default as ServerLayout } from "../../components/Channel";
@@ -8,8 +8,12 @@ import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../../firebase";
 import ChannelList from "components/Server/ChannelList";
 import UserPanel from "fragments/UserPanel";
+import MessageList from "fragments/MessageList";
+import MessageSender from "fragments/MessageSender";
 
 export default function Server() {
+  const conversationRef = useRef(null);
+  const [replyToMessage, setReplyToMessage] = useState(null);
   const [categories, setCategories] = useState({});
   const [channels, setChannels] = useState({});
   const unsubscribersRef = useRef({});
@@ -97,15 +101,15 @@ export default function Server() {
                   (channel) => channel.category === category.id
                 );
                 return (
-                  <>
+                  <React.Fragment key={category.id}>
                     {category.order !== 0 && (
                       <ChannelList.Category>
                         <ChannelList.CategoryIcon>
                           <svg width="12" height="12" viewBox="0 0 24 24">
                             <path
                               fill="currentColor"
-                              fill-rule="evenodd"
-                              clip-rule="evenodd"
+                              fillRule="evenodd"
+                              clipRule="evenodd"
                               d="M16.59 8.59004L12 13.17L7.41 8.59004L6 10L12 16L18 10L16.59 8.59004Z"
                             ></path>
                           </svg>
@@ -118,6 +122,7 @@ export default function Server() {
                     {categoryChannels.map((channel) => {
                       return (
                         <ChannelList.Channel
+                          key={channel.id}
                           selected={channel.id === currentChannel.id}
                         >
                           <ChannelList.ChannelLink
@@ -155,7 +160,7 @@ export default function Server() {
                         </ChannelList.Channel>
                       );
                     })}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </ChannelList>
@@ -164,6 +169,26 @@ export default function Server() {
         </ServerSidebar>
         <ServerLayout.Right>
           <ServerLayout.RightHead>Right</ServerLayout.RightHead>
+          <ServerLayout.RightBody>
+            <ServerLayout.RightMainWrapper>
+              <ServerLayout.RightMain ref={conversationRef}>
+                <ServerLayout.Conversation>
+                  <MessageList
+                    conversationId={currentChannel?.id}
+                    containerRef={conversationRef}
+                    setReplyToMessage={setReplyToMessage}
+                  />
+                  <ServerLayout.ConversationSpacer />
+                </ServerLayout.Conversation>
+              </ServerLayout.RightMain>
+              <ServerLayout.RightMainFooter>
+                <MessageSender
+                  replyToMessage={replyToMessage}
+                  setReplyToMessage={setReplyToMessage}
+                />
+              </ServerLayout.RightMainFooter>
+            </ServerLayout.RightMainWrapper>
+          </ServerLayout.RightBody>
         </ServerLayout.Right>
       </ServerLayout>
     ) : (

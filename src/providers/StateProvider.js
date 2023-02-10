@@ -15,15 +15,14 @@ import {
   getUserSnapshot,
 } from "api/get_snapshots";
 import onAuthChange from "../api/on_auth_change";
-
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "firebase.js";
 import Loading from "pages/Loading";
 import { getFriendRequestsSnapshot } from "../api/get_snapshots";
 import { ThemeProvider } from "styled-components";
 import darkTheme from "themes/dark";
-const provider = new GoogleAuthProvider();
 
+const provider = new GoogleAuthProvider();
 const StateContext = createContext();
 
 export const StateProvider = ({ children }) => {
@@ -51,6 +50,7 @@ export const StateProvider = ({ children }) => {
       enableHeadphones: true,
     },
     friendsListTab: "Online",
+    unsubscribers: {},
   });
 
   useEffect(() => {

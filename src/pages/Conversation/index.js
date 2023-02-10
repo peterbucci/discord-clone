@@ -1,19 +1,15 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import updateActiveConversations from "../../api/update_active_conversations";
 import Channel from "../../components/Channel";
 import ConversationList from "../../fragments/ConversationList";
 import { useStateValue } from "../../providers/StateProvider";
-import ProfilePanel from "../../fragments/ProfilePanel";
-import LayerContainer from "../../fragments/LayerContainer";
 import Body from "./Body";
 import Head from "./Head";
 
 export default function Conversation() {
-  const profilePanelRef = useRef(null);
-  const [layerDetails, setLayerDetails] = useState(null);
   const {
-    state: { user, users, conversations, messages },
+    state: { user, users, conversations },
   } = useStateValue();
   const conversationRef = useRef(null);
   const params = useParams();
@@ -25,13 +21,6 @@ export default function Conversation() {
     ? Object.keys(conversation.users).find((id) => id !== user)
     : null;
   const recipient = users[recipientId];
-
-  useLayoutEffect(() => {
-    const conversationContainer = conversationRef.current;
-    if (conversationContainer) {
-      conversationContainer.scrollTo(0, conversationContainer.scrollHeight);
-    }
-  }, [messages]);
 
   useEffect(() => {
     if (conversation) {
@@ -48,19 +37,8 @@ export default function Conversation() {
           conversationRef={conversationRef}
           recipientId={recipientId}
           conversationId={conversationId}
-          setLayerDetails={setLayerDetails}
         />
       </Channel.Right>
-      <LayerContainer
-        anchorRef={layerDetails?.anchorRef}
-        onClickOut={setLayerDetails}
-      >
-        <ProfilePanel
-          thisRef={profilePanelRef}
-          id={layerDetails?.userId}
-          absolutePosition={true}
-        />
-      </LayerContainer>
     </Channel>
   ) : (
     <Navigate to="/channels/@me" />

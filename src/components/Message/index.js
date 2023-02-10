@@ -44,9 +44,13 @@ Message.ReplyAvatar = forwardRef(({ image, ...restProps }, ref) => {
   );
 });
 
-Message.OriginalSender = ({ children, ...restProps }) => {
-  return <OriginalSender {...restProps}>{children}</OriginalSender>;
-};
+Message.OriginalSender = forwardRef(({ children, ...restProps }, ref) => {
+  return (
+    <OriginalSender ref={ref} {...restProps}>
+      {children}
+    </OriginalSender>
+  );
+});
 
 Message.OriginalMessage = ({ children, ...restProps }) => {
   return <OriginalMessage {...restProps}>{children}</OriginalMessage>;
@@ -70,9 +74,13 @@ Message.Header = ({ children, ...restProps }) => {
   return <Header {...restProps}>{children}</Header>;
 };
 
-Message.HeaderSpan = ({ children, ...restProps }) => {
-  return <HeaderSpan {...restProps}>{children}</HeaderSpan>;
-};
+Message.HeaderSpan = forwardRef(({ children, ...restProps }, ref) => {
+  return (
+    <HeaderSpan ref={ref} {...restProps}>
+      {children}
+    </HeaderSpan>
+  );
+});
 
 Message.Timestamp = ({ children, ...restProps }) => {
   return <Timestamp {...restProps}>{children}</Timestamp>;

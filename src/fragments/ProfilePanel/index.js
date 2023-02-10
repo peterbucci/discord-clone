@@ -4,7 +4,7 @@ import Avatar from "../../fragments/Avatar";
 import { useStateValue } from "../../providers/StateProvider";
 import createDoc from "helpers/create_doc";
 
-export default function ProfilePanel({ thisRef, id, absolutePosition }) {
+export default function ProfilePanel({ id, absolutePosition }) {
   const {
     state: { user, users, notes },
   } = useStateValue();
@@ -44,7 +44,7 @@ export default function ProfilePanel({ thisRef, id, absolutePosition }) {
   }, []);
 
   return (
-    <NewPanel ref={thisRef}>
+    <NewPanel>
       <NewPanel.Header>
         <NewPanel.Banner absolutePosition={absolutePosition} />
         <NewPanel.AvatarWrapper absolutePosition={absolutePosition}>
