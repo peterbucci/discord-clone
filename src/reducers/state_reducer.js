@@ -1,3 +1,5 @@
+import defaultState from "assets/default_state";
+
 const reduceById = (arr) => {
   return arr.reduce(
     (obj, item) => ({
@@ -22,8 +24,11 @@ export const actionTypes = {
   REMOVE_ACTIVE_CONVERSATIONS: "REMOVE_ACTIVE_CONVERSATIONS",
   SET_MESSAGES: "SET_MESSAGES",
   SET_SERVERS: "SET_SERVERS",
+  SET_CHANNEL_CATEGORIES: "SET_CHANNEL_CATEGORIES",
+  SET_CHANNELS: "SET_CHANNELS",
   UPDATE_SETTINGS: "UPDATE_SETTINGS",
   SET_FRIENDS_LIST_TAB: "SET_FRIENDS_LIST_TAB",
+  SET_INITIAL_RENDER: "SET_INITIAL_RENDER",
   SET_UNSUBSCRIBERS: "SET_UNSUBSCRIBERS",
   LOGOUT_USER: "LOGOUT_USER",
 };
@@ -142,6 +147,27 @@ export default function reducer(state, action) {
         },
       };
 
+    case actionTypes.SET_CHANNEL_CATEGORIES:
+      return {
+        ...state,
+        channelCategories: {
+          ...state.channelCategories,
+          [action.server]: {
+            ...state.channelCategories[action.server],
+            ...reduceById(action.channelCategories),
+          },
+        },
+      };
+
+    case actionTypes.SET_CHANNELS:
+      return {
+        ...state,
+        channels: {
+          ...state.channels,
+          ...reduceById(action.channels),
+        },
+      };
+
     case actionTypes.UPDATE_SETTINGS:
       return {
         ...state,
@@ -157,6 +183,12 @@ export default function reducer(state, action) {
         friendsListTab: action.tab,
       };
 
+    case actionTypes.SET_INITIAL_RENDER:
+      return {
+        ...state,
+        initialRender: action.initialRender,
+      };
+
     case actionTypes.SET_UNSUBSCRIBERS:
       return {
         ...state,
@@ -167,26 +199,7 @@ export default function reducer(state, action) {
       };
 
     case actionTypes.LOGOUT_USER:
-      return {
-        uid: null,
-        user: null,
-        users: {},
-        friends: {},
-        notes: {},
-        conversations: {},
-        activeConversations: [],
-        messages: {},
-        friendRequests: {},
-        blocked: {},
-        channels: {},
-        userSettings: {
-          enableSettings: false,
-          enableMicrophone: true,
-          enableHeadphones: true,
-        },
-        friendsListTab: "Online",
-        unsubscribers: {},
-      };
+      return defaultState;
 
     default:
       return state;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddFriend from "components/AddFriend";
+import AddFriend from "components/FriendsList/AddFriend";
 import searchForFriend from "api/search_for_friend";
 import { useStateValue } from "providers/StateProvider";
 import * as Icons from "assets/icons";

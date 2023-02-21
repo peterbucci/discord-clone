@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import ChannelLeft from "../../components/ChannelLeft";
+import UserPanelLayout from "../../components/UserPanel";
 import { useStateValue } from "../../providers/StateProvider";
 import { actionTypes } from "../../reducers/state_reducer";
 import Avatar from "../Avatar";
@@ -23,47 +23,47 @@ export default function UserPanel() {
   };
 
   return (
-    <ChannelLeft.Footer>
-      <ChannelLeft.UserInfoWrapper>
-        <ChannelLeft.AvatarWrapper>
+    <UserPanelLayout>
+      <UserPanelLayout.UserInfoWrapper>
+        <UserPanelLayout.AvatarWrapper>
           <Avatar
             status={user.status}
             image={user.avatar ?? `default_avatars/${user.tag % 6}`}
           />
-        </ChannelLeft.AvatarWrapper>
-        <ChannelLeft.NameTag>
-          <ChannelLeft.NameTagRow weight="600">
+        </UserPanelLayout.AvatarWrapper>
+        <UserPanelLayout.NameTag>
+          <UserPanelLayout.NameTagRow weight="600">
             {user.name}
-          </ChannelLeft.NameTagRow>
-          <ChannelLeft.NameTagRow
+          </UserPanelLayout.NameTagRow>
+          <UserPanelLayout.NameTagRow
             fontSize="12px"
             color={themeContext.interactiveNormal}
           >
             #{user.tag}
-          </ChannelLeft.NameTagRow>
-        </ChannelLeft.NameTag>
-      </ChannelLeft.UserInfoWrapper>
-      <ChannelLeft.IconsWrapper>
-        <ChannelLeft.IconWrapper
+          </UserPanelLayout.NameTagRow>
+        </UserPanelLayout.NameTag>
+      </UserPanelLayout.UserInfoWrapper>
+      <UserPanelLayout.IconsWrapper>
+        <UserPanelLayout.IconWrapper
           onClick={() =>
             updateSettings({ enableMicrophone: !enableMicrophone })
           }
         >
           <Icons.Microphone enabled={enableMicrophone} />
-        </ChannelLeft.IconWrapper>
-        <ChannelLeft.IconWrapper
+        </UserPanelLayout.IconWrapper>
+        <UserPanelLayout.IconWrapper
           onClick={() =>
             updateSettings({ enableHeadphones: !enableHeadphones })
           }
         >
           <Icons.Headphones enabled={enableHeadphones} />
-        </ChannelLeft.IconWrapper>
-        <ChannelLeft.IconWrapper
+        </UserPanelLayout.IconWrapper>
+        <UserPanelLayout.IconWrapper
           onClick={() => updateSettings({ enableSettings: !enableSettings })}
         >
           <Icons.Cogwheel />
-        </ChannelLeft.IconWrapper>
-      </ChannelLeft.IconsWrapper>
-    </ChannelLeft.Footer>
+        </UserPanelLayout.IconWrapper>
+      </UserPanelLayout.IconsWrapper>
+    </UserPanelLayout>
   );
 }

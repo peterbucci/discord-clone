@@ -26,6 +26,7 @@ export default function MessageSender({
   setEdit,
   replyToMessage,
   setReplyToMessage,
+  channelCategory,
 }) {
   const mouseDownRef = useRef(false);
   const [displayFormatToolbar, setDisplayFormatToolbar] = useState(false);
@@ -34,11 +35,24 @@ export default function MessageSender({
     state: { user },
   } = useStateValue();
   const params = useParams();
-  const conversationId = params.conversationId;
+  const conversationId = channelCategory
+    ? params.channelId
+    : params.conversationId;
 
   const sendMessage = () => {
     if (editor.children.some((child) => !Editor.isEmpty(editor, child))) {
-      const collectionPath = ["conversations", conversationId, "messages"];
+      const collectionPath = channelCategory
+        ? [
+            "servers",
+            params.serverId,
+            "categories",
+            channelCategory,
+            "channels",
+            conversationId,
+            "messages",
+          ]
+        : ["conversations", conversationId, "messages"];
+
       if (id) {
         createDoc(
           collectionPath,

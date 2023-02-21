@@ -1,4 +1,4 @@
-import Channel from "components/Channel";
+import MessageListLayout from "components/MessageList";
 import sameDay from "helpers/same_day";
 import { useStateValue } from "providers/StateProvider";
 import React, { useEffect, useLayoutEffect, useState } from "react";
@@ -39,15 +39,15 @@ export default function MessageList({
     const prevDate = arr[idx - 1]?.timestamp.toDate();
 
     return (
-      <React.Fragment key={id}>
+      <MessageListLayout key={id}>
         {(!prevDate || !sameDay(date, prevDate)) && (
-          <Channel.DailyDivider>
+          <MessageListLayout.DailyDivider>
             {date.toLocaleString("default", {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
-          </Channel.DailyDivider>
+          </MessageListLayout.DailyDivider>
         )}
         <Message
           {...message}
@@ -59,7 +59,7 @@ export default function MessageList({
           setEdit={setMessageToEdit}
           setReplyToMessage={setReplyToMessage}
         />
-      </React.Fragment>
+      </MessageListLayout>
     );
   });
 }

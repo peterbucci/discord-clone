@@ -1,9 +1,9 @@
 import { useState } from "react";
-import FriendsListBody from "../../../components/FriendsListBody";
-import { useStateValue } from "../../../providers/StateProvider";
-import FriendsTabEmpty from "./FriendsTabEmpty";
+import FriendsListBody from "components/FriendsList/Body";
 import Friend from "./Friend";
 import FriendRequest from "./FriendRequest";
+import FriendsTabEmpty from "./FriendsTabEmpty";
+import { useStateValue } from "providers/StateProvider";
 import * as Icons from "assets/icons";
 
 export default function FriendsTab() {

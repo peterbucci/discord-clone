@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useParams, Navigate } from "react-router-dom";
-import updateActiveConversations from "../../api/update_active_conversations";
-import Channel from "../../components/Channel";
-import ConversationList from "../../fragments/ConversationList";
-import { useStateValue } from "../../providers/StateProvider";
+import { default as Layout } from "components/Layout";
 import Body from "./Body";
 import Head from "./Head";
+import ConversationSidebar from "fragments/ConversationSidebar";
+import updateActiveConversations from "api/update_active_conversations";
+import { useStateValue } from "providers/StateProvider";
 
 export default function Conversation() {
   const {
@@ -29,17 +29,17 @@ export default function Conversation() {
   }, [conversation, conversationId, user]);
 
   return conversation ? (
-    <Channel>
-      <ConversationList />
-      <Channel.Right>
+    <Layout>
+      <ConversationSidebar />
+      <Layout.Right>
         <Head sender={sender} recipient={recipient} />
         <Body
           conversationRef={conversationRef}
           recipientId={recipientId}
           conversationId={conversationId}
         />
-      </Channel.Right>
-    </Channel>
+      </Layout.Right>
+    </Layout>
   ) : (
     <Navigate to="/channels/@me" />
   );

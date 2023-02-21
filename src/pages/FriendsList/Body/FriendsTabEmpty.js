@@ -1,5 +1,5 @@
-import FriendsListBody from "../../../components/FriendsListBody";
-import { useStateValue } from "../../../providers/StateProvider";
+import FriendsListBody from "components/FriendsList/Body";
+import { useStateValue } from "providers/StateProvider";
 
 const BACKGROUNDS = {
   Online: {

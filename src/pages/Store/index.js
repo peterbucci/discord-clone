@@ -1,16 +1,29 @@
-import Channel from "../../components/Channel";
-import ConversationList from "../../fragments/ConversationList";
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
+import { default as Layout } from "../../components/Layout";
+import ConversationSidebar from "../../fragments/ConversationSidebar";
+import * as Icons from "assets/icons";
 
 export default function Store() {
+  const themeContext = useContext(ThemeContext);
   return (
-    <Channel>
-      <ConversationList />
-      <Channel.Right>
-        <Channel.RightHead>Right Head</Channel.RightHead>
-        <Channel.RightBody>
-          <Channel.RightMainWrapper>Store</Channel.RightMainWrapper>
-        </Channel.RightBody>
-      </Channel.Right>
-    </Channel>
+    <Layout>
+      <ConversationSidebar />
+      <Layout.Right>
+        <Layout.RightHead>
+          <Layout.RightHeadTitle>
+            <Layout.RightHeadIconWrapper fill={themeContext.channelIcon}>
+              <Icons.Nitro />
+            </Layout.RightHeadIconWrapper>
+            <Layout.RightHeadRecipient cursor="default">
+              Nitro
+            </Layout.RightHeadRecipient>
+          </Layout.RightHeadTitle>
+        </Layout.RightHead>
+        <Layout.RightBody>
+          <Layout.RightMainWrapper>Store</Layout.RightMainWrapper>
+        </Layout.RightBody>
+      </Layout.Right>
+    </Layout>
   );
 }

@@ -7,32 +7,38 @@ export default function Tooltip({
   placement = "bottom",
   offset = [0, 0],
   visibility = "click",
+  type = "ProfilePanel",
+  onChangeState,
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [popperInstance, setPopperInstance] = useState(null);
   const [referenceEl, setReferenceEl] = useState(null);
   const [tooltipEl, setTooltipEl] = useState(null);
 
+  const InnerContainer = NewToolTip[type];
+
   const show = useCallback(() => {
+    onChangeState && onChangeState(true);
     setShowTooltip(true);
     tooltipEl.setAttribute("data-show", "");
     popperInstance.update();
-  }, [tooltipEl, popperInstance]);
+  }, [tooltipEl, popperInstance, onChangeState]);
 
   const hide = useCallback(
     (e) => {
       if (!tooltipEl.contains(e.target)) {
+        onChangeState && onChangeState(false);
         setShowTooltip(false);
         tooltipEl.removeAttribute("data-show");
       }
     },
-    [tooltipEl]
+    [tooltipEl, onChangeState]
   );
 
   const onClick = useCallback(
     (e) => {
       if (tooltipEl.attributes["data-show"]) hide(e);
-      else if (e.target === referenceEl) show();
+      else if (referenceEl.contains(e.target)) show();
     },
     [hide, show, tooltipEl, referenceEl]
   );
@@ -110,7 +116,9 @@ export default function Tooltip({
       React.cloneElement(child, { ref: setReferenceEl, key: i })
     ) : (
       <NewToolTip ref={setTooltipEl} role="tooltip" key={i}>
-        {showTooltip && child}
+        <InnerContainer showTooltip={showTooltip}>
+          {showTooltip && child}
+        </InnerContainer>
       </NewToolTip>
     )
   );

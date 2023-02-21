@@ -1,8 +1,8 @@
 import SvgIcon from "components/SvgIcon";
 
-export default function EditIcon() {
+export default function EditIcon(props) {
   return (
-    <SvgIcon width="20px" height="20px" viewBox="0 0 24 24">
+    <SvgIcon width="20px" height="20px" {...props}>
       <SvgIcon.Path
         fillRule="evenodd"
         clipRule="evenodd"

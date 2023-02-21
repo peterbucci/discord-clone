@@ -1,5 +1,6 @@
 const darkTheme = {
   brand: "#5865F2",
+  brand360: "#949CF7",
   brand560: "#4752c4",
   brand600: "#3d46a8",
   textNormal: "#DCDDDE",
@@ -18,6 +19,7 @@ const darkTheme = {
   interactiveNormal: "#B9BBBE",
   interactiveMuted: "#4f545c",
   buttonSecondaryBackgroundHover: "#686d73",
+  buttonDangerBackground: "#D83C3E",
   channelTextAreaBackground: "#40444b",
   channelTextAreaPlaceholder: "#72767d",
   statusGreen660: "#2d7d46",
@@ -29,6 +31,7 @@ const darkTheme = {
   black500HSL: "0 0% 0%",
   white500HSL: "0 0% 100%",
   primaryDark500HSL: "217 7.6% 33.5%",
+  primaryDark800HSL: "225 7.7% 10.2%",
   primaryDark900HSL: "240 11.1% 1.8%",
   primaryLight900HSL: "240 7.7% 2.5%",
   get textInputBorder() {
@@ -46,10 +49,16 @@ const darkTheme = {
   get backgroundModifierActive() {
     return `hsl(${this.primaryDark500HSL} / 0.7)`;
   },
+  get backgroundFloating() {
+    return `hsl(${this.primaryDark800HSL})`;
+  },
   get elevationLow() {
     return `0 1px 0 hsl(${this.primaryDark900HSL} / 0.2),
     0 1.5px 0 hsl(${this.primaryLight900HSL} / 0.05),
     0 2px 0 hsl(${this.primaryDark900HSL} / 0.05)`;
+  },
+  get elevationHigh() {
+    return `hsl(${this.primaryDark500HSL} / 0.24);`;
   },
   get elevationStroke() {
     return `hsl(${this.primaryDark900HSL} / 0.15)`;

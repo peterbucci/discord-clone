@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import FriendsListBody from "components/FriendsListBody";
+import FriendsListBody from "components/FriendsList/Body";
 import { useStateValue } from "providers/StateProvider";
-import addFriend from "../../../api/add_friend";
-import deleteFriendRequest from "../../../api/delete_friend_request";
+import addFriend from "api/add_friend";
+import deleteFriendRequest from "api/delete_friend_request";
 import * as Icons from "assets/icons";
 
 export default function FriendRequest({ id, outgoing }) {

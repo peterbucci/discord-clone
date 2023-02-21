@@ -1,22 +1,22 @@
-import Channel from "../../components/Channel";
-import ConversationList from "../../fragments/ConversationList";
+import Layout from "components/Layout";
+import ConversationSidebar from "fragments/ConversationSidebar";
 import ActiveNowSidebar from "./ActiveNowSidebar";
 import Head from "./Head";
 import Body from "./Body";
 
 export default function FriendsList() {
   return (
-    <Channel>
-      <ConversationList />
-      <Channel.Right>
-        <Channel.RightHead>
+    <Layout>
+      <ConversationSidebar />
+      <Layout.Right>
+        <Layout.RightHead>
           <Head />
-        </Channel.RightHead>
-        <Channel.RightBody>
+        </Layout.RightHead>
+        <Layout.RightBody>
           <Body />
           <ActiveNowSidebar />
-        </Channel.RightBody>
-      </Channel.Right>
-    </Channel>
+        </Layout.RightBody>
+      </Layout.Right>
+    </Layout>
   );
 }

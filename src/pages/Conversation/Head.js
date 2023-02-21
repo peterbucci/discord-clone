@@ -1,50 +1,50 @@
 import updateUser from "api/update_user";
-import Channel from "components/Channel";
+import Layout from "components/Layout";
 import * as Icons from "assets/icons/index";
 
 export default function Head({ sender, recipient }) {
   return (
-    <Channel.RightHead>
-      <Channel.RightHeadTitle>
-        <Channel.RightHeadIconWrapper>
+    <Layout.RightHead>
+      <Layout.RightHeadTitle>
+        <Layout.RightHeadIconWrapper>
           <Icons.At />
-        </Channel.RightHeadIconWrapper>
-        <Channel.RightHeadRecipient>
+        </Layout.RightHeadIconWrapper>
+        <Layout.RightHeadRecipient>
           {recipient && recipient.name}
-        </Channel.RightHeadRecipient>
-        <Channel.RightHeadRecipientStatus>
+        </Layout.RightHeadRecipient>
+        <Layout.RightHeadRecipientStatus>
           <Icons.Offline />
-        </Channel.RightHeadRecipientStatus>
-      </Channel.RightHeadTitle>
-      <Channel.RightHeadToolbar>
-        <Channel.RightHeadIconWrapper>
+        </Layout.RightHeadRecipientStatus>
+      </Layout.RightHeadTitle>
+      <Layout.RightHeadToolbar>
+        <Layout.RightHeadIconWrapper>
           <Icons.VoiceCall />
-        </Channel.RightHeadIconWrapper>
-        <Channel.RightHeadIconWrapper>
+        </Layout.RightHeadIconWrapper>
+        <Layout.RightHeadIconWrapper>
           <Icons.VideoCall />
-        </Channel.RightHeadIconWrapper>
-        <Channel.RightHeadIconWrapper>
+        </Layout.RightHeadIconWrapper>
+        <Layout.RightHeadIconWrapper>
           <Icons.PinnedMessages />
-        </Channel.RightHeadIconWrapper>
-        <Channel.RightHeadIconWrapper>
+        </Layout.RightHeadIconWrapper>
+        <Layout.RightHeadIconWrapper>
           <Icons.AddFriend />
-        </Channel.RightHeadIconWrapper>
-        <Channel.RightHeadIconWrapper
+        </Layout.RightHeadIconWrapper>
+        <Layout.RightHeadIconWrapper
           highlighted={!sender.hideUserProfile}
           onClick={() =>
             updateUser(sender.id, { hideUserProfile: !sender.hideUserProfile })
           }
         >
           <Icons.HideProfile />
-        </Channel.RightHeadIconWrapper>
-        <Channel.RightHeadSearchWrapper></Channel.RightHeadSearchWrapper>
-        <Channel.RightHeadIconWrapper>
+        </Layout.RightHeadIconWrapper>
+        <Layout.RightHeadSearchWrapper></Layout.RightHeadSearchWrapper>
+        <Layout.RightHeadIconWrapper>
           <Icons.Inbox />
-        </Channel.RightHeadIconWrapper>
-        <Channel.RightHeadIconWrapper>
+        </Layout.RightHeadIconWrapper>
+        <Layout.RightHeadIconWrapper>
           <Icons.Help />
-        </Channel.RightHeadIconWrapper>
-      </Channel.RightHeadToolbar>
-    </Channel.RightHead>
+        </Layout.RightHeadIconWrapper>
+      </Layout.RightHeadToolbar>
+    </Layout.RightHead>
   );
 }

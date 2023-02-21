@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { ThemeContext } from "styled-components";
-import FriendsListBody from "../../../components/FriendsListBody";
-import Avatar from "../../../fragments/Avatar";
-import { useStateValue } from "../../../providers/StateProvider";
+import FriendsListBody from "components/FriendsList/Body";
+import Avatar from "fragments/Avatar";
+import { useStateValue } from "providers/StateProvider";
 
 export default function Friend({ id }) {
   const themeContext = useContext(ThemeContext);

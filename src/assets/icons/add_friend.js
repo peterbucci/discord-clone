@@ -1,8 +1,8 @@
 import SvgIcon from "components/SvgIcon";
 
-export default function AddFriendIcon() {
+export default function AddFriendIcon(props) {
   return (
-    <SvgIcon x="0" y="0">
+    <SvgIcon x="0" y="0" {...props}>
       <SvgIcon.Path
         fillRule="evenodd"
         clipRule="evenodd"

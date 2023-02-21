@@ -9,7 +9,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.backgroundLoading};
+  background-color: ${({ theme }) => theme.backgroundSecondary};
   transform: translateZ(0);
   z-index: 3000;
   overflow: hidden;

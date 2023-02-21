@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+export const AnimatedContainer = styled.div`
+  height: 100%;
+  background-color: ${({ theme }) => theme.backgroundTertiary};
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
