@@ -17,10 +17,12 @@ export const Right = styled.div`
 export const RightHead = styled.div`
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   margin-bottom: 1px;
   padding: 0 8px;
   height: 48px;
+  min-width: 0;
+  width: 100%;
   box-shadow: ${({ theme }) => theme.elevationLow};
 `;
 
@@ -98,7 +100,7 @@ export const RightBody = styled.div`
 export const RightMainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1 0 auto;
 `;
 
 export const RightMainSearch = styled.div`

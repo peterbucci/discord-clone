@@ -12,6 +12,7 @@ const defaultState = {
   servers: {},
   channelCategories: {},
   channels: {},
+  sidebarSelected: "",
   userSettings: {
     enableSettings: false,
     enableMicrophone: true,
@@ -20,6 +21,8 @@ const defaultState = {
   friendsListTab: "Online",
   initialRender: true,
   unsubscribers: {},
+  queryCursors: {},
+  fetching: {},
 };
 
 export default defaultState;

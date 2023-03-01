@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useRef, useContext, useLayoutEffect, useCallback } from "react";
 import { ThemeContext } from "styled-components";
 import { useLocation } from "react-router-dom";
 import { default as SidebarLayout } from "../../components/Sidebar";
 import DirectMessagesIcon from "./DirectMessagesIcon";
 import Icon from "./Icon";
 import { useStateValue } from "../../providers/StateProvider";
+import { actionTypes } from "reducers/state_reducer";
 
 const ADDITIONAL_ICONS = [
   {
@@ -32,20 +33,30 @@ const ADDITIONAL_ICONS = [
 export default function Sidebar() {
   const themeContext = useContext(ThemeContext);
   const {
-    state: { servers },
+    dispatch,
+    state: { servers, sidebarSelected },
   } = useStateValue();
   const serversArr = Object.values(servers);
   const location = useLocation();
-  const [iconSelected, setIconSelected] = useState(location.pathname);
   const iconsRef = useRef([]);
 
-  useEffect(() => {
-    setIconSelected(location.pathname);
-  }, [location]);
+  const setSidebar = useCallback(
+    (selected) => {
+      dispatch({
+        type: actionTypes.SET_SIDEBAR_SELECTED,
+        selected,
+      });
+    },
+    [dispatch]
+  );
+
+  useLayoutEffect(() => {
+    setSidebar(location.pathname);
+  }, [setSidebar, location]);
 
   const directMessagesSelected =
-    iconSelected.startsWith("/channels/@me") ||
-    iconSelected.startsWith("/store");
+    sidebarSelected.startsWith("/channels/@me") ||
+    sidebarSelected.startsWith("/store");
 
   return (
     <SidebarLayout>
@@ -62,7 +73,7 @@ export default function Sidebar() {
       <SidebarLayout.HorizontalLine />
       {serversArr.map(({ id, ...server }, idx) => {
         const url = "/channels/" + id;
-        const selected = iconSelected.startsWith(url);
+        const selected = sidebarSelected.startsWith(url);
         return (
           <SidebarLayout.Item
             key={id}
@@ -78,13 +89,13 @@ export default function Sidebar() {
       })}
       {ADDITIONAL_ICONS.map((icon, idx) => {
         const { id, path, hr, pill, pathProps, url } = icon;
-        const selected = iconSelected.startsWith(url ?? id);
+        const selected = sidebarSelected.startsWith(url ?? id);
         return (
           <React.Fragment key={id}>
             {hr && <SidebarLayout.HorizontalLine />}
             <SidebarLayout.Item
               ref={(el) => (iconsRef.current[serversArr.length + idx + 1] = el)}
-              onClick={() => setIconSelected(url ?? id)}
+              onClick={() => setSidebar(url ?? id)}
               url={url}
             >
               <SidebarLayout.Icon

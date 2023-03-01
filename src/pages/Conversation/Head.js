@@ -1,8 +1,12 @@
 import updateUser from "api/update_user";
 import Layout from "components/Layout";
 import * as Icons from "assets/icons/index";
+import useWindowDimensions from "hooks/use_window_dimensions";
 
 export default function Head({ sender, recipient }) {
+  const windowDimensions = useWindowDimensions();
+  const disabledSidebar = windowDimensions.width < 1130;
+
   return (
     <Layout.RightHead>
       <Layout.RightHeadTitle>
@@ -31,8 +35,12 @@ export default function Head({ sender, recipient }) {
         </Layout.RightHeadIconWrapper>
         <Layout.RightHeadIconWrapper
           highlighted={!sender.hideUserProfile}
+          disabled={disabledSidebar}
           onClick={() =>
-            updateUser(sender.id, { hideUserProfile: !sender.hideUserProfile })
+            !disabledSidebar &&
+            updateUser(sender.id, {
+              hideUserProfile: !sender.hideUserProfile,
+            })
           }
         >
           <Icons.HideProfile />

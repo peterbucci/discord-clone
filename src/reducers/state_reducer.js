@@ -26,10 +26,12 @@ export const actionTypes = {
   SET_SERVERS: "SET_SERVERS",
   SET_CHANNEL_CATEGORIES: "SET_CHANNEL_CATEGORIES",
   SET_CHANNELS: "SET_CHANNELS",
+  SET_SIDEBAR_SELECTED: "SET_SIDEBAR_SELECTED",
   UPDATE_SETTINGS: "UPDATE_SETTINGS",
   SET_FRIENDS_LIST_TAB: "SET_FRIENDS_LIST_TAB",
   SET_INITIAL_RENDER: "SET_INITIAL_RENDER",
   SET_UNSUBSCRIBERS: "SET_UNSUBSCRIBERS",
+  SET_QUERY_CURSOR: "SET_QUERY_CURSOR",
   LOGOUT_USER: "LOGOUT_USER",
 };
 
@@ -168,6 +170,12 @@ export default function reducer(state, action) {
         },
       };
 
+    case actionTypes.SET_SIDEBAR_SELECTED:
+      return {
+        ...state,
+        sidebarSelected: action.selected,
+      };
+
     case actionTypes.UPDATE_SETTINGS:
       return {
         ...state,
@@ -195,6 +203,15 @@ export default function reducer(state, action) {
         unsubscribers: {
           ...state.unsubscribers,
           ...action.unsubscribers,
+        },
+      };
+
+    case actionTypes.SET_QUERY_CURSOR:
+      return {
+        ...state,
+        queryCursors: {
+          ...state.queryCursors,
+          ...action.queryCursor,
         },
       };
 

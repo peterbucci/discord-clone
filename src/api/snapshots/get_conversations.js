@@ -1,77 +1,41 @@
-import {
-  collection,
-  query,
-  onSnapshot,
-  doc,
-  orderBy,
-} from "firebase/firestore";
+import { collection, query, onSnapshot, doc } from "firebase/firestore";
 import { actionTypes } from "reducers/state_reducer";
 import { db } from "firebase.js";
+import getUserSnapshot from "./get_user";
 
 export default function getConversationsSnapshot(
   userId,
   unsubscribers,
   dispatch,
-  setConversationCount
+  setConversationSnapshots
 ) {
   const q = query(collection(db, "users", userId, "conversations"));
   const snapshot = onSnapshot(q, (querySnapshot) => {
-    setConversationCount(querySnapshot.size);
-    querySnapshot.forEach((docX) => {
+    querySnapshot.empty && setConversationSnapshots(true);
+    querySnapshot.docs.forEach((docX, i, arr) => {
       const dataX = docX.data();
       const id = docX.id;
-      if (dataX.active) {
-        dispatch({
-          type: actionTypes.SET_ACTIVE_CONVERSATIONS,
-          activeConversation: id,
-        });
-      } else {
-        dispatch({
-          type: actionTypes.REMOVE_ACTIVE_CONVERSATIONS,
-          activeConversation: id,
-        });
-      }
+      dispatch({
+        type: actionTypes[
+          dataX.active
+            ? "SET_ACTIVE_CONVERSATIONS"
+            : "REMOVE_ACTIVE_CONVERSATIONS"
+        ],
+        activeConversation: id,
+      });
       if (!unsubscribers[id]) {
         const conversationUnsubscribe = onSnapshot(
           doc(db, "conversations", id),
           (docY) => {
             const dataY = docY.data();
             Object.keys(dataY.users).forEach((userId) => {
-              if (!unsubscribers[userId]) {
-                const unsubscribe = onSnapshot(
-                  doc(db, "users", userId),
-                  (docZ) => {
-                    dispatch({
-                      type: actionTypes.SET_USERS,
-                      users: [docZ.data()],
-                    });
-                  }
-                );
-                unsubscribers[id] = unsubscribe;
-              }
+              getUserSnapshot(userId, unsubscribers, dispatch);
             });
             dispatch({
               type: actionTypes.SET_CONVERSATIONS,
               conversations: [dataY],
             });
-          }
-        );
-
-        const messagesQuery = query(
-          collection(db, "conversations", id, "messages"),
-          orderBy("timestamp")
-        );
-        const messagesUnsubscribe = onSnapshot(
-          messagesQuery,
-          (querySnapshot) => {
-            querySnapshot.forEach((docZ) => {
-              const dataZ = docZ.data();
-              dispatch({
-                type: actionTypes.SET_MESSAGES,
-                id,
-                messages: [dataZ],
-              });
-            });
+            i + 1 === arr.length && setConversationSnapshots(true);
           }
         );
 
@@ -79,7 +43,6 @@ export default function getConversationsSnapshot(
           type: actionTypes.SET_UNSUBSCRIBERS,
           unsubscribers: {
             [id]: conversationUnsubscribe,
-            [id + "messages"]: messagesUnsubscribe,
           },
         });
       }

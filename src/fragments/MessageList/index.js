@@ -1,28 +1,89 @@
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import MessageListLayout from "components/MessageList";
-import sameDay from "helpers/same_day";
-import { useStateValue } from "providers/StateProvider";
-import React, { useEffect, useLayoutEffect, useState } from "react";
 import Message from "./Message";
+import { useStateValue } from "providers/StateProvider";
+import getMessagesSnapshot from "api/snapshots/get_messages";
+import getMoreMessagesSnapshot from "api/snapshots/get_more_messages";
+import sameDay from "helpers/same_day";
 
 export default function MessageList({
   conversationId,
   containerRef,
   setReplyToMessage,
+  fetching,
+  setFetching,
 }) {
-  const [messageToEdit, setMessageToEdit] = useState(null);
   const {
-    state: { messages, users },
+    dispatch,
+    state: { messages, users, queryCursors, unsubscribers },
   } = useStateValue();
-  const messagesToRender = messages[conversationId]
-    ? Object.values(messages[conversationId])
+  const listener = unsubscribers[conversationId + "messages"];
+  const queryCursorRefs = useRef({});
+  const [initialRender, setInitialRender] = useState(!listener);
+  const [messageToEdit, setMessageToEdit] = useState(null);
+  const start = queryCursors[conversationId];
+
+  const conversation = messages[conversationId];
+  const messagesToRender = conversation
+    ? Object.values(conversation).sort((a, b) =>
+        a.timestamp < b.timestamp ? -1 : 1
+      )
     : [];
+
+  const requestMessages = useCallback(
+    async (cursorKey, addConditions) => {
+      const cursors = queryCursorRefs.current;
+      if (!fetching && cursors[cursorKey] !== null && addConditions) {
+        console.log("get messages");
+        cursors[cursorKey] = null;
+        setFetching(true);
+        if (cursorKey === "0")
+          await getMessagesSnapshot(conversationId, dispatch, setInitialRender);
+        else await getMoreMessagesSnapshot(conversationId, dispatch, start);
+        setFetching(false);
+      }
+    },
+    [conversationId, dispatch, fetching, setFetching, start]
+  );
+
+  useEffect(() => {
+    requestMessages("0", !listener);
+  }, [listener, requestMessages]);
+
+  const onScroll = useCallback(
+    (e) => {
+      requestMessages(start?.id, e.target.scrollTop <= 1000 && start);
+    },
+    [start, requestMessages]
+  );
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("scroll", onScroll);
+      return () => container.removeEventListener("scroll", onScroll);
+    }
+  }, [containerRef, onScroll]);
 
   useLayoutEffect(() => {
     const container = containerRef.current;
     if (container) {
+      container.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, containerRef]);
+
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (container && !initialRender) {
       container.scrollTo(0, container.scrollHeight);
     }
-  }, [conversationId, containerRef]);
+  }, [conversationId, containerRef, initialRender]);
 
   useEffect(() => {
     const onKeyDown = (e) => {

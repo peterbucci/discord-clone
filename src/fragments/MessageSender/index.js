@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { createEditor, Editor, Transforms } from "slate";
+import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
 import { CodeElement, DefaultElement, Leaf } from "./elements";
 import { default as NewMessageSender } from "../../components/MessageSender";
@@ -9,8 +9,8 @@ import { handleKeyboardShortcuts, handleSelection } from "./event_listeners";
 import { useStateValue } from "../../providers/StateProvider";
 import SmileyIcons from "../SmileyIcons";
 import ReplyTo from "./ReplyTo";
-import createDoc from "helpers/create_doc";
 import * as Icons from "assets/icons";
+import createAndUpdateMessage from "api/create_and_update_message";
 
 const initialValue = [
   {
@@ -20,75 +20,37 @@ const initialValue = [
 ];
 
 export default function MessageSender({
-  editMessageLayout,
-  value,
-  id,
-  setEdit,
   replyToMessage,
   setReplyToMessage,
-  channelCategory,
+  categoryId,
+  messageId,
+  setEdit,
 }) {
   const mouseDownRef = useRef(false);
   const [displayFormatToolbar, setDisplayFormatToolbar] = useState(false);
   const [editor] = useState(() => withReact(createEditor()));
   const {
-    state: { user },
+    state: { user, messages },
   } = useStateValue();
   const params = useParams();
-  const conversationId = channelCategory
-    ? params.channelId
-    : params.conversationId;
+  const conversationId = categoryId ? params.channelId : params.conversationId;
+  const message = messages[conversationId]
+    ? messages[conversationId][messageId]
+    : null;
 
-  const sendMessage = () => {
-    if (editor.children.some((child) => !Editor.isEmpty(editor, child))) {
-      const collectionPath = channelCategory
-        ? [
-            "servers",
-            params.serverId,
-            "categories",
-            channelCategory,
-            "channels",
-            conversationId,
-            "messages",
-          ]
-        : ["conversations", conversationId, "messages"];
-
-      if (id) {
-        createDoc(
-          collectionPath,
-          {
-            nodes: editor.children,
-            edited: new Date(),
-          },
-          id
-        );
-        setEdit(null);
-      } else {
-        createDoc(collectionPath, {
-          sender: user,
-          nodes: editor.children,
-          timestamp: new Date(),
-          reply: replyToMessage,
-        });
-        // Delete all entries leaving 1 empty node
-        Transforms.delete(editor, {
-          at: {
-            anchor: Editor.start(editor, []),
-            focus: Editor.end(editor, []),
-          },
-        });
-
-        // Removes empty node
-        Transforms.removeNodes(editor, {
-          at: [0],
-        });
-
-        // Insert array of children nodes
-        Transforms.insertNodes(editor, initialValue);
-      }
-      setReplyToMessage(null);
-    }
-  };
+  const sendMessage = () =>
+    createAndUpdateMessage(
+      editor,
+      initialValue,
+      setEdit,
+      params.serverId,
+      conversationId,
+      categoryId,
+      replyToMessage,
+      setReplyToMessage,
+      message,
+      user
+    );
 
   const renderElement = useCallback((props) => {
     switch (props.element.type) {
@@ -105,10 +67,10 @@ export default function MessageSender({
 
   const onMouseUp = useCallback(() => {
     if (mouseDownRef.current) {
-      handleSelection(editor, setDisplayFormatToolbar, editMessageLayout);
+      handleSelection(editor, setDisplayFormatToolbar, message);
       mouseDownRef.current = false;
     }
-  }, [editor, editMessageLayout]);
+  }, [editor, message]);
 
   useEffect(() => {
     document.addEventListener("mouseup", onMouseUp);
@@ -117,10 +79,10 @@ export default function MessageSender({
   }, [onMouseUp]);
 
   return (
-    <Slate editor={editor} value={value ?? initialValue}>
+    <Slate editor={editor} value={message?.nodes ?? initialValue}>
       <NewMessageSender
         onSubmit={(event) => event.preventDefault()}
-        editMessageLayout={editMessageLayout}
+        editMessageLayout={message}
       >
         {replyToMessage && (
           <NewMessageSender.AttachedBars>
@@ -137,7 +99,7 @@ export default function MessageSender({
             editor={editor}
           />
           <NewMessageSender.InnerContainer>
-            {!editMessageLayout && (
+            {!message && (
               <NewMessageSender.AttachWrapper>
                 <NewMessageSender.AttachButton>
                   <Icons.Attach />
@@ -146,8 +108,8 @@ export default function MessageSender({
             )}
             <NewMessageSender.TextboxWrapper>
               <NewMessageSender.Textbox
-                id={`messageSender${editMessageLayout ? "Edit" : ""}`}
-                placeholder={!editMessageLayout ? "Message @" : ""}
+                id={`messageSender${message ? "Edit" : ""}`}
+                placeholder={!message ? "Message @" : ""}
                 renderElement={renderElement}
                 renderLeaf={renderLeaf}
                 onBlur={() => setDisplayFormatToolbar(false)}
@@ -161,7 +123,7 @@ export default function MessageSender({
               />
             </NewMessageSender.TextboxWrapper>
             <NewMessageSender.ButtonsContainer>
-              {!editMessageLayout && (
+              {!message && (
                 <>
                   <NewMessageSender.Button>
                     <Icons.Gift />
@@ -180,7 +142,7 @@ export default function MessageSender({
             </NewMessageSender.ButtonsContainer>
           </NewMessageSender.InnerContainer>
         </NewMessageSender.ScrollableContainer>
-        {editMessageLayout && (
+        {message && (
           <NewMessageSender.EditOperations>
             escape to{" "}
             <NewMessageSender.Clickable onClick={() => setEdit(null)}>

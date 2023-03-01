@@ -3,17 +3,19 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  flex: 1;
-  height: 48px;
+  min-width: 0;
+  width: 100%;
 `;
 
 export const Left = styled.div`
   display: flex;
-  flex: 1;
+  flex: 1 1 auto;
+  width: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 20px;
   font-size: 16px;
   font-weight: 500;
+  overflow: hidden;
 `;
 
 export const IconWrapper = styled.div`
@@ -41,19 +43,25 @@ export const Divider = styled.div`
 
 export const Nav = styled.div`
   display: flex;
+  flex: 1 0 auto;
+  min-width: 0;
 `;
 
 export const NavLink = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: 0 8px;
   padding: 2px 8px;
+  min-width: 40px;
   color: ${({ selected, theme }) =>
     selected ? theme.white : theme.interactiveNormal};
   cursor: ${({ selected }) => (selected ? "default" : "pointer")};
   background-color: ${({ selected, theme }) =>
-    selected ? theme.backgroundModifierSelected : "auto"};
+    selected ? theme.backgroundModifierSelected : "inherit"};
   border-radius: 4px;
+  text-align: center;
+  white-space: nowrap;
   &:hover {
     background-color: ${({ theme }) => theme.backgroundModifierAccent};
     color: ${({ selected, theme }) =>
@@ -72,6 +80,7 @@ export const AddFriend = styled.div`
   border-radius: 4px;
   color: ${({ selected, theme }) =>
     selected ? theme.textPositive : theme.white};
+  white-space: nowrap;
   cursor: pointer;
 `;
 
@@ -93,5 +102,7 @@ export const RequestBadge = styled.div`
 
 export const Right = styled.div`
   display: flex;
-  flex: 0;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 0;
 `;

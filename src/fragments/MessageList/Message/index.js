@@ -55,12 +55,7 @@ export default function Message({
           </NewMessage.Timestamp>
         )}
         {edit ? (
-          <MessageSender
-            editMessageLayout={true}
-            value={nodes}
-            id={id}
-            setEdit={setEdit}
-          />
+          <MessageSender messageId={id} setEdit={setEdit} />
         ) : (
           <NewMessage.Text>{formatText(nodes, edited)}</NewMessage.Text>
         )}

@@ -1,6 +1,7 @@
-import { collection, query, onSnapshot, doc } from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import { actionTypes } from "reducers/state_reducer";
 import { db } from "firebase.js";
+import getUserSnapshot from "./get_user";
 
 export default function getFriendRequestsSnapshot(
   userId,
@@ -22,21 +23,7 @@ export default function getFriendRequestsSnapshot(
           type: actionTypes.SET_FRIEND_REQUESTS,
           friendRequests: [docX.data()],
         });
-
-        if (!unsubscribers[id]) {
-          const snapshot = onSnapshot(doc(db, "users", id), (docY) => {
-            dispatch({
-              type: actionTypes.SET_USERS,
-              users: [docY.data()],
-            });
-          });
-          dispatch({
-            type: actionTypes.SET_UNSUBSCRIBERS,
-            unsubscribers: {
-              [id]: snapshot,
-            },
-          });
-        }
+        getUserSnapshot(id, unsubscribers, dispatch);
       }
     });
   });

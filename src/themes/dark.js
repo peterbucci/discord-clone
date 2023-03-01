@@ -34,17 +34,67 @@ const darkTheme = {
   primaryDark800HSL: "225 7.7% 10.2%",
   primaryDark900HSL: "240 11.1% 1.8%",
   primaryLight900HSL: "240 7.7% 2.5%",
+  primary130HSL: "210 9.1% 95.7%",
+  primary160HSL: "220 9.7% 93.9%",
+  primary200HSL: "225 10% 92.2%",
+  primary400HSL: "226.2 5.5% 53.5%",
+  primary430HSL: "229.1 4.8% 44.9%",
+  primary460HSL: "228 5.2% 38%",
+  primary500HSL: "228 6% 32.5%",
+  primary600HSL: "222.9 6.7% 20.6%",
+  primary860HSL: "240 7.7% 2.5%",
+  blue430HSL: "212.2 100% 45.3%",
+  brand500HSL: "234.9 85.6% 64.7%",
+  get brand500() {
+    return `hsl(${this.brand500HSL}/1)`;
+  },
+  get primary130() {
+    return `hsl(${this.primary130HSL}/1)`;
+  },
+  get primary160() {
+    return `hsl(${this.primary160HSL}/1)`;
+  },
+  get primary200() {
+    return `hsl(${this.primary200HSL}/1)`;
+  },
+  get primary430() {
+    return `hsl(${this.primary430HSL}/1)`;
+  },
+  get primary460() {
+    return `hsl(${this.primary460HSL}/1)`;
+  },
+  get primary500() {
+    return `hsl(${this.primary500HSL}/1)`;
+  },
+  get primary600() {
+    return `hsl(${this.primary600HSL}/1)`;
+  },
+  get primary860() {
+    return `hsl(${this.primary860HSL}/1)`;
+  },
+  get blue430() {
+    return `hsl(${this.blue430HSL}/1)`;
+  },
   get textInputBorder() {
     return `hsl(${this.black500HSL} / 0.3)`;
   },
+  get layerBackground() {
+    return `hsl(${this.black500HSL} / 0.85)`;
+  },
   get backgroundModifierAccent() {
     return `hsl(${this.primaryDark500HSL} / 0.48)`;
+  },
+  get backgroundModifierAccentLight() {
+    return `hsl(${this.primary400HSL} / 0.24)`;
   },
   get backgroundModifierSelected() {
     return `hsl(${this.primaryDark500HSL} / 0.6)`;
   },
   get backgroundModifierHover() {
     return `hsl(${this.primaryDark500HSL} / 0.4)`;
+  },
+  get backgroundModifierHoverLight() {
+    return `hsl(${this.primary400HSL} / 0.16)`;
   },
   get backgroundModifierActive() {
     return `hsl(${this.primaryDark500HSL} / 0.7)`;

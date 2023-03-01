@@ -5,6 +5,7 @@ import UserSettings from "pages/UserSettings";
 import { AnimatedContainer, Container } from "styles/app";
 import Sidebar from "fragments/Sidebar";
 import { useStateValue } from "providers/StateProvider";
+import AddAServer from "pages/AddAServer";
 
 const duration = 300;
 
@@ -46,6 +47,7 @@ export default function AnimatedRoot() {
             <Outlet />
           </Container>
           <UserSettings />
+          <AddAServer />
         </AnimatedContainer>
       )}
     </Transition>

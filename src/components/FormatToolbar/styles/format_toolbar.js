@@ -6,10 +6,11 @@ export const Container = styled.div`
   left: ${({ visible }) => (visible ? visible.left + "px" : "0")};
   display: flex;
   flex-direction: row;
-  height: 32px;
+  height: ${({ visible }) => (visible ? "32px" : "0")};
   background-color: ${({ theme }) => theme.backgroundHover};
   border-radius: 4px;
   opacity: ${({ visible }) => (visible ? "1" : "0")};
+  overflow: hidden;
   z-index: 100;
 `;
 

@@ -4,9 +4,9 @@ import { actionTypes } from "../reducers/state_reducer";
 
 export default function onAuthChange(
   dispatch,
-  setServerCount,
-  setConversationCount,
-  setFriendCount
+  setServerSnapshots,
+  setConversationSnapshots,
+  setFriendSnapshots
 ) {
   return onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -18,9 +18,9 @@ export default function onAuthChange(
       });
       // ...
     } else {
-      setServerCount(-1);
-      setConversationCount(-1);
-      setFriendCount(-1);
+      setServerSnapshots(false);
+      setConversationSnapshots(false);
+      setFriendSnapshots(false);
       // User is signed out
       // ...
     }

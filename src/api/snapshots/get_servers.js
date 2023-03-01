@@ -6,32 +6,34 @@ export default function getServersSnapshot(
   userId,
   unsubscribers,
   dispatch,
-  setServerCount
+  setServerSnapshots
 ) {
   const q = query(collection(db, "users", userId, "servers"));
   const snapshot = onSnapshot(q, (querySnapshot) => {
-    setServerCount(querySnapshot.size);
-    querySnapshot.forEach((docX) => {
+    querySnapshot.empty && setServerSnapshots(true);
+    const listeners = querySnapshot.docs.reduce((listeners, docX, i, arr) => {
       const id = docX.id;
-      if (!unsubscribers[id]) {
-        const snapshot = onSnapshot(doc(db, "servers", id), (docY) => {
-          dispatch({
-            type: actionTypes.SET_SERVERS,
-            servers: [docY.data()],
-          });
-        });
-        dispatch({
-          type: actionTypes.SET_UNSUBSCRIBERS,
-          unsubscribers: {
-            [id]: snapshot,
-          },
-        });
-      }
-    });
+      return {
+        ...listeners,
+        ...(!unsubscribers[id]
+          ? {
+              [id]: onSnapshot(doc(db, "servers", id), (docY) => {
+                dispatch({
+                  type: actionTypes.SET_SERVERS,
+                  servers: [docY.data()],
+                });
+                i + 1 === arr.length && setServerSnapshots(true);
+              }),
+            }
+          : {}),
+      };
+    }, {});
+
     dispatch({
       type: actionTypes.SET_UNSUBSCRIBERS,
       unsubscribers: {
         servers: snapshot,
+        ...listeners,
       },
     });
   });

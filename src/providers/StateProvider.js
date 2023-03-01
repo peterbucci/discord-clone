@@ -12,7 +12,7 @@ import Loading from "pages/Loading";
 import defaultState from "assets/default_state";
 // Snapshots
 import onAuthChange from "api/on_auth_change";
-import getUserSnapshot from "api/snapshots/get_user";
+import getCurrentUserSnapshot from "api/snapshots/get_current_user";
 import getFriendsSnapshot from "api/snapshots/get_friends";
 import getFriendRequestsSnapshot from "api/snapshots/get_friend_requests";
 import getNotesSnapshot from "api/snapshots/get_notes";
@@ -23,27 +23,24 @@ import onlinePresence from "api/online_presence";
 const StateContext = createContext();
 export const StateProvider = ({ children }) => {
   const onAuthChangeUnsub = useRef(null);
-  const [friendCount, setFriendCount] = useState(-1);
-  const [conversationCount, setConversationCount] = useState(-1);
-  const [serverCount, setServerCount] = useState(-1);
+  const [friendSnapshots, setFriendSnapshots] = useState(false);
+  const [conversationSnapshots, setConversationSnapshots] = useState(false);
+  const [serverSnapshots, setServerSnapshots] = useState(false);
   const [state, dispatch] = useReducer(reducer, defaultState);
 
   const dataLoaded = useCallback(() => {
     return (
-      state.user &&
-      friendCount === Object.keys(state.friends).length &&
-      conversationCount === Object.values(state.conversations).length &&
-      serverCount === Object.values(state.servers).length
+      state.user && friendSnapshots && conversationSnapshots && serverSnapshots
     );
-  }, [conversationCount, friendCount, serverCount, state]);
+  }, [conversationSnapshots, friendSnapshots, serverSnapshots, state]);
 
   useEffect(() => {
     if (!onAuthChangeUnsub.current) {
       onAuthChangeUnsub.current = onAuthChange(
         dispatch,
-        setServerCount,
-        setConversationCount,
-        setFriendCount,
+        setServerSnapshots,
+        setConversationSnapshots,
+        setFriendSnapshots,
         state.unsubscribers
       );
     }
@@ -51,13 +48,13 @@ export const StateProvider = ({ children }) => {
 
   useEffect(() => {
     if (state.uid && !state.unsubscribers.user)
-      getUserSnapshot(dispatch, state.uid);
+      getCurrentUserSnapshot(dispatch, state.uid);
   }, [state.uid, state.unsubscribers]);
 
   useEffect(() => {
     if (state.user && !state.unsubscribers.onlinePresence)
       onlinePresence(state.user, dispatch);
-  });
+  }, [state.user, state.unsubscribers.onlinePresence]);
 
   useEffect(() => {
     if (state.user && !state.unsubscribers.friends)
@@ -65,7 +62,7 @@ export const StateProvider = ({ children }) => {
         state.user,
         state.unsubscribers,
         dispatch,
-        setFriendCount
+        setFriendSnapshots
       );
   }, [state.user, state.unsubscribers]);
 
@@ -85,7 +82,7 @@ export const StateProvider = ({ children }) => {
         state.user,
         state.unsubscribers,
         dispatch,
-        setConversationCount
+        setConversationSnapshots
       );
   }, [state.user, state.unsubscribers]);
 
@@ -95,7 +92,7 @@ export const StateProvider = ({ children }) => {
         state.user,
         state.unsubscribers,
         dispatch,
-        setServerCount
+        setServerSnapshots
       );
   }, [state.user, state.unsubscribers]);
 

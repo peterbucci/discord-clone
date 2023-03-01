@@ -1,17 +1,18 @@
-import { collection, query, onSnapshot, doc } from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import { actionTypes } from "reducers/state_reducer";
 import { db } from "firebase.js";
+import getUserSnapshot from "./get_user";
 
 export default function getFriendsSnapshot(
   userId,
   unsubscribers,
   dispatch,
-  setFriendCount
+  setFriendSnapshots
 ) {
   const q = query(collection(db, "users", userId, "friends"));
   const snapshot = onSnapshot(q, (querySnapshot) => {
-    setFriendCount(querySnapshot.size);
-    querySnapshot.docChanges().forEach((change) => {
+    querySnapshot.empty && setFriendSnapshots(true);
+    querySnapshot.docChanges().forEach((change, i, arr) => {
       const docX = change.doc;
       const id = docX.id;
       if (change.type === "removed") {
@@ -24,21 +25,9 @@ export default function getFriendsSnapshot(
           type: actionTypes.SET_FRIENDS,
           friends: [docX.data()],
         });
-        if (!unsubscribers[id]) {
-          const snapshot = onSnapshot(doc(db, "users", id), (docY) => {
-            dispatch({
-              type: actionTypes.SET_USERS,
-              users: [docY.data()],
-            });
-          });
-          dispatch({
-            type: actionTypes.SET_UNSUBSCRIBERS,
-            unsubscribers: {
-              [id]: snapshot,
-            },
-          });
-        }
+        getUserSnapshot(id, unsubscribers, dispatch);
       }
+      i + 1 === arr.length && setFriendSnapshots(true);
     });
   });
   dispatch({

@@ -3,8 +3,11 @@ import ConversationSidebar from "fragments/ConversationSidebar";
 import ActiveNowSidebar from "./ActiveNowSidebar";
 import Head from "./Head";
 import Body from "./Body";
+import useWindowDimensions from "hooks/use_window_dimensions";
 
 export default function FriendsList() {
+  const windowDimensions = useWindowDimensions();
+  const disabledSidebar = windowDimensions.width < 1130;
   return (
     <Layout>
       <ConversationSidebar />
@@ -14,7 +17,7 @@ export default function FriendsList() {
         </Layout.RightHead>
         <Layout.RightBody>
           <Body />
-          <ActiveNowSidebar />
+          {!disabledSidebar && <ActiveNowSidebar />}
         </Layout.RightBody>
       </Layout.Right>
     </Layout>

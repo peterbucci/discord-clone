@@ -32,8 +32,7 @@ export default async function addFriend(userId, friendId) {
       startDate: new Date(),
       users: userMap,
     };
-    const conversationDoc = createDoc(["conversations"], dataY);
-
+    const conversationDoc = await createDoc(["conversations"], dataY);
     const dataZ = {
       active: true,
     };
