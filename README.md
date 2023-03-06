@@ -2,7 +2,7 @@
     <img src="public/discord_logo.svg" alt="Discord Logo" width="100px" />
 </p>
 
-<div style="text-align: center; font-size: 2rem;margin-bottom: 20px;">A Discord Clone</div>
+<div style="width: 100%; margin-bottom: 20px; text-align: center; font-size: 30px;">A Discord Clone</div>
 
 ## Technologies
 
