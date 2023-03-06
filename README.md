@@ -27,9 +27,9 @@ To be added...
 ## Features
 
 - **Friends List**
-  - Add and delete friends
-  - Filter by status
+  - Send and receive friend requests and filter friends by online status.
   - Add and remove active conversations
+  - Prescence system built using firebase cloud functions and Realtime Database to handle status changes on entering and leaving page.
 - **Servers**
   - Create a server from scratch or with a premade template
 - **Realtime Chat**
