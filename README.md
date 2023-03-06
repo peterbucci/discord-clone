@@ -1,4 +1,4 @@
-# <img src="public/discord_logo.svg" alt="Discord Logo" width="30px" /> &nbsp; A Discord Clone
+# <img src="public/discord_logo.svg" alt="Discord Logo" width="30px" /> &nbsp;A Discord Clone
 
 ## Technologies
 
