@@ -41,4 +41,5 @@ To be added...
 
 ## Links
 
-**[Demo](https://project-clone-001.web.app/)**
+- **[Demo](https://project-clone-001.web.app/)**
+- **[Linkedin](https://www.linkedin.com/in/peter-bucci/)**
