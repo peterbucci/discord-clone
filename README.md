@@ -3,6 +3,7 @@
 ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
 ![React-Router](https://img.shields.io/badge/React_Router-CA4245?style=flat&logo=react-router&logoColor=white)
 ![Firebase](https://img.shields.io/badge/firebase-039BE5?style=flat&logo=firebase)
+![Styled Components](https://img.shields.io/badge/Styled_Components-v5.3.6-orange?style=flat)
 
 ## Table of Contents
 
