@@ -1,8 +1,4 @@
-<p align="center">
-    <img src="public/discord_logo.svg" alt="Discord Logo" width="100px" />
-</p>
-
-<p align="center" style="font-size: 30px">A Discord Clone</p>
+# <img src="public/discord_logo.svg" alt="Discord Logo" width="30px" /> &nbsp; A Discord Clone
 
 ## Technologies
 
