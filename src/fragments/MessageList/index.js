@@ -54,7 +54,7 @@ export default function MessageList({
 
   useEffect(() => {
     requestMessages("0", !listener);
-  }, [listener, requestMessages]);
+  }, [listener, requestMessages, conversationId]);
 
   const onScroll = useCallback(
     (e) => {
