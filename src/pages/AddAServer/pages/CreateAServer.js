@@ -3,6 +3,7 @@ import Page from "components/AddAServer/Page";
 
 const createMyOwn = {
   categories: [
+    { name: "Uncategorized", channels: [] },
     {
       name: "Text Channels",
       channels: [

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -75,7 +75,6 @@ export const Button = styled.button`
   height: 24px;
   min-width: 52px;
   min-height: 24px;
-  background: none;
   background-color: ${({ altBackground, theme }) =>
     altBackground ? theme.brand : theme.interactiveMuted};
   border: none;

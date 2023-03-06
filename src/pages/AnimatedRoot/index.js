@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { Transition } from "react-transition-group";
+import { useLocation } from "react-router-dom";
 import { Navigate, Outlet } from "react-router";
 import UserSettings from "pages/UserSettings";
 import { AnimatedContainer, Container } from "styles/app";
@@ -25,9 +26,12 @@ export default function AnimatedRoot() {
   const {
     state: { userSettings, initialRender, uid },
   } = useStateValue();
+  const location = useLocation();
 
   return !initialRender && !uid ? (
     <Navigate replace to="/login" />
+  ) : location.pathname === "/" ? (
+    <Navigate replace to="/channels/@me" />
   ) : (
     <Transition
       nodeRef={nodeRef}

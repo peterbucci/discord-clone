@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   flex: 1;
   display: flex;
+  width: 100%;
+  overflow: hidden;
 `;
 
 export const Right = styled.div`
@@ -10,6 +12,8 @@ export const Right = styled.div`
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
+  width: 100%;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.backgroundPrimary};
   color: ${({ theme }) => theme.white};
 `;
@@ -21,9 +25,8 @@ export const RightHead = styled.div`
   margin-bottom: 1px;
   padding: 0 8px;
   height: 48px;
-  min-width: 0;
-  width: 100%;
   box-shadow: ${({ theme }) => theme.elevationLow};
+  overflow: hidden;
 `;
 
 export const RightHeadTitle = styled.div`
@@ -31,7 +34,6 @@ export const RightHeadTitle = styled.div`
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  min-width: 0;
   overflow: hidden;
 `;
 
@@ -100,7 +102,7 @@ export const RightBody = styled.div`
 export const RightMainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
 `;
 
 export const RightMainSearch = styled.div`
@@ -114,7 +116,6 @@ export const RightMainHead = styled.div`
 
 export const RightMain = styled.div`
   flex: 1;
-  overflow-y: auto;
 `;
 
 export const Conversation = styled.ol`
@@ -127,9 +128,7 @@ export const ConversationSpacer = styled.div`
   height: 30px;
 `;
 
-export const RightMainFooter = styled.div`
-  flex: 0 0 68px;
-`;
+export const RightMainFooter = styled.div``;
 
 export const RightSidebar = styled.div`
   flex-shrink: 0;

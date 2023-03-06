@@ -1,5 +1,6 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
 import { Navigate } from "react-router-dom";
+import { default as LoginLayout } from "components/Login";
 import { useStateValue } from "providers/StateProvider";
 import { auth } from "firebase.js";
 
@@ -10,7 +11,7 @@ export default function Login() {
   } = useStateValue();
 
   return !uid ? (
-    <div onClick={() => signInWithPopup(auth, provider)}>Sign in</div>
+    <LoginLayout onClick={() => signInWithRedirect(auth, provider)} />
   ) : (
     <Navigate replace to="/channels/@me" />
   );

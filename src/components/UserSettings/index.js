@@ -1,3 +1,4 @@
+import CustomScrollbar from "fragments/CustomScrollbar";
 import { forwardRef } from "react";
 import {
   Close,
@@ -29,9 +30,11 @@ const UserSettingsLayout = forwardRef(({ children, ...restProps }, ref) => {
 UserSettingsLayout.Sidebar = ({ children, ...restProps }) => {
   return (
     <Sidebar {...restProps}>
-      <SidebarScroller>
-        <SidebarNav>{children}</SidebarNav>
-      </SidebarScroller>
+      <CustomScrollbar>
+        <SidebarScroller>
+          <SidebarNav>{children}</SidebarNav>
+        </SidebarScroller>
+      </CustomScrollbar>
     </Sidebar>
   );
 };
@@ -52,7 +55,9 @@ UserSettingsLayout.Content = ({ children, ...restProps }) => {
   return (
     <Content {...restProps}>
       <ContentTransitionWrap>
-        <ContentRegionScroll>{children}</ContentRegionScroll>
+        <CustomScrollbar>
+          <ContentRegionScroll>{children}</ContentRegionScroll>
+        </CustomScrollbar>
       </ContentTransitionWrap>
     </Content>
   );

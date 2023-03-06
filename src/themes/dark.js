@@ -45,6 +45,7 @@ const darkTheme = {
   primary860HSL: "240 7.7% 2.5%",
   blue430HSL: "212.2 100% 45.3%",
   brand500HSL: "234.9 85.6% 64.7%",
+  scrollbar: "hsl(220, 8%, 8%)",
   get brand500() {
     return `hsl(${this.brand500HSL}/1)`;
   },

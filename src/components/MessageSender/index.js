@@ -1,3 +1,4 @@
+import CustomScrollbar from "fragments/CustomScrollbar";
 import {
   AttachButton,
   AttachedBars,
@@ -32,7 +33,11 @@ MessageSender.ScrollableContainer = ({ children, ...restProps }) => {
 };
 
 MessageSender.InnerContainer = ({ children, ...restProps }) => {
-  return <InnerContainer {...restProps}>{children}</InnerContainer>;
+  return (
+    <CustomScrollbar autoHeight autoHeightMin={22}>
+      <InnerContainer {...restProps}>{children}</InnerContainer>
+    </CustomScrollbar>
+  );
 };
 
 MessageSender.AttachWrapper = ({ children, ...restProps }) => {

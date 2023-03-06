@@ -36,7 +36,7 @@ export default function Message({
   };
 
   return (
-    <NewMessage edit={edit}>
+    <NewMessage edit={edit} padding={!renderHeader()}>
       <NewMessage.Wrapper margin={renderHeader()}>
         {renderHeader() ? (
           <>

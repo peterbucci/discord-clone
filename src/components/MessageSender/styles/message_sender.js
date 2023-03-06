@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Editable } from "slate-react";
 
 export const Form = styled.form`
-  flex-shrink: 0;
   padding-left: 16px;
   padding-right: 16px;
 `;
@@ -13,12 +12,23 @@ export const Container = styled.div`
 `;
 
 export const ScrollableContainer = styled.div`
-  padding: 0 16px;
-  max-height: 50vh;
+  position: relative;
+  padding: 11px 0 11px 0;
   border-radius: ${({ attachedBar }) => (attachedBar ? "0 0 8px 8px" : "8px")};
-  overflow-x: hidden;
-  overflow-y: scroll;
   background-color: ${({ theme }) => theme.channelTextAreaBackground};
+  & > div > div:last-child {
+    top: 13px !important;
+    right: 4px !important;
+    bottom: -11px !important;
+    width: 4px !important;
+    & > div {
+      background-color: #202226 !important;
+    }
+  }
+  & > div > div:first-child {
+    position: sticky !important;
+    top: 0;
+  }
 `;
 
 export const InnerContainer = styled.div`
@@ -29,17 +39,17 @@ export const InnerContainer = styled.div`
 export const FileInput = styled.input``;
 
 export const AttachWrapper = styled.div`
-  position: sticky;
-  flex: 0 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 export const AttachButton = styled.button`
   all: unset;
   position: sticky;
-  top: 0;
+  top: 0px;
   height: 24px;
-  margin-left: -16px;
-  padding: 10px;
+  padding: 10px 0 10px 16px;
   cursor: pointer;
   &:hover svg path {
     fill: ${({ theme }) => theme.textNormal};
@@ -47,14 +57,19 @@ export const AttachButton = styled.button`
 `;
 
 export const TextboxWrapper = styled.div`
+  flex: 1;
   position: relative;
-  width: 100%;
+  padding: ${({ editMessageLayout }) =>
+    editMessageLayout ? "0 50px 0 10px" : "0 165px 0 60px"};
 `;
 
 export const TextBox = styled(Editable)`
-  padding: 11px 10px 11px 0;
   font-size: 1rem;
   line-height: 1.375rem;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: hidden;
 `;
 
 export const PlaceHolder = styled.div`
@@ -66,9 +81,9 @@ export const PlaceHolder = styled.div`
 export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  position: sticky;
+  position: absolute;
   top: 0;
-  margin-right: -6px;
+  right: 5px;
   height: 44px;
 `;
 

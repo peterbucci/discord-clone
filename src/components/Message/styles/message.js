@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const ListItem = styled.li`
   position: relative;
+  margin-right: 1rem;
+  padding-top: ${({ edit, padding }) => (edit && padding ? "2px" : "0")};
   background-color: ${({ edit, theme }) =>
     edit ? theme.backgroundSecondary : "initial"};
   &:hover {
@@ -19,6 +21,9 @@ export const Wrapper = styled.div`
   position: relative;
   margin-top: ${({ margin }) => (margin ? "17px" : "0")};
   padding: 0 48px 0 72px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
 `;
 
 export const Content = styled.div`

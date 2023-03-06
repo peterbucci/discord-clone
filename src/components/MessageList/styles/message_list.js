@@ -9,9 +9,7 @@ export const DailyDivider = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flexDirection: 'column-reverse',
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin: 1.5rem 1rem 0.5rem 1rem;
   height: 0;
   border-top: ${({ theme }) => `1px solid ${theme.backgroundModifierAccent}`};
   pointer-events: none;
@@ -20,7 +18,7 @@ export const DailyDivider = styled.div`
 
 export const DailyDividerText = styled.span`
   display: block;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   margin-top: -1px;
   padding: 2px 4px;
   color: ${({ theme }) => theme.textMuted};

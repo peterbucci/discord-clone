@@ -98,15 +98,15 @@ export default function MessageSender({
             displayFormatToolbar={displayFormatToolbar}
             editor={editor}
           />
+          {!message && (
+            <NewMessageSender.AttachWrapper>
+              <NewMessageSender.AttachButton>
+                <Icons.Attach />
+              </NewMessageSender.AttachButton>
+            </NewMessageSender.AttachWrapper>
+          )}
           <NewMessageSender.InnerContainer>
-            {!message && (
-              <NewMessageSender.AttachWrapper>
-                <NewMessageSender.AttachButton>
-                  <Icons.Attach />
-                </NewMessageSender.AttachButton>
-              </NewMessageSender.AttachWrapper>
-            )}
-            <NewMessageSender.TextboxWrapper>
+            <NewMessageSender.TextboxWrapper editMessageLayout={message}>
               <NewMessageSender.Textbox
                 id={`messageSender${message ? "Edit" : ""}`}
                 placeholder={!message ? "Message @" : ""}
@@ -122,25 +122,25 @@ export default function MessageSender({
                 }
               />
             </NewMessageSender.TextboxWrapper>
-            <NewMessageSender.ButtonsContainer>
-              {!message && (
-                <>
-                  <NewMessageSender.Button>
-                    <Icons.Gift />
-                  </NewMessageSender.Button>
-                  <NewMessageSender.Button>
-                    <Icons.Gif />
-                  </NewMessageSender.Button>
-                  <NewMessageSender.Button>
-                    <Icons.Stickers />
-                  </NewMessageSender.Button>
-                </>
-              )}
-              <NewMessageSender.Button>
-                <SmileyIcons />
-              </NewMessageSender.Button>
-            </NewMessageSender.ButtonsContainer>
           </NewMessageSender.InnerContainer>
+          <NewMessageSender.ButtonsContainer>
+            {!message && (
+              <>
+                <NewMessageSender.Button>
+                  <Icons.Gift />
+                </NewMessageSender.Button>
+                <NewMessageSender.Button>
+                  <Icons.Gif />
+                </NewMessageSender.Button>
+                <NewMessageSender.Button>
+                  <Icons.Stickers />
+                </NewMessageSender.Button>
+              </>
+            )}
+            <NewMessageSender.Button>
+              <SmileyIcons />
+            </NewMessageSender.Button>
+          </NewMessageSender.ButtonsContainer>
         </NewMessageSender.ScrollableContainer>
         {message && (
           <NewMessageSender.EditOperations>

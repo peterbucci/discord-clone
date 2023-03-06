@@ -47,15 +47,9 @@ export default async function createServer(
     };
     const serverDoc = await createDoc(["servers"], serverData);
     categories.forEach((category, i) =>
-      createCategory(category.name, serverDoc.id, i).then((category) =>
-        categories[i].channels.forEach((channel, j) => {
-          createChannel(
-            channel.name,
-            serverDoc.id,
-            category.id,
-            channel.type,
-            j
-          );
+      createCategory(category.name, serverDoc.id, i).then((doc) =>
+        category.channels.forEach((channel, j) => {
+          createChannel(channel.name, serverDoc.id, doc.id, channel.type, j);
         })
       )
     );

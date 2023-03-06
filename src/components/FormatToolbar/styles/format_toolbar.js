@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  position: absolute;
+  position: fixed;
   top: ${({ visible }) => (visible ? visible.top - 40 + "px" : "0")};
   left: ${({ visible }) => (visible ? visible.left + "px" : "0")};
   display: flex;

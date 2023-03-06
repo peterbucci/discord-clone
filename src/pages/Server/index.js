@@ -26,9 +26,17 @@ export default function Server() {
 
   const getDefaultChannel = () => {
     const firstCategory = Object.values(serverCategories)[0];
-    return serverChannels.filter(
+    const channels = serverChannels.filter(
       (channel) => firstCategory.id === channel.category
-    )[0];
+    );
+
+    if (channels.length) return channels[0];
+    else {
+      const secondCategory = Object.values(serverCategories)[1];
+      return serverChannels.filter(
+        (channel) => secondCategory.id === channel.category
+      )[0];
+    }
   };
 
   useEffect(() => {
@@ -62,7 +70,15 @@ export default function Server() {
           currentChannel={currentChannel}
         />
         <Layout.Right>
-          {currentChannel ? <Channel currentChannel={currentChannel} /> : <></>}
+          {currentChannel ? (
+            currentChannel.type === "voice" ? (
+              <></>
+            ) : (
+              <Channel currentChannel={currentChannel} />
+            )
+          ) : (
+            <></>
+          )}
         </Layout.Right>
       </Layout>
     ) : (

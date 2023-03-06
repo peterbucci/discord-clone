@@ -1,3 +1,4 @@
+import CustomScrollbar from "fragments/CustomScrollbar";
 import { forwardRef } from "react";
 import {
   Right,
@@ -18,7 +19,7 @@ import {
   RightHeadRecipientStatus,
   RightHeadToolbar,
   RightHeadSearchWrapper,
-} from "./styles/channel";
+} from "./styles/layout";
 
 export const Layout = ({ children, ...restProps }) => {
   return <Container {...restProps}>{children}</Container>;
@@ -79,8 +80,8 @@ Layout.RightMainHead = ({ children, ...restProps }) => {
 };
 
 Layout.RightMain = forwardRef(({ children, ...restProps }, ref) => (
-  <RightMain ref={ref} {...restProps}>
-    {children}
+  <RightMain {...restProps}>
+    <CustomScrollbar>{children}</CustomScrollbar>
   </RightMain>
 ));
 

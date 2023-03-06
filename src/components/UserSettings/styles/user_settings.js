@@ -10,6 +10,7 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundPrimary};
   color: ${({ theme }) => theme.white};
   z-index: 1000;
+  overflow: hidden;
 `;
 
 export const Sidebar = styled.div`
@@ -26,13 +27,12 @@ export const SidebarScroller = styled.div`
   align-items: flex-start;
   justify-content: flex-end;
   flex: 1 0 auto;
-  padding-right: 8px;
+  padding-right: 16px;
   background-color: ${({ theme }) => theme.backgroundSecondary};
-  overflow: hidden scroll;
 `;
 
 export const SidebarNav = styled.nav`
-  padding: 60px 6px 60px 20px;
+  padding: 60px 12px 60px 20px;
   width: 218px;
   box-sizing: border-box;
 `;
@@ -108,8 +108,6 @@ export const ContentRegionScroll = styled.div`
   justify-content: flex-start;
   padding-right: 0px;
   height: 100%;
-  overflow-x: hidden;
-  overflow: hidden scroll;
 `;
 
 export const ContentColumn = styled.div`
