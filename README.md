@@ -35,7 +35,7 @@ To be added...
 - **Servers**
   - Create a server from scratch or with a premade template
 - **Realtime Chat**
-  - Custom rich-text editor built with Slate JS
+  - Custom rich-text editor built with Slate JS with support for basic text formating
 - **Misc**
   - Prescence system built using firebase cloud functions and Realtime Database to handle status changes on entering and leaving page.
 
