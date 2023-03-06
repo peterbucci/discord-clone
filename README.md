@@ -28,13 +28,16 @@ To be added...
 ## Features
 
 - **Friends List**
-  - Send and receive friend requests and filter friends by online status.
+  - Send and receive friend requests
+  - Filter friends by online status
+  - 1-1 Realtime messaging
   - Add and remove active conversations
-  - Prescence system built using firebase cloud functions and Realtime Database to handle status changes on entering and leaving page.
 - **Servers**
   - Create a server from scratch or with a premade template
 - **Realtime Chat**
   - Custom rich-text editor built with Slate JS
+- **Misc**
+  - Prescence system built using firebase cloud functions and Realtime Database to handle status changes on entering and leaving page.
 
 ## Links
 
