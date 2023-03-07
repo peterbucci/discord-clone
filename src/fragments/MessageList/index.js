@@ -11,6 +11,7 @@ import { useStateValue } from "providers/StateProvider";
 import getMessagesSnapshot from "api/snapshots/get_messages";
 import getMoreMessagesSnapshot from "api/snapshots/get_more_messages";
 import sameDay from "helpers/same_day";
+import { useParams } from "react-router";
 
 export default function MessageList({
   conversationId,
@@ -39,9 +40,14 @@ export default function MessageList({
   const requestMessages = useCallback(
     async (cursorKey, addConditions) => {
       const cursors = queryCursorRefs.current;
-      if (!fetching && cursors[cursorKey] !== null && addConditions) {
-        console.log("get messages");
-        cursors[cursorKey] = null;
+
+      if (!cursors[conversationId]) cursors[conversationId] = {};
+      if (
+        !fetching &&
+        cursors[conversationId][cursorKey] !== null &&
+        addConditions
+      ) {
+        cursors[conversationId][cursorKey] = null;
         setFetching(true);
         if (cursorKey === "0")
           await getMessagesSnapshot(conversationId, dispatch, setInitialRender);
@@ -54,7 +60,7 @@ export default function MessageList({
 
   useEffect(() => {
     requestMessages("0", !listener);
-  }, [listener, requestMessages, conversationId]);
+  }, [listener, requestMessages]);
 
   const onScroll = useCallback(
     (e) => {
