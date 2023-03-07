@@ -1,4 +1,4 @@
-import createServer from "api/create_server";
+import createServer from "api/server/create_server";
 import Page from "components/AddAServer/Page";
 import { useStateValue } from "providers/StateProvider";
 import { useEffect, useState } from "react";
@@ -45,7 +45,10 @@ export default function CustomizeServer({
         <Page.CreateButton
           value="Create"
           onClick={() =>
-            createServer(serverName, serverTemplate, user, closeMenu)
+            serverName.length &&
+            createServer(serverName, serverTemplate, user).then(() =>
+              closeMenu()
+            )
           }
         />
       </Page.Footer>

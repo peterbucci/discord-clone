@@ -1,46 +1,26 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
-import createDoc from "helpers/create_doc";
-import { db } from "../firebase";
+import createConversation from "./create_conversation";
 import deleteFriendRequest from "./delete_friend_request";
+import createDoc from "helpers/create_doc";
+
+/**
+ * @description Create documents in the users/friends subcollection for both users.
+ *    If no conversation exists between users, create documents in the conversations
+ *    collection and both users/conversations subcollections. Delete the friend request
+ *    documents in both users/friendRequests subcollections.
+ *
+ * @param {string} userId - provides the id of the current logged in user
+ * @param {string} friendId - provides the id of the user being added as a friend
+ */
 
 export default async function addFriend(userId, friendId) {
-  const dataX = {
+  const docData = {
     timestamp: new Date(),
   };
-  const friendPath = (id) => ["users", id, "friends"];
-
-  createDoc(friendPath(userId), dataX, friendId);
-  createDoc(friendPath(friendId), dataX, userId);
-
-  const userMap = {
-    [userId]: null,
-    [friendId]: null,
-  };
-  const q = query(
-    collection(db, "conversations"),
-    where("users", "==", userMap)
-  );
-
-  const querySnapshot = await getDocs(q);
-
-  /**
-   * Conversation may exist between users prior to friend request.
-   * If so, don't need to create a new one
-   */
-  if (querySnapshot.empty) {
-    const dataY = {
-      startDate: new Date(),
-      users: userMap,
-    };
-    const conversationDoc = await createDoc(["conversations"], dataY);
-    const dataZ = {
-      active: true,
-    };
-    const conversationPath = (id) => ["users", id, "conversations"];
-    createDoc(conversationPath(userId), dataZ, conversationDoc.id);
-    createDoc(conversationPath(friendId), dataZ, conversationDoc.id);
-  }
-
+  const createFriendPath = (id) => ["users", id, "friends"];
+  await createDoc(createFriendPath(userId), docData, friendId);
+  await createDoc(createFriendPath(friendId), docData, userId);
+  // Create conversation, if one doesn't already exist
+  await createConversation(userId, friendId);
   // Clear out request now that it has been resolved.
   deleteFriendRequest(friendId, userId, true);
 }

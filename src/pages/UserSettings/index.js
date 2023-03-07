@@ -4,7 +4,7 @@ import { useStateValue } from "providers/StateProvider";
 import { actionTypes } from "reducers/state_reducer";
 import UserSettingsLayout from "components/UserSettings";
 import settingsMenu from "assets/text/settings_menu";
-import logOut from "api/log_out";
+import logOut from "api/auth/log_out";
 
 const duration = 300;
 

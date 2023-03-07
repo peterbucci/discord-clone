@@ -3,6 +3,7 @@ import AddFriend from "components/FriendsList/AddFriend";
 import searchForFriend from "api/search_for_friend";
 import { useStateValue } from "providers/StateProvider";
 import * as Icons from "assets/icons";
+import sendFriendRequest from "api/send_friend_request";
 
 const formatAlertMessage = (alert, searchText) => {
   return alert === "success" ? (
@@ -67,9 +68,14 @@ export default function AddFriendsTab() {
             } else if (usernameAndTag[1].length !== 4) {
               setAlert(formatAlertMessage("checkSpelling"));
             } else {
-              searchForFriend(state.user, usernameAndTag).then((res) => {
-                if (res === "success") setSearchText("");
-                setAlert(formatAlertMessage(res, searchText));
+              searchForFriend(usernameAndTag).then((res) => {
+                if (res.empty) setAlert(formatAlertMessage("checkSpelling"));
+                else {
+                  const friendId = res.docs[0].id;
+                  setAlert(formatAlertMessage("success", searchText));
+                  sendFriendRequest(state.user, friendId);
+                  setSearchText("");
+                }
               });
             }
           }}

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { createEditor } from "slate";
+import { createEditor, Editor, Transforms } from "slate";
 import { Slate, withReact } from "slate-react";
 import { CodeElement, DefaultElement, Leaf } from "./elements";
 import { default as NewMessageSender } from "../../components/MessageSender";
@@ -38,19 +38,51 @@ export default function MessageSender({
     ? messages[conversationId][messageId]
     : null;
 
-  const sendMessage = () =>
-    createAndUpdateMessage(
-      editor,
-      initialValue,
-      setEdit,
-      params.serverId,
-      conversationId,
-      categoryId,
-      replyToMessage,
-      setReplyToMessage,
-      message,
-      user
-    );
+  const clearTextEditor = (editor, initialValue) => {
+    // Delete all entries leaving 1 empty node
+    Transforms.delete(editor, {
+      at: {
+        anchor: Editor.start(editor, []),
+        focus: Editor.end(editor, []),
+      },
+    });
+
+    // Removes empty node
+    Transforms.removeNodes(editor, {
+      at: [0],
+    });
+
+    // Insert array of children nodes
+    Transforms.insertNodes(editor, initialValue);
+  };
+
+  const sendMessage = () => {
+    if (editor.children.some((child) => !Editor.isEmpty(editor, child))) {
+      const collectionPath = categoryId
+        ? [
+            "servers",
+            params.serverId,
+            "categories",
+            categoryId,
+            "channels",
+            conversationId,
+            "messages",
+          ]
+        : ["conversations", conversationId, "messages"];
+
+      createAndUpdateMessage(
+        collectionPath,
+        user,
+        editor.children,
+        replyToMessage,
+        message?.id
+      );
+
+      if (!message) clearTextEditor(editor, initialValue);
+      else setEdit(null);
+      setReplyToMessage && setReplyToMessage(null);
+    }
+  };
 
   const renderElement = useCallback((props) => {
     switch (props.element.type) {

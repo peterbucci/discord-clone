@@ -65,9 +65,9 @@ export default function ConversationSidebar() {
             <Icons.Add />
           </LayoutLeft.GroupHeader>
           {conversations.map((conversation, i) => {
-            const friendId = Object.keys(conversation.users).find(
-              (id) => id !== state.user
-            );
+            const friendId = conversation
+              ? Object.keys(conversation.users).find((id) => id !== state.user)
+              : null;
             const friend = state.users[friendId];
             return !friend ? (
               <React.Fragment key={friendId} />

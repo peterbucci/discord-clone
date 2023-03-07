@@ -11,14 +11,14 @@ import reducer from "reducers/state_reducer";
 import Loading from "pages/Loading";
 import defaultState from "assets/default_state";
 // Snapshots
-import onAuthChange from "api/on_auth_change";
+import onAuthChange from "api/auth/on_auth_change";
 import getCurrentUserSnapshot from "api/snapshots/get_current_user";
 import getFriendsSnapshot from "api/snapshots/get_friends";
 import getFriendRequestsSnapshot from "api/snapshots/get_friend_requests";
 import getNotesSnapshot from "api/snapshots/get_notes";
 import getConversationsSnapshot from "api/snapshots/get_conversations";
 import getServersSnapshot from "api/snapshots/get_servers";
-import onlinePresence from "api/online_presence";
+import onlinePresence from "api/auth/online_presence";
 
 const StateContext = createContext();
 export const StateProvider = ({ children }) => {

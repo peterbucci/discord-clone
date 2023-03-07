@@ -1,22 +1,23 @@
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "firebase.js";
-import sendFriendRequest from "./send_friend_request";
 
-export default async function searchForFriend(userId, friendSearch) {
+/**
+ * @description Search for a user by the username and 4 digit tag.
+ *
+ * @param {Array} usernameAndTag - an array of strings. The 1st string is a
+ *    username, the 2nd a 4 digit tag.
+ * @returns
+ */
+
+export default async function searchForFriend(usernameAndTag) {
+  const [username, tag] = usernameAndTag;
   const usersRef = collection(db, "users");
   const q = query(
     usersRef,
-    where("name", "==", friendSearch[0]),
-    where("tag", "==", friendSearch[1]),
+    where("name", "==", username),
+    where("tag", "==", tag),
     limit(1)
   );
 
-  const querySnapshot = await getDocs(q);
-  if (querySnapshot.empty) {
-    return "checkSpelling";
-  } else {
-    const friendId = querySnapshot.docs[0].id;
-    sendFriendRequest(userId, friendId);
-    return "success";
-  }
+  return await getDocs(q);
 }
