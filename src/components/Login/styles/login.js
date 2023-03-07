@@ -17,6 +17,12 @@ export const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundPrimary};
 `;
 
+export const Logo = styled.img`
+  margin-bottom: 20px;
+  width: 40%;
+  height: auto;
+`;
+
 export const LoginLink = styled.div`
   margin-bottom: 10px;
   color: ${({ theme }) => theme.textLink};

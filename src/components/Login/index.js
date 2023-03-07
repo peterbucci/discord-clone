@@ -2,6 +2,7 @@ import {
   Container,
   ExternalLink,
   LoginLink,
+  Logo,
   Warning,
   Wrapper,
 } from "./styles/login";
@@ -10,6 +11,7 @@ export default function Login({ onClick, ...restProps }) {
   return (
     <Wrapper>
       <Container {...restProps}>
+        <Logo src="discord_logo_full.svg" />
         <LoginLink onClick={onClick}>Sign in with Google</LoginLink>
         <Warning>
           This is a personal project to clone the Discord app and is not
